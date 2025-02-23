@@ -16,8 +16,9 @@ From leading web design projects, I transitioned into AI, teaching myself Python
 
 </p>
 
-## Recent Projects
+## Projects
 Here are some of my latest works—check them out! 
+<!-- This section will be updated dynamically -->
 
 ## GitHub Stats
 <p align="center">
