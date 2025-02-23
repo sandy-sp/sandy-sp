@@ -21,10 +21,9 @@ I'm an **AI-Driven Developer** crafting open-source solutions with **Generative 
 
 ## Skills
 <p align="center">
-  <img src="https://img.shields.io/badge/AI-FF6F61.svg?logo=artificial-intelligence&logoColor=white" alt="AI">
-  <img src="https://img.shields.io/badge/LLMs-4ECDC4.svg?logo=data-science&logoColor=white" alt="LLMs">
-  <img src="https://img.shields.io/badge/Data_Visualization-1F77B4.svg?logo=tableau&logoColor=white" alt="Data Visualization">
+  <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python"> <img src="https://img.shields.io/badge/HTML-gray?style=flat-square&logo=html&logoColor=white" alt="HTML"> <img src="https://img.shields.io/badge/Open Source-F05032?style=flat-square&logo=git&logoColor=white" alt="Open Source">
 </p>
+
 
 <p align="center">
     <!-- This section will be updated dynamically -->
