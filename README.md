@@ -58,6 +58,12 @@ I'm an **AI-Driven Developer** crafting open-source solutions with **Generative 
 Here are some of my latest works—check them out! 
 <!-- This section will be updated dynamically -->
 
+## GitHub Stats
+<p align="center">
+  <img src="https://github-readme-stats.vercel.app/api?username=sandy-sp&show_icons=true&theme=dark" alt="GitHub Stats" width="48%">
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=sandy-sp&theme=dark" alt="GitHub Streak" width="50.5%">
+</p>
+
 ## Connect with Me
 <p align="center">
   <a href="https://www.linkedin.com/in/sandeep-paidipati"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white" alt="LinkedIn"></a>
