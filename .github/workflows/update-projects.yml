@@ -34,3 +34,4 @@ jobs:
           git add README.md
           git commit -m "Update projects section dynamically" || echo "No changes to commit"
           git push
+    continue-on-error: true

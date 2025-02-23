@@ -12,8 +12,13 @@ headers = {
 }
 
 # Fetch all repositories
-repos_response = requests.get(f"https://api.github.com/users/{USERNAME}/repos", headers=headers)
-repos = repos_response.json()
+try:
+    repos_response = requests.get(f"https://api.github.com/users/{USERNAME}/repos", headers=headers)
+    repos_response.raise_for_status()
+    repos = repos_response.json()
+except requests.RequestException as e:
+    print(f"Error fetching repositories: {e}")
+    repos = []
 
 # Generate the projects list in Markdown
 projects_list = "## Projects\n"
