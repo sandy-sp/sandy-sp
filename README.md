@@ -22,6 +22,7 @@ From leading web design projects, I transitioned into AI, teaching myself Python
 - **[sandy-sp](https://github.com/sandy-sp/sandy-sp)**: Config files for my GitHub profile.
 - **[ytgrid](https://github.com/sandy-sp/ytgrid)**: YTGrid is a powerful, scalable, and flexible YT automation tool designed to enable looped playback, remote control, and real-time tracking using a hybrid CLI + API architecture.
 
+
 =======
 I'm an **AI-Driven Developer** crafting open-source solutions with **Generative AI**, **Large Language Models (LLMs)**, and **Python**. Originally a web designer, I pivoted to AI through self-directed learning, mastering tools related to AI. I’m passionate about data visualization, real-world problem-solving, and collaborating on impactful projects. 
 >>>>>>> ed9fcc6 (Refactor README.md: Update personal introduction, change section titles, and reorganize GitHub stats and visitor count)
