@@ -1,5 +1,6 @@
 import requests
 import os
+import time
 from collections import Counter
 
 # GitHub username and token (token provided by GitHub Actions)
@@ -9,7 +10,7 @@ GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 # API headers for authentication
 headers = {
     "Authorization": f"token {GITHUB_TOKEN}",
-    "Accept": "application/vnd.github.v3+json"
+    "Accept": "application/json"
 }
 
 # Fetch all repositories
@@ -20,10 +21,18 @@ repos = repos_response.json()
 languages = []
 topics = []
 for repo in repos:
-    if repo["language"]:  # Only add if language exists
+    if repo["language"]:
         languages.append(repo["language"])
-    topics_response = requests.get(repo["topics_url"], headers=headers)
-    topics.extend(topics_response.json()["names"])
+    # Construct the topics URL
+    topics_url = f"https://api.github.com/repos/{repo['owner']['login']}/{repo['name']}/topics"
+    time.sleep(1)  # Delay to avoid rate limiting
+    try:
+        topics_response = requests.get(topics_url, headers=headers)
+        topics_response.raise_for_status()  # Raise an exception for bad status codes
+        topics.extend(topics_response.json()["names"])
+    except requests.RequestException as e:
+        print(f"Error fetching topics for {repo['name']}: {e}")
+        continue
 
 # Count languages and select most frequent ones (e.g., top 5)
 language_counts = Counter(languages)

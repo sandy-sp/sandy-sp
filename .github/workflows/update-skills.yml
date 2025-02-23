@@ -9,6 +9,8 @@ on:
 
 jobs:
   update-skills:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -33,4 +35,4 @@ jobs:
           git config --local user.name "GitHub Action"
           git add README.md
           git commit -m "Update skills section dynamically" || echo "No changes to commit"
-          git push
+          git push https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
