@@ -36,9 +36,11 @@ I'm an **AI-Driven Developer** crafting open-source solutions with **Generative 
 </p>
 
 ## Projects
+- **[gittxt](https://github.com/sandy-sp/gittxt)**: No description provided
 - **[metadata-cleaner](https://github.com/sandy-sp/metadata-cleaner)**: Metadata Cleaner – A CLI tool to remove metadata from images, PDFs, DOCX, audio, and video files.   Privacy-focused, fast, and open-source. Supports batch processing & standalone executables.
 - **[sandy-sp](https://github.com/sandy-sp/sandy-sp)**: Config files for my GitHub profile.
 - **[ytgrid](https://github.com/sandy-sp/ytgrid)**: YTGrid is a powerful, scalable, and flexible YT automation tool designed to enable looped playback, remote control, and real-time tracking using a hybrid CLI + API architecture.
+
 
 
 <!---
