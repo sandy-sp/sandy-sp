@@ -40,10 +40,11 @@ I'm an **AI-Driven Developer** crafting open-source solutions with **Generative 
 </p>
 
 ## Projects
-- **[gittxt](https://github.com/sandy-sp/gittxt)**: Gittxt is a lightweight CLI tool that scans Git repositories (local or remote) and extracts text content into a consolidated file (.txt or .json). It is designed for code summarization, AI preprocessing, offline reading, and documentation generation.
+- **[gittxt](https://github.com/sandy-sp/gittxt)**: Gittxt is a lightweight CLI tool that extracts text from Git repositories and formats it into AI-friendly outputs (.txt, .json, .md). Whether you’re using ChatGPT, Grok, or Ollama, or any LLM, Gittxt helps process repositories for insights, training, and documentation.
 - **[metadata-cleaner](https://github.com/sandy-sp/metadata-cleaner)**: Metadata Cleaner – A CLI tool to remove metadata from images, PDFs, DOCX, audio, and video files.   Privacy-focused, fast, and open-source. Supports batch processing & standalone executables.
 - **[sandy-sp](https://github.com/sandy-sp/sandy-sp)**: Config files for my GitHub profile.
 - **[ytgrid](https://github.com/sandy-sp/ytgrid)**: YTGrid is a powerful, scalable, and flexible YT automation tool designed to enable looped playback, remote control, and real-time tracking using a hybrid CLI + API architecture.
+
 
 
 
