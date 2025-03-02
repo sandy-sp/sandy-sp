@@ -6,11 +6,11 @@
   <a href="https://www.linkedin.com/in/sandeep-paidipati">
     <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
   </a>
-  <a href="https://buymeacoffee.com/sandeepsp">
+  <a href="https://buymeacoffee.com/sandeep.paidipati">
     <img src="https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black" alt="Buy Me Coffee">
   </a>
   <a href="https://github.com/sandy-sp?tab=repositories">
-    <img src="https://img.shields.io/badge/Repositories-15+-brightgreen?style=for-the-badge&logo=github" alt="Repos">
+    <img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.github.com%2Fusers%2Fsandy-sp&query=%24.public_repos&label=Repositories&color=brightgreen&logo=github&style=for-the-badge" alt="Repositories">
   </a>
 </p>
 
@@ -34,30 +34,11 @@ I'm an **AI-Driven Developer** crafting open-source solutions with **Generative 
 
 ---
 
-## 🛠️ Tech Stack
-
-### 🤖 AI/ML
-![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=flat&logo=pytorch&logoColor=white)
-![HuggingFace](https://img.shields.io/badge/HuggingFace-FFD21E?style=flat&logo=huggingface&logoColor=black)
-![LangChain](https://img.shields.io/badge/LangChain-00A67D?style=flat&logo=langchain&logoColor=white)
-
-### 💻 Development
-![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
-
-### 🧰 Tools
-![Git](https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white)
-![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat&logo=githubactions&logoColor=white)
-![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat&logo=linux&logoColor=black)
-
----
-
 ## 📊 GitHub Analytics
 
 <div align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=sandy-sp&show_icons=true&theme=dark&hide_title=true&rank_icon=github" width="49%">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=sandy-sp&theme=dark" width="49%">
+  <img src="https://github-readme-stats.vercel.app/api?username=sandy-sp&show_icons=true&theme=dark" alt="GitHub Stats" width="48%">
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=sandy-sp&theme=dark" alt="GitHub Streak" width="50.5%">
 </div>
 
 <!-- Contribution Snake -->
@@ -65,18 +46,10 @@ I'm an **AI-Driven Developer** crafting open-source solutions with **Generative 
 
 ---
 
-## GitHub Stats
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=sandy-sp&show_icons=true&theme=dark" alt="GitHub Stats" width="48%">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=sandy-sp&theme=dark" alt="GitHub Streak" width="50.5%">
-</p>
-
----
-
 ## ✨ Visitor Counter
 
 <p align="center"> <img src="https://profile-counter.glitch.me/sandy-sp/count.svg" alt="Visitor Count"> <br> <em>"If you're seeing this, you're the reason I keep building! 🚀"</em> </p>
-<p align="center"> <a href="https://buymeacoffee.com/sandeepsp"> <img src="https://img.shields.io/badge/Support_My_Work-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black"> </a> </p>
+<p align="center"> <a href="https://buymeacoffee.com/sandeep.paidipati"> <img src="https://img.shields.io/badge/Support_My_Work-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black"> </a> </p>
 
 ---
 
@@ -101,11 +74,26 @@ I'm an **AI-Driven Developer** crafting open-source solutions with **Generative 
   <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=sandy-sp" alt="Top Languages">
 </p>
 
+---
 
+## 🛠️ Tech Stack
 
+### 🤖 AI/ML
+![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=flat&logo=pytorch&logoColor=white)
+![HuggingFace](https://img.shields.io/badge/HuggingFace-FFD21E?style=flat&logo=huggingface&logoColor=black)
+![LangChain](https://img.shields.io/badge/LangChain-00A67D?style=flat&logo=langchain&logoColor=white)
 
+### 💻 Development
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
 
+### 🧰 Tools
+![Git](https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat&logo=githubactions&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat&logo=linux&logoColor=black)
 
+<<<<<<< HEAD
 
 
 <!---
@@ -118,3 +106,6 @@ You can click the Preview link to take a look at your changes.
 - **[metadata-cleaner](https://github.com/sandy-sp/metadata-cleaner)**: Metadata Cleaner – A CLI tool to remove metadata from images, PDFs, DOCX, audio, and video files.   Privacy-focused, fast, and open-source. Supports batch processing & standalone executables.
 - **[sandy-sp](https://github.com/sandy-sp/sandy-sp)**: Config files for my GitHub profile.
 - **[ytgrid](https://github.com/sandy-sp/ytgrid)**: YTGrid is a powerful, scalable, and flexible YT automation tool designed to enable looped playback, remote control, and real-time tracking using a hybrid CLI + API architecture.
+=======
+---
+>>>>>>> d3cf6d2 (Updated README)
