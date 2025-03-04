@@ -53,8 +53,10 @@ I'm an **AI-Driven Developer** crafting open-source solutions with **Generative 
 
 ## Skills
 <p align="center">
-  <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python"> <img src="https://img.shields.io/badge/Open Source-F05032?style=flat-square&logo=git&logoColor=white" alt="Open Source"> <img src="https://img.shields.io/badge/LLMs-4ECDC4?style=flat-square&logo=data-science&logoColor=white" alt="LLMs">
+  <img src="https://img.shields.io/badge/Open Source-F05032?style=flat-square&logo=git&logoColor=white" alt="Open Source"> <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python"> <img src="https://img.shields.io/badge/LLMs-4ECDC4?style=flat-square&logo=data-science&logoColor=white" alt="LLMs">
 </p>
+
+
 
 
 
