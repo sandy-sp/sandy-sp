@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=30&duration=2800&pause=1000&color=4ECDC4&center=true&vCenter=true&width=800&lines=Hey+there!+I'm+Sandeep+Paidipati+%F0%9F%91%8B;AI+Developer+%7C+Open-Source+Builder+%7C+LLM+Enthusiast" alt="Animated Header" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=20&duration=2800&pause=1000&color=4ECDC4&center=true&vCenter=true&width=800&lines=Hey+there!+I'm+Sandeep+Paidipati+%F0%9F%91%8B;AI+Developer+%7C+Open-Source+Builder+%7C+LLM+Enthusiast" alt="Animated Header" />
 </p>
 
 <p align="center">
@@ -16,7 +16,7 @@
 
 ---
 
-I'm an **AI-Driven Developer** crafting open-source solutions with **Generative AI**, **Large Language Models (LLMs)**, and **Python**. Originally a web designer, I pivoted to AI through self-directed learning, mastering tools related to AI. I’m passionate about data visualization, real-world problem-solving, and collaborating on impactful projects. Now, I’m building AI tools on GitHub, aiming to innovate and contribute to the open-source community.
+I'm an **AI-Driven Developer** passionate about building innovative solutions with **Generative AI** and **Large Language Models (LLMs)**. Originally a web designer, I've transitioned to AI development through self-directed learning and now focus on creating impactful open-source projects. I specialize in data visualization, real-world problem-solving, and collaboration on meaningful projects.
 
 ---
 
@@ -46,13 +46,20 @@ I'm an **AI-Driven Developer** crafting open-source solutions with **Generative 
 
 ## ✨ Visitor Counter
 
-<p align="center"> <img src="https://profile-counter.glitch.me/sandy-sp/count.svg" alt="Visitor Count"> <br> <em>"If you're seeing this, you're the reason I keep building! 🚀"</em> </p>
+<p align="center">
+  <img src="https://profile-counter.glitch.me/sandy-sp/count.svg" alt="Visitor Count">
+  <br>
+  <em>Thanks for visiting! If you find my work useful, consider supporting me with a coffee ☕</em>
+</p>
 <p align="center"> <a href="https://buymeacoffee.com/sandeep.paidipati"> <img src="https://img.shields.io/badge/Support_My_Work-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black"> </a> </p>
 
 ---
 
 ## Skills
 <p align="center">
+  <img src="https://img.shields.io/badge/Open%20Source-F05032?style=flat-square&logo=git&logoColor=white" alt="Open Source">
+  <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/LLMs-4ECDC4?style=flat-square&logo=data-science&logoColor=white" alt="LLMs">
   <img src="https://img.shields.io/badge/LLMs-4ECDC4?style=flat-square&logo=data-science&logoColor=white" alt="LLMs"> <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python"> <img src="https://img.shields.io/badge/Open Source-F05032?style=flat-square&logo=git&logoColor=white" alt="Open Source">
 </p>
 
@@ -64,25 +71,41 @@ I'm an **AI-Driven Developer** crafting open-source solutions with **Generative 
 
 
 
+<!-- Dynamic Skills from Repositories -->
+<div align="center">
+  <h3>Languages Across My Repositories</h3>
+  <div id="skills-container"></div>
+</div>
 
+<script>
+  // This script will fetch your repositories and extract languages
+  async function loadSkills() {
+    const username = "sandy-sp"; // Replace with your GitHub username
+    const reposResponse = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`);
+    const repos = await reposResponse.json();
+    
+    // Count languages across all repositories
+    const languageCounts = {};
+    for (const repo of repos) {
+      if (repo.language) {
+        languageCounts[repo.language] = (languageCounts[repo.language] || 0) + 1;
+      }
+    }
 
+    // Create language badges
+    const skillsContainer = document.getElementById("skills-container");
+    skillsContainer.innerHTML = Object.entries(languageCounts)
+      .sort(([,a], [,b]) => b - a) // Sort by count descending
+      .map(([language, count]) => `
+        <img src="https://img.shields.io/badge/${encodeURIComponent(language)}-${count}-blue?style=flat-square" alt="${language}">
+      `)
+      .join("");
+  }
 
+  // Load skills when page loads
+  window.onload = loadSkills;
+</script>
 
-
-
-
-
-
-
-
-
-<p align="center">
-    <!-- This section will be updated dynamically -->
-</p>
-
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=sandy-sp" alt="Top Languages">
-</p>
 
 ---
 
@@ -102,4 +125,5 @@ I'm an **AI-Driven Developer** crafting open-source solutions with **Generative 
 ![Git](https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white)
 ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat&logo=githubactions&logoColor=white)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat&logo=linux&logoColor=black)
+
 
