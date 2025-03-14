@@ -42,20 +42,14 @@ I'm an **AI-Driven Developer** passionate about building innovative solutions wi
   <img src = "https://github-readme-activity-graph.vercel.app/graph?username=sandy-sp&theme=merko"/>
 </div>
 
----
-
-## ✨ Visitor Counter
-
-<p align="center">
-  <img src="https://profile-counter.glitch.me/sandy-sp/count.svg" alt="Visitor Count">
-  <br>
-  <em>Thanks for visiting! If you find my work useful, consider supporting me with a coffee ☕</em>
-</p>
-<p align="center"> <a href="https://buymeacoffee.com/sandeep.paidipati"> <img src="https://img.shields.io/badge/Support_My_Work-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black"> </a> </p>
+## 🏆GitHub Trophies
+![](https://github-trophies.vercel.app/?username=sandy-sp&theme=onedark&no-frame=false&no-bg=false&margin-w=4)
 
 ---
 
 ## 🛠️ Tech Stack
+
+![](https://github-readme-stats.vercel.app/api/top-langs/?username=sandy-sp&theme=dark&hide_border=false&include_all_commits=false&count_private=true&layout=compact)
 
 ### 🤖 AI/ML
 ![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=flat&logo=pytorch&logoColor=white)
@@ -71,5 +65,17 @@ I'm an **AI-Driven Developer** passionate about building innovative solutions wi
 ![Git](https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white)
 ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat&logo=githubactions&logoColor=white)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat&logo=linux&logoColor=black)
+---
+
+## ✨ Visitor Counter
+
+<p align="center">
+  <img src="https://profile-counter.glitch.me/sandy-sp/count.svg" alt="Visitor Count">
+  <br>
+  <em>Thanks for visiting! If you find my work useful, consider supporting me with a coffee ☕</em>
+</p>
+<p align="center"> <a href="https://buymeacoffee.com/sandeep.paidipati"> <img src="https://img.shields.io/badge/Support_My_Work-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black"> </a> </p>
+
+---
 
 
