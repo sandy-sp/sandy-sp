@@ -27,8 +27,8 @@ I'm an **AI-Driven Developer** passionate about building innovative solutions wi
   <a href="https://github.com/sandy-sp/gittxt">
     <img src="https://github-readme-stats.vercel.app/api/pin/?username=sandy-sp&repo=gittxt&theme=dark&show_owner=true" alt="gittxt" width="49%">
   </a>
-  <a href="https://github.com/sandy-sp/metadata-cleaner">
-    <img src="https://github-readme-stats.vercel.app/api/pin/?username=sandy-sp&repo=metadata-cleaner&theme=dark&show_owner=true" alt="metadata-cleaner" width="49%">
+  <a href="https://github.com/sandy-sp/art-of-data-analysis">
+    <img src="https://github-readme-stats.vercel.app/api/pin/?username=sandy-sp&repo=art-of-data-analysis&theme=dark&show_owner=true" alt="art-of-data-analysis" width="49%">
   </a>
 </div>
 
