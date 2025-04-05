@@ -6,9 +6,6 @@
   <a href="https://www.linkedin.com/in/sandeep-paidipati">
     <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
   </a>
-  <a href="https://buymeacoffee.com/sandeep.paidipati">
-    <img src="https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black" alt="Buy Me Coffee">
-  </a>
   <a href="https://github.com/sandy-sp?tab=repositories">
     <img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.github.com%2Fusers%2Fsandy-sp&query=%24.public_repos&label=Repositories&color=brightgreen&logo=github&style=for-the-badge" alt="Repositories">
   </a>
@@ -42,37 +39,36 @@ I'm an **AI-Driven Developer** passionate about building innovative solutions wi
   <img src = "https://github-readme-activity-graph.vercel.app/graph?username=sandy-sp&theme=merko"/>
 </div>
 
-## 🏆GitHub Trophies
-![](https://github-trophies.vercel.app/?username=sandy-sp&theme=onedark&no-frame=false&no-bg=false&margin-w=4)
 
----
 
 ## 🛠️ Tech Stack
 
 ![](https://github-readme-stats.vercel.app/api/top-langs/?username=sandy-sp&theme=dark&hide_border=false&include_all_commits=false&count_private=true&layout=compact)
 
-### 🤖 AI/ML
+
 ![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=flat&logo=pytorch&logoColor=white)
 ![HuggingFace](https://img.shields.io/badge/HuggingFace-FFD21E?style=flat&logo=huggingface&logoColor=black)
 ![LangChain](https://img.shields.io/badge/LangChain-00A67D?style=flat&logo=langchain&logoColor=white)
-
-### 💻 Development
 ![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
-
-### 🧰 Tools
 ![Git](https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white)
 ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat&logo=githubactions&logoColor=white)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat&logo=linux&logoColor=black)
 ---
 
+## 🏆GitHub Trophies
+![](https://github-trophies.vercel.app/?username=sandy-sp&theme=onedark&no-frame=false&no-bg=false&margin-w=4)
+
+---
 ## ✨ Visitor Counter
 
 <p align="center">
   <img src="https://profile-counter.glitch.me/sandy-sp/count.svg" alt="Visitor Count">
   <br>
   <em>Thanks for visiting! If you find my work useful, consider supporting me with a coffee ☕</em>
+  <br>
+  <em>📢 I'm currently open to exciting job opportunities in AI development and open-source collaboration. Feel free to <a href="https://www.linkedin.com/in/sandeep-paidipati">connect with me on LinkedIn</a>!</em>
 </p>
 <p align="center"> <a href="https://buymeacoffee.com/sandeep.paidipati"> <img src="https://img.shields.io/badge/Support_My_Work-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black"> </a> </p>
 
