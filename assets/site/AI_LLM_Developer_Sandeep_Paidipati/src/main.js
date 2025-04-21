@@ -1,5 +1,3 @@
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-
 let scene, camera, renderer, instancedMesh, mouse = { x: 0, y: 0 };
 
 const raycaster = new THREE.Raycaster();
