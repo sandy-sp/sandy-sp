@@ -13,7 +13,7 @@ camera.position.z = 150;
 renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0x000000); // Match the background color to the fog
-document.body.appendChild(renderer.domElement);
+document.getElementById('threejs-background').appendChild(renderer.domElement);
 
 // Cube setup
 const cubeCount = 2028; // Number of cubes
