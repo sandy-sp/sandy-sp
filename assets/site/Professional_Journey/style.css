@@ -1,20 +1,17 @@
 body {
-  background: linear-gradient(135deg, #1e1e1e, #333333);
+  background: #1e1e1e;
   display: grid;
   height: 100vh;
   place-items: center;
-  font-family: "Roboto", sans-serif;
-  color: #ffffff;
+  font-family: "Roboto";
 }
-
 :root {
-  --FarbeEins: 255, 99, 71; /* Tomato */
-  --FarbeZwei: 135, 206, 250; /* Sky Blue */
-  --FarbeDrei: 60, 179, 113; /* Medium Sea Green */
-  --FarbeVier: 238, 130, 238; /* Violet */
-  --FarbeFuenf: 255, 215, 0; /* Gold */
+  --FarbeEins: 81, 118, 133;
+  --FarbeZwei: 86, 83, 123;
+  --FarbeDrei: 96, 61, 120;
+  --FarbeVier: 107, 67, 84;
+  --FarbeFuenf: 92, 61, 64;
 }
-
 @keyframes Lottie_move {
   0% {
     transform: translatey(0);
@@ -67,6 +64,7 @@ body {
     width: 80%;
   }
 }
+
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -75,6 +73,7 @@ body {
   width: 700px;
   height: 150px;
 }
+
 .wrapper .line-wrapper {
   width: 100%;
   height: 100%;
@@ -88,6 +87,7 @@ body {
   opacity: 0.4;
   clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
 }
+
 .wrapper .line-wrapper .line {
   overflow: hidden;
   width: 25%;
@@ -95,42 +95,54 @@ body {
   background: #cbc9c9;
   border-radius: 10px;
 }
+
 .wrapper .line-wrapper .line-1 {
   transform: rotate(32deg) translateY(-10px);
 }
+
 .wrapper .line-wrapper .line-3 {
   transform: rotate(30deg);
 }
+
 .wrapper .line-wrapper .line-2 {
   transform: rotate(-30deg);
 }
+
 .wrapper .line-wrapper .line-4 {
   transform: rotate(-35deg) translateY(-14px);
 }
+
 .wrapper .row {
   display: flex;
   align-items: center;
 }
+
 .wrapper .row-1 {
   width: 100%;
   justify-content: space-between;
 }
+
 .wrapper .row-1 .box-wrapper-2 {
   animation-delay: 4s !important;
 }
+
 .wrapper .row-1 .box-wrapper-3 {
   animation-delay: 8s !important;
 }
+
 .wrapper .row-2 {
   width: 100%;
   justify-content: space-around;
 }
+
 .wrapper .row-2 .box-wrapper-5 {
   animation-delay: 6s !important;
 }
+
 .wrapper .row-2 .box-wrapper-4 {
   animation-delay: 2s !important;
 }
+
 .wrapper .row .box-wrapper {
   opacity: 0;
   z-index: 10;
@@ -140,67 +152,69 @@ body {
   justify-content: center;
   transform: rotateX(43deg) rotate(53deg) skewY(345deg);
 }
+
 .wrapper .row .box-wrapper .box {
   height: 64px;
   aspect-ratio: 1;
   border-radius: 10px;
   position: relative;
-  animation: Lottie_move 8s linear Infinite;
+  animation: Lottie_move 8s linear infinite;
 }
+
 .wrapper .row .box-wrapper .box-1 {
   background: rgba(var(--FarbeEins));
 }
+
 .wrapper .row .box-wrapper .box-1::before {
   animation-delay: 0.5s !important;
-  content: "Electrical and Electronics Engineering" !important;
+  content: "01" !important;
   color: rgba(var(--FarbeEins));
-  font-size: 1.2rem; /* Adjusted font size for better readability */
-  font-weight: bold; /* Make the text bold */
-  text-align: center; /* Center-align the text */
-  width: 150%; /* Increase width to prevent text wrapping */
-  position: absolute;
-  top: -70px; /* Adjust position to avoid overlap */
-  left: 50%;
-  transform: translateX(-50%); /* Center the text horizontally */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Add a subtle shadow for contrast */
-  white-space: nowrap; /* Prevent text from breaking into multiple lines */
 }
+
 .wrapper .row .box-wrapper .box-2 {
   background: rgba(var(--FarbeZwei));
   animation-delay: 4s !important;
 }
+
 .wrapper .row .box-wrapper .box-2::before {
   animation-delay: 4.5s !important;
   content: "03" !important;
   color: rgba(var(--FarbeZwei));
 }
+
 .wrapper .row .box-wrapper .box-3 {
   background: rgba(var(--FarbeDrei));
   animation-delay: 8s !important;
 }
+
 .wrapper .row .box-wrapper .box-3::before {
   animation-delay: 8.5s !important;
   content: "05" !important;
   color: rgba(var(--FarbeDrei));
 }
+
 .wrapper .row .box-wrapper .box-4 {
   background: rgba(var(--FarbeVier));
   animation-delay: 2s !important;
 }
+
 .wrapper .row .box-wrapper .box-4::before {
   animation-delay: 2.5s !important;
   content: "02" !important;
   color: rgba(var(--FarbeVier));
 }
+
 .wrapper .row .box-wrapper .box-5 {
   background: rgba(var(--FarbeFuenf));
   animation-delay: 6s !important;
 }
+
 .wrapper .row .box-wrapper .box-5::before {
   animation-delay: 6.5s !important;
   content: "04" !important;
   color: rgba(var(--FarbeFuenf));
 }
+
 .wrapper .row .box-wrapper .box::after {
   content: "";
   position: absolute;
@@ -211,6 +225,7 @@ body {
   left: -8px;
   border-radius: 10px;
 }
+
 .wrapper .row .box-wrapper .box::before {
   content: "";
   position: absolute;
@@ -219,8 +234,9 @@ body {
   font-weight: 900;
   animation: Lottie_appear 0.5s linear forwards;
   opacity: 0;
-  transform: rotateX(0deg) rotate(361deg) skewX(44deg) translatex(-17px) !important;
+  transform: rotateX(0deg) rotate(361deg) skewX(44deg) translateX(-17px) !important;
 }
+
 .wrapper .row .box-wrapper .shadow {
   position: absolute;
   height: 100%;
@@ -231,18 +247,23 @@ body {
   filter: blur(20px);
   animation: Lottie_growShadow 8s linear infinite;
 }
+
 .wrapper .row .box-wrapper .shadow-1 {
   background: rgba(var(--FarbeEins), 0.4);
 }
+
 .wrapper .row .box-wrapper .shadow-2 {
   background: rgba(var(--FarbeZwei), 0.4);
 }
+
 .wrapper .row .box-wrapper .shadow-3 {
   background: rgba(var(--FarbeDrei), 0.4);
 }
+
 .wrapper .row .box-wrapper .shadow-4 {
   background: rgba(var(--FarbeVier), 0.4);
 }
+
 .wrapper .row .box-wrapper .shadow-5 {
   background: rgba(var(--FarbeFuenf), 0.4);
 }
