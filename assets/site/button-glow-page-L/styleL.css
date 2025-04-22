@@ -25,7 +25,7 @@ body {
   background: black;
 }
 
-.glowing-btn {
+.glowing-btn-left {
   position: relative;
   color: var(--glow-color);
   cursor: pointer;
@@ -54,7 +54,7 @@ body {
   animation: border-flicker 2s linear infinite;
 }
 
-.glowing-txt {
+.glowing-txt-left {
   float: left;
   margin-right: -0.8em;
   -webkit-text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3),
@@ -75,7 +75,7 @@ body {
   animation: faulty-flicker 2s linear infinite;
 }
 
-.glowing-btn::before {
+.glowing-btn-left::before {
   content: "";
   position: absolute;
   top: 0;
@@ -89,7 +89,7 @@ body {
   pointer-events: none;
 }
 
-.glowing-btn::after {
+.glowing-btn-left::after {
   content: "";
   position: absolute;
   top: 0;
@@ -103,28 +103,28 @@ body {
   transition: opacity 100ms linear;
 }
 
-.glowing-btn:hover {
+.glowing-btn-left:hover {
   color: rgba(0, 0, 0, 0.8);
   text-shadow: none;
   animation: none;
 }
 
-.glowing-btn:hover .glowing-txt {
+.glowing-btn-left:hover .glowing-txt-left {
   animation: none;
 }
 
-.glowing-btn:hover .faulty-letter {
+.glowing-btn-left:hover .faulty-letter {
   animation: none;
   text-shadow: none;
   opacity: 1;
 }
 
-.glowing-btn:hover:before {
+.glowing-btn-left:hover:before {
   filter: blur(1.5em);
   opacity: 1;
 }
 
-.glowing-btn:hover:after {
+.glowing-btn-left:hover:after {
   opacity: 1;
 }
 
@@ -227,7 +227,7 @@ body {
 }
 
 @media only screen and (max-width: 600px) {
-  .glowing-btn{
+  .glowing-btn-left{
     font-size: 1em;
   }
 }
