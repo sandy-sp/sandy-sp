@@ -8,7 +8,8 @@
       selector: conf.selector || 'body',
       linkedin: conf.linkedin || 'https://linkedin.com/in/sandeep-paidipati',
       github:   conf.github   || 'https://github.com/sandy-sp',
-      email:    conf.email    || 'mailto:sandeep.paidipati@gmail.com'
+      email:    conf.email    || 'mailto:sandeep.paidipati@gmail.com',
+      youtube:  conf.youtube  || 'https://www.youtube.com/@403AI' // Added YouTube configuration
     };
   
     // 2. Inject FontAwesome if it's not already present
@@ -73,7 +74,8 @@
     [
       { url: cfg.linkedin, icon: 'fab fa-linkedin-in', name: 'LinkedIn' },
       { url: cfg.github,   icon: 'fab fa-github',     name: 'GitHub'   },
-      { url: cfg.email,    icon: 'fas fa-envelope',   name: 'Email'    }
+      { url: cfg.email,    icon: 'fas fa-envelope',   name: 'Email'    },
+      { url: cfg.youtube,  icon: 'fab fa-youtube',    name: 'YouTube'  } // Added YouTube button
     ].forEach(function(item) {
       var a = document.createElement('a');
       a.href = item.url;
@@ -95,4 +97,3 @@
       mount.appendChild(container);
     }
   })(window, document);
-  
