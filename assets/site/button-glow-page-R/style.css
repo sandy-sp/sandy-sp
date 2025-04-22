@@ -64,6 +64,8 @@ body {
   text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em var(--glow-color);
   animation: text-flicker 3s linear infinite;
   writing-mode: vertical-rl; /* Stack text vertically */
+  text-orientation: upright; /* Ensure letters are upright */
+  display: inline-block;
   text-align: center;
   margin: 0; /* Remove margin */
 }
