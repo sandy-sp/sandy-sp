@@ -127,43 +127,27 @@ body {
   height: 28%;
 }
 
-/* Adjust spacing in column to distribute boxes more evenly */
+/* Update the column styles */
 .wrapper .column {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-rows: repeat(5, 1fr);
+  position: relative;
   width: 100%;
   height: 100%;
   z-index: 1;
   padding: 25px 0;
 }
 
-/* Improve box positioning to align with line endpoints */
-.wrapper .column .box-wrapper-2 {
-  animation-delay: 4s !important;
-  transform: translateX(35px);
-}
-
-.wrapper .column .box-wrapper-3 {
-  animation-delay: 8s !important;
-  transform: translateX(-35px);
-}
-
+/* Remove individual box-wrapper position classes */
+.wrapper .column .box-wrapper-1,
+.wrapper .column .box-wrapper-2,
+.wrapper .column .box-wrapper-3,
+.wrapper .column .box-wrapper-4,
 .wrapper .column .box-wrapper-5 {
-  animation-delay: 6s !important;
-  transform: translateX(-35px);
+  /* Remove individual transforms */
 }
 
-.wrapper .column .box-wrapper-4 {
-  animation-delay: 2s !important;
-  transform: translateX(35px);
-}
-
-.wrapper .column .box-wrapper-1 {
-  transform: translateX(-35px);
-}
-
+/* Add new dynamic positioning */
 .wrapper .column .box-wrapper {
   opacity: 0;
   z-index: 10;
@@ -171,8 +155,24 @@ body {
   position: relative;
   display: flex;
   justify-content: center;
-  transform: rotateX(43deg) rotate(53deg) skewY(345deg);
 }
+
+.wrapper .column .box-wrapper:nth-child(odd) {
+  justify-self: start;
+  transform: translateX(-35px) rotateX(43deg) rotate(53deg) skewY(345deg);
+}
+
+.wrapper .column .box-wrapper:nth-child(even) {
+  justify-self: end;
+  transform: translateX(35px) rotateX(43deg) rotate(53deg) skewY(345deg);
+}
+
+/* Update animation delays */
+.wrapper .column .box-wrapper:nth-child(1) { animation-delay: 0s !important; }
+.wrapper .column .box-wrapper:nth-child(2) { animation-delay: 2s !important; }
+.wrapper .column .box-wrapper:nth-child(3) { animation-delay: 4s !important; }
+.wrapper .column .box-wrapper:nth-child(4) { animation-delay: 6s !important; }
+.wrapper .column .box-wrapper:nth-child(5) { animation-delay: 8s !important; }
 
 .wrapper .column .box-wrapper .box {
   height: 64px;
