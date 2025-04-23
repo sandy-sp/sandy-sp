@@ -4,7 +4,7 @@ document.querySelectorAll('.box-wrapper').forEach((box) => {
     const popup = document.getElementById('popup');
     popup.style.display = 'block';
     const content = box.querySelector('.box').dataset.content || 'Details about the selected tile';
-    popup.querySelector('.popup-content p').textContent = content;
+    popup.querySelector('.popup-content p').innerHTML = content; 
   });
 });
 
