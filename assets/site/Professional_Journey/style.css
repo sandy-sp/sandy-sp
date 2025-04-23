@@ -6,12 +6,12 @@ body {
   font-family: "Roboto";
 }
 :root {
-  --FarbeEins: 81, 118, 133;
-  --FarbeZwei: 86, 83, 123;
-  --FarbeDrei: 96, 61, 120;
-  --FarbeVier: 107, 67, 84;
-  --FarbeFuenf: 92, 61, 64;
-  --FarbeSechs: 120, 80, 90;  /* New color for box 6 */
+  --FarbeEins: 95, 173, 159;    /* Soft teal */
+  --FarbeZwei: 142, 126, 203;   /* Lavender */
+  --FarbeDrei: 247, 158, 129;   /* Coral */
+  --FarbeVier: 65, 146, 175;    /* Ocean blue */
+  --FarbeFuenf: 242, 183, 97;   /* Golden amber */
+  --FarbeSechs: 187, 128, 164;  /* Dusty rose */
 }
 @keyframes Lottie_move {
   0% {
@@ -109,27 +109,22 @@ body {
 
 /* Adjust line positioning to make them connect better with boxes */
 .wrapper .line-wrapper .line-1 {
-  transform: rotate(135deg) translateX(25px) translateY(-35px);
+  transform: rotate(125deg) translateX(25px) translateY(-25px);
   height: 28%;
 }
 
 .wrapper .line-wrapper .line-2 {
-  transform: rotate(-135deg) translateX(-25px) translateY(-35px);
+  transform: rotate(-135deg) translateX(-35px) translateY(-45px);
   height: 28%;
 }
 
 .wrapper .line-wrapper .line-3 {
-  transform: rotate(135deg) translateX(25px) translateY(-35px);
+  transform: rotate(135deg) translateX(65px) translateY(-55px);
   height: 28%;
 }
 
 .wrapper .line-wrapper .line-4 {
-  transform: rotate(-135deg) translateX(-25px) translateY(-35px);
-  height: 28%;
-}
-
-.wrapper .line-wrapper .line-5 {
-  transform: rotate(135deg) translateX(25px) translateY(-35px);
+  transform: rotate(-135deg) translateX(-75px) translateY(-55px);
   height: 28%;
 }
 
