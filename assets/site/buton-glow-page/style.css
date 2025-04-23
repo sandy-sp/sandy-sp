@@ -29,35 +29,35 @@ button[class^='glowing-btn-'] {
   position: relative;
   color: var(--glow-color);
   cursor: pointer;
-  padding: 0.5em 1em;
+  padding: 1em; /* Increase padding for better text wrapping */
   border: 0.15em solid var(--glow-color);
   border-radius: 0.45em;
   background: none;
   perspective: 2em;
   font-family: "Raleway", sans-serif;
-  font-size: 2vw;
+  font-size: 1.5vw; /* Adjust font size */
   font-weight: 900;
   letter-spacing: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 10vh;
-  width: 5vw;
+  height: auto; /* Allow height to adjust dynamically */
+  width: 12vw; /* Increase width for better text wrapping */
   box-shadow: inset 0px 0px 0.5em 0px var(--glow-color), 0px 0px 0.5em 0px var(--glow-color);
   animation: border-flicker 2s linear infinite;
+  text-align: center; /* Center-align text */
+  overflow-wrap: break-word; /* Ensure text wraps within the box */
 }
 
 span[class^='glowing-txt-'] {
-  float: left;
-  margin-right: -0.8em;
+  float: none; /* Remove float */
+  margin: 0; /* Reset margin */
   text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em var(--glow-color);
   animation: text-flicker 3s linear infinite;
-  writing-mode: vertical-rl;
-  text-orientation: upright;
   display: inline-block;
   text-align: center;
-  margin: 0;
+  word-wrap: break-word; /* Ensure text wraps properly */
 }
 
 .faulty-letter {
