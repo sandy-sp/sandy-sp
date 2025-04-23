@@ -101,33 +101,33 @@ body {
 .wrapper .line-wrapper .line {
   overflow: hidden;
   width: 4px;
-  height: 25%;
+  height: 30%; /* Increased height for lines */
   background: #cbc9c9;
   border-radius: 10px;
 }
 
 /* Adjust line positioning to make them connect better with boxes */
 .wrapper .line-wrapper .line-1 {
-  transform: rotate(135deg) translateX(-5px) translateY(-15px);
+  transform: rotate(135deg) translateX(25px) translateY(-35px);
   height: 28%;
 }
 
 .wrapper .line-wrapper .line-2 {
-  transform: rotate(-135deg) translateX(5px) translateY(-15px);
-  height: 28%;
+  transform: rotate(-135deg) translateX(-25px) translateY(-35px);
+  height: 32%;
 }
 
 .wrapper .line-wrapper .line-3 {
-  transform: rotate(135deg) translateX(-5px) translateY(-15px);
-  height: 28%;
+  transform: rotate(135deg) translateX(25px) translateY(-35px);
+  height: 32%;
 }
 
 .wrapper .line-wrapper .line-4 {
-  transform: rotate(-135deg) translateX(5px) translateY(-15px);
-  height: 28%;
+  transform: rotate(-135deg) translateX(-25px) translateY(-35px);
+  height: 32%;
 }
 
-/* Update the column styles */
+/* Update the column styles with increased spacing */
 .wrapper .column {
   display: grid;
   grid-template-rows: repeat(5, 1fr);
@@ -135,7 +135,7 @@ body {
   width: 100%;
   height: 100%;
   z-index: 1;
-  padding: 25px 0;
+  gap: 120px; /* Add gap between grid items */
 }
 
 /* Remove individual box-wrapper position classes */
@@ -159,12 +159,12 @@ body {
 
 .wrapper .column .box-wrapper:nth-child(odd) {
   justify-self: start;
-  transform: translateX(-35px) rotateX(43deg) rotate(53deg) skewY(345deg);
+  transform: translateX(-45px) rotateX(43deg) rotate(53deg) skewY(345deg);
 }
 
 .wrapper .column .box-wrapper:nth-child(even) {
   justify-self: end;
-  transform: translateX(35px) rotateX(43deg) rotate(53deg) skewY(345deg);
+  transform: translateX(45px) rotateX(43deg) rotate(53deg) skewY(345deg);
 }
 
 /* Update animation delays */
