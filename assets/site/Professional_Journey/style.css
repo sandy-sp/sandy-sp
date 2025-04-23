@@ -328,8 +328,10 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 300px;
-  height: 400px;
+  /* Remove fixed width and height */
+  max-width: 30%; /* Optional: Limit the maximum width */
+  max-height: 90%; /* Optional: Limit the maximum height */
+  overflow: auto; /* Add scrollbars if content exceeds max dimensions */
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
