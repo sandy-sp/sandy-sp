@@ -337,13 +337,23 @@ body {
   z-index: 1000;
 }
 
+.popup:target {
+  display: block; /* Show when targeted */
+}
+
 .popup-content {
   padding: 20px;
   text-align: center;
 }
 
-.popup.active {
-  display: block; /* Show when active */
+.close-popup {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #1e1e1e;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
 }
 
 .overlay {
@@ -357,8 +367,8 @@ body {
   z-index: 999;
 }
 
-.overlay.active {
-  display: block; /* Show when active */
+.popup:target ~ .overlay {
+  display: block; /* Show when popup is targeted */
 }
 
 /* Add hover effect for glowing animation */
