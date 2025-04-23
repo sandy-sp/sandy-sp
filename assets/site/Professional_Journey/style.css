@@ -128,15 +128,18 @@ body {
   height: 28%;
 }
 
+/* Remove line-5 */
+/* Removed */
+
 /* Update the column styles with increased spacing */
 .wrapper .column {
   display: grid;
-  grid-template-rows: repeat(6, 1fr);
+  grid-template-rows: repeat(5, 1fr); /* Adjusted for 5 items */
   position: relative;
   width: 100%;
   height: 100%;
-  z-index: 1;
-  gap: 100px; /* Adjusted gap for 6 items */
+  z-index: -1;
+  gap: 100px; /* Adjusted gap for 5 items */
 }
 
 /* Remove individual box-wrapper position classes */
@@ -174,7 +177,9 @@ body {
 .wrapper .column .box-wrapper:nth-child(3) { animation-delay: 4s !important; }
 .wrapper .column .box-wrapper:nth-child(4) { animation-delay: 6s !important; }
 .wrapper .column .box-wrapper:nth-child(5) { animation-delay: 8s !important; }
-.wrapper .column .box-wrapper:nth-child(6) { animation-delay: 10s !important; }
+
+/* Remove box-wrapper-6 */
+/* Removed */
 
 .wrapper .column .box-wrapper .box {
   height: 64px;
@@ -238,16 +243,8 @@ body {
   color: rgba(var(--FarbeFuenf));
 }
 
-.wrapper .column .box-wrapper .box-6 {
-  background: rgba(var(--FarbeSechs));
-  animation-delay: 10s !important;
-}
-
-.wrapper .column .box-wrapper .box-6::before {
-  animation-delay: 10.5s !important;
-  content: "06" !important;
-  color: rgba(var(--FarbeSechs));
-}
+/* Remove box-6 */
+/* Removed */
 
 .wrapper .column .box-wrapper .box::after {
   content: "";
@@ -276,7 +273,7 @@ body {
   height: 100%;
   width: 100%;
   top: 36px;
-  z-index: -1;
+  z-index: 0; /* Changed from -1 to 0 */
   left: 24px;
   filter: blur(20px);
   animation: Lottie_growShadow 8s linear infinite;
@@ -302,9 +299,8 @@ body {
   background: rgba(var(--FarbeFuenf), 0.4);
 }
 
-.wrapper .column .box-wrapper .shadow-6 {
-  background: rgba(var(--FarbeSechs), 0.4);
-}
+/* Remove shadow-6 */
+/* Removed */
 
 /* Remove the row styles or comment them out since we're not using them */
 /*
