@@ -8,10 +8,28 @@ document.querySelectorAll('.box-wrapper').forEach((box) => {
   });
 });
 
-// Close popup functionality
-document.querySelector('.close-popup').addEventListener('click', () => {
+// Close popup when clicking outside of it
+document.addEventListener('click', (event) => {
+  const popup = document.getElementById('popup');
+  if (popup.style.display === 'block' && !popup.contains(event.target) && !event.target.closest('.box-wrapper')) {
+    popup.style.display = 'none';
+  }
+});
+
+// Add a close button inside the popup
+const closeButton = document.createElement('button');
+closeButton.textContent = '×';
+closeButton.style.position = 'absolute';
+closeButton.style.top = '10px';
+closeButton.style.right = '10px';
+closeButton.style.background = 'transparent';
+closeButton.style.border = 'none';
+closeButton.style.fontSize = '20px';
+closeButton.style.cursor = 'pointer';
+closeButton.addEventListener('click', () => {
   document.getElementById('popup').style.display = 'none';
 });
+document.getElementById('popup').appendChild(closeButton);
 
 // Add hover effects dynamically
 document.querySelectorAll('.box-wrapper').forEach((box) => {
