@@ -11,7 +11,6 @@ body {
   --FarbeDrei: 247, 158, 129;   /* Coral */
   --FarbeVier: 65, 146, 175;    /* Ocean blue */
   --FarbeFuenf: 242, 183, 97;   /* Golden amber */
-  --FarbeSechs: 187, 128, 164;  /* Dusty rose */
 }
 @keyframes Lottie_move {
   0% {
@@ -109,37 +108,34 @@ body {
 
 /* Adjust line positioning to make them connect better with boxes */
 .wrapper .line-wrapper .line-1 {
-  transform: rotate(125deg) translateX(25px) translateY(-25px);
+  transform: rotate(135deg) translateX(25px) translateY(-35px);
   height: 28%;
 }
 
 .wrapper .line-wrapper .line-2 {
-  transform: rotate(-135deg) translateX(-35px) translateY(-45px);
-  height: 28%;
+  transform: rotate(-135deg) translateX(-25px) translateY(-35px);
+  height: 32%;
 }
 
 .wrapper .line-wrapper .line-3 {
-  transform: rotate(135deg) translateX(65px) translateY(-55px);
-  height: 28%;
+  transform: rotate(135deg) translateX(25px) translateY(-35px);
+  height: 32%;
 }
 
 .wrapper .line-wrapper .line-4 {
-  transform: rotate(-135deg) translateX(-75px) translateY(-55px);
-  height: 28%;
+  transform: rotate(-135deg) translateX(-25px) translateY(-35px);
+  height: 32%;
 }
-
-/* Remove line-5 */
-/* Removed */
 
 /* Update the column styles with increased spacing */
 .wrapper .column {
   display: grid;
-  grid-template-rows: repeat(5, 1fr); /* Adjusted for 5 items */
+  grid-template-rows: repeat(5, 1fr);
   position: relative;
   width: 100%;
   height: 100%;
-  z-index: -1;
-  gap: 100px; /* Adjusted gap for 5 items */
+  z-index: 1;
+  gap: 120px; /* Add gap between grid items */
 }
 
 /* Remove individual box-wrapper position classes */
@@ -177,9 +173,6 @@ body {
 .wrapper .column .box-wrapper:nth-child(3) { animation-delay: 4s !important; }
 .wrapper .column .box-wrapper:nth-child(4) { animation-delay: 6s !important; }
 .wrapper .column .box-wrapper:nth-child(5) { animation-delay: 8s !important; }
-
-/* Remove box-wrapper-6 */
-/* Removed */
 
 .wrapper .column .box-wrapper .box {
   height: 64px;
@@ -243,9 +236,6 @@ body {
   color: rgba(var(--FarbeFuenf));
 }
 
-/* Remove box-6 */
-/* Removed */
-
 .wrapper .column .box-wrapper .box::after {
   content: "";
   position: absolute;
@@ -273,7 +263,7 @@ body {
   height: 100%;
   width: 100%;
   top: 36px;
-  z-index: 0; /* Changed from -1 to 0 */
+  z-index: -1;
   left: 24px;
   filter: blur(20px);
   animation: Lottie_growShadow 8s linear infinite;
@@ -298,9 +288,6 @@ body {
 .wrapper .column .box-wrapper .shadow-5 {
   background: rgba(var(--FarbeFuenf), 0.4);
 }
-
-/* Remove shadow-6 */
-/* Removed */
 
 /* Remove the row styles or comment them out since we're not using them */
 /*
