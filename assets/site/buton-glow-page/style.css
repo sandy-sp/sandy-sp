@@ -2,7 +2,7 @@
 @import url("https://fonts.googleapis.com/css?family=Raleway");
 
 :root {
-  --glow-color: #282828;
+  --glow-color: hsl(186 100% 69%);
 }
 
 *, *::before, *::after {
@@ -29,21 +29,21 @@ button[class^='glowing-btn-'] {
   position: relative;
   color: var(--glow-color);
   cursor: pointer;
-  padding: 0.35em 1em;
+  padding: 0.5em 1em;
   border: 0.15em solid var(--glow-color);
   border-radius: 0.45em;
   background: none;
   perspective: 2em;
   font-family: "Raleway", sans-serif;
-  font-size: 2em;
+  font-size: 2vw;
   font-weight: 900;
   letter-spacing: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 10em;
-  width: 3em;
+  height: 10vh;
+  width: 5vw;
   box-shadow: inset 0px 0px 0.5em 0px var(--glow-color), 0px 0px 0.5em 0px var(--glow-color);
   animation: border-flicker 2s linear infinite;
 }
@@ -144,6 +144,24 @@ button[class^='glowing-btn-']:hover::after {
 @keyframes border-flicker {
   0%, 4% { opacity: 0.1; }
   2%, 8%, 70%, 100% { opacity: 1; }
+}
+
+@media only screen and (max-width: 768px) {
+  /* Adjust button size for tablets */
+  button[class^='glowing-btn-'] {
+    height: 12vh;
+    width: 8vw;
+    font-size: 3vw;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  /* Adjust button size for mobile devices */
+  button[class^='glowing-btn-'] {
+    height: 15vh;
+    width: 10vw;
+    font-size: 4vw;
+  }
 }
 
 @media only screen and (max-width: 600px) {
