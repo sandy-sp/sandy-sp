@@ -188,7 +188,6 @@ body {
 
 .wrapper .column .box-wrapper .box-1::before {
   animation-delay: 0.5s !important;
-  content: "01" !important;
   color: rgba(var(--FarbeEins));
 }
 
@@ -199,7 +198,6 @@ body {
 
 .wrapper .column .box-wrapper .box-2::before {
   animation-delay: 4.5s !important;
-  content: "03" !important;
   color: rgba(var(--FarbeZwei));
 }
 
@@ -210,7 +208,6 @@ body {
 
 .wrapper .column .box-wrapper .box-3::before {
   animation-delay: 8.5s !important;
-  content: "05" !important;
   color: rgba(var(--FarbeDrei));
 }
 
@@ -221,7 +218,6 @@ body {
 
 .wrapper .column .box-wrapper .box-4::before {
   animation-delay: 2.5s !important;
-  content: "02" !important;
   color: rgba(var(--FarbeVier));
 }
 
@@ -232,7 +228,6 @@ body {
 
 .wrapper .column .box-wrapper .box-5::before {
   animation-delay: 6.5s !important;
-  content: "04" !important;
   color: rgba(var(--FarbeFuenf));
 }
 
@@ -248,14 +243,15 @@ body {
 }
 
 .wrapper .column .box-wrapper .box::before {
-  content: "";
+  content: attr(data-label);
+  white-space: nowrap;
   position: absolute;
   font-size: 2rem;
-  top: -54px;
-  font-weight: 900;
+  top: -69%;
+  font-weight: 963;
   animation: Lottie_appear 0.5s linear forwards;
   opacity: 0;
-  transform: rotateX(0deg) rotate(361deg) skewX(44deg) translateX(-12px) translateY(-5px) !important;
+  transform: rotateX(0deg) rotate(361deg) skewX(44deg) translateX(-40px) translateY(-10px) !important;
 }
 
 .wrapper .column .box-wrapper .shadow {
