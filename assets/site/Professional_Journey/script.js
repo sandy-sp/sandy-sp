@@ -71,4 +71,8 @@ document.querySelectorAll('.box-wrapper').forEach((box) => {
   box.addEventListener('mouseleave', () => {
     hoverMessage.style.display = 'none';
   });
+
+  box.addEventListener('click', () => {
+    hoverMessage.style.display = 'none'; // Hide the hover message on click
+  });
 });
