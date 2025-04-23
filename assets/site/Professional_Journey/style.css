@@ -337,10 +337,6 @@ body {
   z-index: 1000;
 }
 
-.popup:target {
-  display: block; /* Show when targeted */
-}
-
 .popup-content {
   padding: 20px;
   text-align: center;
@@ -365,10 +361,6 @@ body {
   background: rgba(0, 0, 0, 0.5);
   display: none; /* Hidden by default */
   z-index: 999;
-}
-
-.popup:target ~ .overlay {
-  display: block; /* Show when popup is targeted */
 }
 
 /* Add hover effect for glowing animation */
