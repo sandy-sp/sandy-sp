@@ -15,10 +15,24 @@
     canvas {
       display: block;
     }
+    .glitch-wrapper {
+      width: 100%;
+      max-width: 600px; /* or whatever fits your layout */
+      aspect-ratio: 3 / 2;
+      position: relative;
+    }
+
+    #glitchCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
   </style>
 </head>
 <body>
-  <canvas id="glitchCanvas"></canvas>
+  <div class="glitch-wrapper">
+    <canvas id="glitchCanvas"></canvas>
+  </div>
   <script src="glitch.js"></script>
 </body>
 </html>
