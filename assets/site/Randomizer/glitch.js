@@ -17,8 +17,7 @@ const lines = [
   'Job Offers'
 ];
 
-const fontSize = 50;
-const lineHeight = fontSize * 1.5;
+const lineHeight = 50 * 1.5; // Initial line height
 const glitchChars = ['#', '&', '%', '*', '¥', '∆', 'ø', '?', '/', '§', '+', '=', '!', '$', '^', '(', ')', '-', '_', '[', ']', '{', '}', ';', ':', ',', '.', '<', '>', '|', '~', '`', '°', '•', '√', '∞', 'π', 'Ω', '≈', '≠'];
 
 let charStates = [];
@@ -33,7 +32,7 @@ let charStates = [];
           lineIndex,
           charIndex,
           revealed: false,
-          revealTime: performance.now() + 2000 + Math.random() * 2000 // after 5-7s
+          revealTime: performance.now() + 3000 + Math.random() * 3000 // after 5-7s
         });
       }
     });
@@ -46,10 +45,12 @@ function getRandomChar() {
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.font = `bold ${fontSize}px 'Segoe UI', sans-serif`;
-  ctx.fillStyle = 'white';
+
+  const fontSize = canvas.width / 15; // Dynamic font size based on canvas width
+  ctx.font = `900 ${fontSize}px 'Raleway', 'Segoe UI', sans-serif`; // Custom font family and weight
   ctx.textAlign = 'center';
 
+  const colors = ['#ffa8B6', '#edf756', '#8458B3', '#9df9ef']; // Dynamic colors for each line
   const startY = (canvas.height / 2) - (lines.length * lineHeight / 2);
 
   lines.forEach((line, lineIndex) => {
@@ -57,6 +58,10 @@ function draw() {
     const chars = line.split('');
     const totalWidth = ctx.measureText(line).width;
     let x = canvas.width / 2 - totalWidth / 2;
+
+    ctx.fillStyle = colors[lineIndex % colors.length]; // Alternate colors per line
+    ctx.shadowColor = colors[lineIndex % colors.length]; // Glow effect matches line color
+    ctx.shadowBlur = 10; // Glow intensity
 
     chars.forEach((char, charIndex) => {
       const state = charStates.find(
