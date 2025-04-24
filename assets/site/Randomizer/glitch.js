@@ -5,10 +5,10 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 const lines = [
-  'Click with',
-  'caution:',
-  'May induce',
-  'job offers'
+  'Click With',
+  'CAUTION !',
+  'May Induce',
+  'Job Offers'
 ];
 
 const fontSize = 50;
@@ -28,7 +28,7 @@ let charStates = [];
           lineIndex,
           charIndex,
           revealed: false,
-          revealTime: performance.now() + 5000 + Math.random() * 2000 // after 5-7s
+          revealTime: performance.now() + 3000 + Math.random() * 2000 // after 5-7s
         });
       }
     });
@@ -41,7 +41,7 @@ function getRandomChar() {
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.font = `${fontSize}px 'Segoe UI', sans-serif`;
+  ctx.font = `bold ${fontSize}px 'Segoe UI', sans-serif`; // Updated to include 'bold'
   ctx.fillStyle = 'white';
   ctx.textAlign = 'center';
 
