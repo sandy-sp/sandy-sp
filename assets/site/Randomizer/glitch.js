@@ -14,7 +14,7 @@ const lines = [
 const fontSize = 50;
 const lineHeight = fontSize * 1.5;
 const startY = (canvas.height / 2) - (lines.length * lineHeight / 2);
-const glitchChars = ['@', '#', '%', '&', '∆', '*', '¥', '?', '/', '§', 'µ', '`', '•', '≈', '™'];
+const glitchChars = ['#', '&', '%', '*', '¥', '∆', 'ø', '?', '/', '§', '+', '=', '!', '$', '^', '(', ')', '-', '_', '[', ']', '{', '}', ';', ':', ',', '.', '<', '>', '|', '~', '`', '°', '•', '√', '∞', 'π', 'Ω', '≈', '≠'];
 
 let charStates = [];
 
@@ -28,7 +28,7 @@ let charStates = [];
           lineIndex,
           charIndex,
           revealed: false,
-          revealTime: performance.now() + 3000 + Math.random() * 2000 // after 5-7s
+          revealTime: performance.now() + 2000 + Math.random() * 2000 // after 5-7s
         });
       }
     });
@@ -41,7 +41,7 @@ function getRandomChar() {
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.font = `bold ${fontSize}px 'Segoe UI', sans-serif`; // Updated to include 'bold'
+  ctx.font = `bold ${fontSize}px 'Segoe UI', sans-serif`;
   ctx.fillStyle = 'white';
   ctx.textAlign = 'center';
 
