@@ -1,8 +1,14 @@
 const canvas = document.getElementById('glitchCanvas');
 const ctx = canvas.getContext('2d');
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+function resizeCanvas() {
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width;
+  canvas.height = rect.height;
+}
+
+resizeCanvas(); // Initial resize
+window.addEventListener('resize', resizeCanvas);
 
 const lines = [
   'Click With',
@@ -13,7 +19,6 @@ const lines = [
 
 const fontSize = 50;
 const lineHeight = fontSize * 1.5;
-const startY = (canvas.height / 2) - (lines.length * lineHeight / 2);
 const glitchChars = ['#', '&', '%', '*', '¥', '∆', 'ø', '?', '/', '§', '+', '=', '!', '$', '^', '(', ')', '-', '_', '[', ']', '{', '}', ';', ':', ',', '.', '<', '>', '|', '~', '`', '°', '•', '√', '∞', 'π', 'Ω', '≈', '≠'];
 
 let charStates = [];
@@ -44,6 +49,8 @@ function draw() {
   ctx.font = `bold ${fontSize}px 'Segoe UI', sans-serif`;
   ctx.fillStyle = 'white';
   ctx.textAlign = 'center';
+
+  const startY = (canvas.height / 2) - (lines.length * lineHeight / 2);
 
   lines.forEach((line, lineIndex) => {
     const y = startY + lineIndex * lineHeight;
