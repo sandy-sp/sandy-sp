@@ -1,0 +1,59 @@
+:root {
+    --color: #111;
+    --bg: #fefefe;
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color: #fefefe;
+      --bg: #111;
+    }
+  }
+  
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--color);
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .page {
+    text-align: justify;
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    font-weight: bold;
+    max-width: 90vw;
+    line-height: 1.4;
+  }
+  
+  .line {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 0.2em 0;
+  }
+  
+  .char {
+    position: relative;
+    display: inline-block;
+    color: transparent;
+  }
+  
+  .char::after {
+    content: attr(data-char);
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: var(--color);
+    animation: glitch 1s infinite steps(1);
+  }
+  
+  @keyframes glitch {
+    0%   { content: attr(data-char); }
+    10%, 20%, 30% { content: attr(data-glitch); }
+    40%   { content: attr(data-char); }
+  }
+  
