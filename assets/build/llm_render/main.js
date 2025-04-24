@@ -7,14 +7,14 @@ const mouseVector = new THREE.Vector2();
 
 // Init scene
 scene = new THREE.Scene();
-scene.fog = new THREE.Fog(0x000000, 50, 300); // Black fog starting at 50 units and ending at 300 units
+scene.fog = new THREE.Fog(0xffffff, 50, 300); // White fog starting at 50 units and ending at 300 units
 
 camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.z = 150;
 
 renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setClearColor(0x000000); // Match the background color to the fog
+renderer.setClearColor(0xffffff, 0); // Match the background color to white
 document.body.appendChild(renderer.domElement);
 
 // Cube setup
@@ -62,7 +62,8 @@ thunderboltShape.lineTo(-0.2, 0.5);
 thunderboltShape.lineTo(0, 0);
 
 const thunderboltGeometry = new THREE.ShapeGeometry(thunderboltShape);
-const thunderboltMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, side: THREE.DoubleSide });
+thunderboltGeometry.scale(3, 3, 3); // Increase the size of the thunderbolt by scaling it
+const thunderboltMaterial = new THREE.MeshBasicMaterial({ color: 0xFFA500, side: THREE.DoubleSide });
 
 const particlesGroup = new THREE.Group();
 const particleCount = 5000; // Number of particles
