@@ -17,6 +17,22 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0xffffff, 0); // Match the background color to white
 document.body.appendChild(renderer.domElement);
 
+// Background toggle logic
+let isWhiteBackground = true; // Default background is white
+
+document.getElementById('toggle-bg').addEventListener('click', () => {
+  isWhiteBackground = !isWhiteBackground;
+
+  // Update the renderer's clear color and the body's background color
+  if (isWhiteBackground) {
+    renderer.setClearColor(0xffffff, 0); // White background
+    document.body.style.backgroundColor = '#000'; // Black body background
+  } else {
+    renderer.setClearColor(0x000000, 0); // Black background
+    document.body.style.backgroundColor = '#fff'; // White body background
+  }
+});
+
 // Cube setup
 const cubeCount = 2028; // Number of cubes
 const size = 100;
