@@ -1,9 +1,18 @@
-body {
-    margin: 0;
-    overflow: hidden;
-    background-color: #000;
-  }
-  canvas {
-    display: block;
-  }
-  
+/* Canvas background defaults */
+canvas {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+/* Light mode canvas (white background) */
+body:not(:has(.switch__input:checked)) canvas {
+  background-color: #ffffff;
+}
+
+/* Dark mode canvas (black background) */
+body:has(.switch__input:checked) canvas {
+  background-color: #000000;
+}
