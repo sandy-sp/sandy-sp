@@ -17,6 +17,20 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0xffffff, 0); // Match the background color to white
 document.body.appendChild(renderer.domElement);
 
+// Dynamic background update
+const updateTheme = () => {
+  const isDark = document.querySelector('.switch__input')?.checked;
+  const backgroundColor = isDark ? 0x000000 : 0xffffff;
+  scene.fog.color.setHex(backgroundColor);
+  renderer.setClearColor(backgroundColor, 0); // Update clear color (transparent)
+};
+
+// Initial theme set
+updateTheme();
+
+// Update on toggle
+document.querySelector('.switch__input')?.addEventListener('change', updateTheme);
+
 // Cube setup
 const cubeCount = 2028; // Number of cubes
 const size = 100;
