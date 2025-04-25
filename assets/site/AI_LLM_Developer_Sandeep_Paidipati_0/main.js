@@ -12,26 +12,9 @@ scene.fog = new THREE.Fog(0xffffff, 50, 300);
 camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.z = 150;
 
-renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setClearColor(0xffffff, 0);
 document.body.appendChild(renderer.domElement);
-
-// Update theme colors dynamically
-const updateTheme = () => {
-  const isDark = document.querySelector('.theme-toggle-input')?.checked;
-  const backgroundColor = isDark ? 0x000000 : 0xffffff;
-  scene.fog.color.setHex(backgroundColor);
-  renderer.setClearColor(backgroundColor, 0);
-
-  const canvas = document.querySelector('canvas');
-  if (canvas) {
-    canvas.style.backgroundColor = isDark ? '#000000' : '#ffffff';
-  }
-};
-
-updateTheme();
-document.querySelector('.theme-toggle-input')?.addEventListener('change', updateTheme);
 
 // Create cube mesh
 const cubeCount = 2028;
