@@ -1,8 +1,55 @@
-body {
-  margin: 0;
-  overflow: hidden;
-  background-color: #000;
-}
+/* Canvas background defaults */
 canvas {
   display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+/* Light mode canvas (white background) */
+body:not(:has(.theme-toggle-input:checked)) canvas {
+  background-color: #ffffff;
+}
+
+/* Dark mode canvas (black background) */
+body:has(.theme-toggle-input:checked) canvas {
+  background-color: #000000;
+}
+
+/* ── Simple bottom-left theme toggle ── */
+.theme-toggle-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.theme-toggle {
+  position: fixed;
+  top: 50%;
+  left: 30px;
+  transform:translateY(-50%);
+  width: 50px;
+  height: 25px;
+  background: #ccc;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.theme-toggle::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 21px;
+  height: 21px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+.theme-toggle-input:checked + .theme-toggle {
+  background: #444;
+}
+.theme-toggle-input:checked + .theme-toggle::after {
+  transform: translateX(25px);
 }
