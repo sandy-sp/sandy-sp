@@ -8,12 +8,12 @@ canvas {
 }
 
 /* Light mode canvas (white background) */
-body:not(:has(.switch__input:checked)) canvas {
+body:not(:has(.theme-toggle-input:checked)) canvas {
   background-color: #ffffff;
 }
 
 /* Dark mode canvas (black background) */
-body:has(.switch__input:checked) canvas {
+body:has(.theme-toggle-input:checked) canvas {
   background-color: #000000;
 }
 
