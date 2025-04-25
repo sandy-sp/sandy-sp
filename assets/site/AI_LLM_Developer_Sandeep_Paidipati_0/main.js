@@ -17,25 +17,19 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0xffffff, 0); // Match the background color to white
 document.body.appendChild(renderer.domElement);
 
-// Grab our new toggle
-const toggle = document.getElementById('theme-toggle');
-
-// Initial theme set
+// Dynamic background update
 const updateTheme = () => {
-  const isDark = toggle.checked;
+  const isDark = document.querySelector('.switch__input')?.checked;
   const backgroundColor = isDark ? 0x000000 : 0xffffff;
   scene.fog.color.setHex(backgroundColor);
-  renderer.setClearColor(backgroundColor); // Update clear color (remove transparency)
-  
-  // Update the canvas background color directly
-  document.querySelector('canvas').style.backgroundColor = isDark ? '#000000' : '#ffffff';
+  renderer.setClearColor(backgroundColor, 0); // Update clear color (transparent)
 };
 
 // Initial theme set
 updateTheme();
 
 // Update on toggle
-toggle.addEventListener('change', updateTheme);
+document.querySelector('.switch__input')?.addEventListener('change', updateTheme);
 
 // Cube setup
 const cubeCount = 2028; // Number of cubes
