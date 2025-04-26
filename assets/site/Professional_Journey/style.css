@@ -12,7 +12,7 @@ body {
   display: grid;
   height: 100vh;
   place-items: center;
-  background: transparent;
+  background: #ffffff00;
 }
 
 @keyframes Lottie_move {
