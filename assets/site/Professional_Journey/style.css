@@ -1,376 +1,164 @@
-body {
-  background: #ffffff00;
-  display: grid;
-  height: 100vh;
-  place-items: center;
-  font-family: "Roboto";
-}
 :root {
-  --FarbeEins: 95, 173, 159;    /* Soft teal */
-  --FarbeZwei: 142, 126, 203;   /* Lavender */
-  --FarbeDrei: 247, 158, 129;   /* Coral */
-  --FarbeVier: 65, 146, 175;    /* Ocean blue */
-  --FarbeFuenf: 242, 183, 97;   /* Golden amber */
-}
-@keyframes Lottie_move {
-  0% {
-    transform: translatey(0);
-  }
-  50% {
-    transform: translate(-12px, -20px);
-  }
-  100% {
-    transform: translatey(0);
-  }
-}
-@keyframes Lottie_moveIcon {
-  0% {
-    transform: translatey(0);
-  }
-  50% {
-    transform: translate(-18px, -30px);
-  }
-  100% {
-    transform: translatey(0);
-  }
-}
-@keyframes Lottie_appear {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-@keyframes Lottie_grow {
-  0% {
-    clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
-  }
-  100% {
-    clip-path: polygon(100% 0, 0 0, 0 100%, 100% 100%);
-  }
-}
-@keyframes Lottie_growShadow {
-  0% {
-    height: 80%;
-    width: 80%;
-  }
-  50% {
-    height: 160%;
-    width: 160%;
-  }
-  100% {
-    height: 80%;
-    width: 80%;
-  }
+  /* Color palette */
+  --color-one: 95, 173, 159;    /* Soft teal */
+  --color-two: 142, 126, 203;   /* Lavender */
+  --color-three: 247, 158, 129; /* Coral */
+  --color-four: 65, 146, 175;   /* Ocean blue */
+  --color-five: 242, 183, 97;   /* Golden amber */
+
+  /* Glass panel backgrounds */
+  --glass-light: rgba(255, 255, 255, 0.2);
+  --glass-dark: rgba(0, 0, 0, 0.2);
 }
 
-.wrapper {
+/* Base styles */
+body {
+  margin: 0;
+  padding: 0;
+  background: transparent;
   display: flex;
-  flex-direction: row;
-  position: relative;
   justify-content: center;
-  width: 250px;
-  height: 700px;
-}
-
-.wrapper .line-wrapper {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  z-index: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   align-items: center;
-  animation: Lottie_grow_vertical 8s linear forwards;
-  animation-delay: 0.5s;
-  opacity: 0.4;
-  clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+  min-height: 100vh;
+  font-family: Roboto, sans-serif;
 }
 
-@keyframes Lottie_grow_vertical {
-  0% {
-    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+/* Glass-like panel wrapper */
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 90vw;
+  max-width: 320px;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: var(--glass-light);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  gap: 2rem;
+}
+
+/* Dark mode override */
+@media (prefers-color-scheme: dark) {
+  .wrapper {
+    background: var(--glass-dark);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
   }
-  100% {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-  }
 }
 
-.wrapper .line-wrapper .line {
-  overflow: hidden;
-  width: 4px;
-  height: 30%; /* Increased height for lines */
-  background: #cbc9c9;
-  border-radius: 10px;
-}
-
-/* Adjust line positioning to make them connect better with boxes */
-.wrapper .line-wrapper .line-1 {
-  transform: rotate(135deg) translateX(25px) translateY(-35px);
-  height: 28%;
-}
-
-.wrapper .line-wrapper .line-2 {
-  transform: rotate(-135deg) translateX(-25px) translateY(-35px);
-  height: 32%;
-}
-
-.wrapper .line-wrapper .line-3 {
-  transform: rotate(135deg) translateX(25px) translateY(-35px);
-  height: 32%;
-}
-
-.wrapper .line-wrapper .line-4 {
-  transform: rotate(-135deg) translateX(-25px) translateY(-35px);
-  height: 32%;
-}
-
-/* Update the column styles with increased spacing */
+/* Timeline column layout */
 .wrapper .column {
   display: grid;
-  grid-template-rows: repeat(5, 1fr);
-  position: relative;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  gap: 120px; /* Add gap between grid items */
+  grid-template-rows: repeat(5, auto);
+  gap: 1.5rem;
 }
 
-/* Remove individual box-wrapper position classes */
-.wrapper .column .box-wrapper-1,
-.wrapper .column .box-wrapper-2,
-.wrapper .column .box-wrapper-3,
-.wrapper .column .box-wrapper-4,
-.wrapper .column .box-wrapper-5 {
-  /* Remove individual transforms */
-}
-
-/* Add new dynamic positioning */
-.wrapper .column .box-wrapper {
-  opacity: 0;
-  z-index: 10;
-  animation: Lottie_appear 0.5s linear forwards;
+/* Box and shadow styling */
+.box-wrapper {
   position: relative;
   display: flex;
   justify-content: center;
 }
-
-.wrapper .column .box-wrapper:nth-child(odd) {
-  justify-self: start;
-  transform: translateX(-45px) rotateX(43deg) rotate(53deg) skewY(345deg);
-}
-
-.wrapper .column .box-wrapper:nth-child(even) {
-  justify-self: end;
-  transform: translateX(45px) rotateX(43deg) rotate(53deg) skewY(345deg);
-}
-
-/* Update animation delays */
-.wrapper .column .box-wrapper:nth-child(1) { animation-delay: 0s !important; }
-.wrapper .column .box-wrapper:nth-child(2) { animation-delay: 2s !important; }
-.wrapper .column .box-wrapper:nth-child(3) { animation-delay: 4s !important; }
-.wrapper .column .box-wrapper:nth-child(4) { animation-delay: 6s !important; }
-.wrapper .column .box-wrapper:nth-child(5) { animation-delay: 8s !important; }
-
-.wrapper .column .box-wrapper .box {
-  height: 64px;
+.box {
+  width: 64px;
   aspect-ratio: 1;
-  border-radius: 10px;
+  border-radius: 0.5rem;
   position: relative;
-  animation: Lottie_move 8s linear infinite;
+  animation: move 8s ease-in-out infinite;
 }
-
-.wrapper .column .box-wrapper .box-1 {
-  background: rgba(var(--FarbeEins));
-}
-
-.wrapper .column .box-wrapper .box-1::before {
-  animation-delay: 0.5s !important;
-  color: rgba(var(--FarbeEins));
-}
-
-.wrapper .column .box-wrapper .box-2 {
-  background: rgba(var(--FarbeZwei));
-  animation-delay: 4s !important;
-}
-
-.wrapper .column .box-wrapper .box-2::before {
-  animation-delay: 4.5s !important;
-  color: rgba(var(--FarbeZwei));
-}
-
-.wrapper .column .box-wrapper .box-3 {
-  background: rgba(var(--FarbeDrei));
-  animation-delay: 8s !important;
-}
-
-.wrapper .column .box-wrapper .box-3::before {
-  animation-delay: 8.5s !important;
-  color: rgba(var(--FarbeDrei));
-}
-
-.wrapper .column .box-wrapper .box-4 {
-  background: rgba(var(--FarbeVier));
-  animation-delay: 2s !important;
-}
-
-.wrapper .column .box-wrapper .box-4::before {
-  animation-delay: 2.5s !important;
-  color: rgba(var(--FarbeVier));
-}
-
-.wrapper .column .box-wrapper .box-5 {
-  background: rgba(var(--FarbeFuenf));
-  animation-delay: 6s !important;
-}
-
-.wrapper .column .box-wrapper .box-5::before {
-  animation-delay: 6.5s !important;
-  color: rgba(var(--FarbeFuenf));
-}
-
-.wrapper .column .box-wrapper .box::after {
-  content: "";
+.shadow {
   position: absolute;
+  width: 100%;
   height: 100%;
+  top: 32px;
+  left: 12px;
+  filter: blur(20px);
+  animation: growShadow 8s ease-in-out infinite;
+  z-index: -1;
+}
+
+/* Colored boxes & shadows */
+.box-1 { background: rgba(var(--color-one)); }
+.box-1 + .shadow { background: rgba(var(--color-one), 0.4); }
+.box-2 { background: rgba(var(--color-two)); }
+.box-2 + .shadow { background: rgba(var(--color-two), 0.4); }
+.box-3 { background: rgba(var(--color-three)); }
+.box-3 + .shadow { background: rgba(var(--color-three), 0.4); }
+.box-4 { background: rgba(var(--color-four)); }
+.box-4 + .shadow { background: rgba(var(--color-four), 0.4); }
+.box-5 { background: rgba(var(--color-five)); }
+.box-5 + .shadow { background: rgba(var(--color-five), 0.4); }
+
+/* Label reveal */
+.box::before {
+  content: attr(data-label);
+  position: absolute;
+  top: -2.5rem;
+  left: 50%;
+  transform: translateX(-50%) rotate(0deg) skewX(20deg);
+  font-size: 1.25rem;
+  font-weight: bold;
+  opacity: 0;
+  animation: appear 0.5s forwards;
+}
+
+/* Keyframes */
+@keyframes move {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translate(-12px, -20px); }
+}
+@keyframes growShadow {
+  0%, 100%   { transform: scale(1); }
+  50%        { transform: scale(1.4); }
+}
+@keyframes appear {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Connecting lines */
+.line-wrapper {
+  position: relative;
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);
+  row-gap: 1.5rem;
+  width: 4px;
+  justify-self: center;
+}
+.line {
   width: 100%;
   background: #cbc9c9;
-  top: -10px;
-  left: -8px;
-  border-radius: 10px;
+  border-radius: 2px;
 }
 
-.wrapper .column .box-wrapper .box::before {
-  content: attr(data-label);
-  white-space: nowrap;
-  position: absolute;
-  font-size: 2rem;
-  top: -69%;
-  font-weight: 963;
-  animation: Lottie_appear 0.5s linear forwards;
-  opacity: 0;
-  transform: rotateX(0deg) rotate(361deg) skewX(44deg) translateX(-40px) translateY(-10px) !important;
+/* Responsive popup and overlay */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  z-index: 900;
 }
-
-.wrapper .column .box-wrapper .shadow {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 36px;
-  z-index: -1;
-  left: 24px;
-  filter: blur(20px);
-  animation: Lottie_growShadow 8s linear infinite;
-}
-
-.wrapper .column .box-wrapper .shadow-1 {
-  background: rgba(var(--FarbeEins), 0.4);
-}
-
-.wrapper .column .box-wrapper .shadow-2 {
-  background: rgba(var(--FarbeZwei), 0.4);
-}
-
-.wrapper .column .box-wrapper .shadow-3 {
-  background: rgba(var(--FarbeDrei), 0.4);
-}
-
-.wrapper .column .box-wrapper .shadow-4 {
-  background: rgba(var(--FarbeVier), 0.4);
-}
-
-.wrapper .column .box-wrapper .shadow-5 {
-  background: rgba(var(--FarbeFuenf), 0.4);
-}
-
-/* Remove the row styles or comment them out since we're not using them */
-/*
-.wrapper .row {
-  display: flex;
-  align-items: center;
-}
-
-.wrapper .row-1 {
-  width: 100%;
-  justify-content: space-between;
-}
-
-.wrapper .row-1 .box-wrapper-2 {
-  animation-delay: 4s !important;
-}
-
-.wrapper .row-1 .box-wrapper-3 {
-  animation-delay: 8s !important;
-}
-
-.wrapper .row-2 {
-  width: 100%;
-  justify-content: space-around;
-}
-
-.wrapper .row-2 .box-wrapper-5 {
-  animation-delay: 6s !important;
-}
-
-.wrapper .row-2 .box-wrapper-4 {
-  animation-delay: 2s !important;
-}
-*/
-
 .popup {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  /* Remove fixed width and height */
-  max-width: 30%; /* Optional: Limit the maximum width */
-  max-height: 90%; /* Optional: Limit the maximum height */
-  overflow: auto; /* Add scrollbars if content exceeds max dimensions */
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  display: none; /* Hidden by default */
+  max-width: 90vw;
+  width: 300px;
+  padding: 1rem;
+  background: var(--glass-light);
+  backdrop-filter: blur(8px);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  display: none;
   z-index: 1000;
 }
-
-.popup-content {
-  padding: 20px;
-  text-align: center;
-}
-
-.close-popup {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 10px 20px;
-  background: #1e1e1e;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 5px;
-}
-
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: none; /* Hidden by default */
-  z-index: 999;
-}
-
-/* Add hover effect for glowing animation */
-.wrapper .column .box-wrapper:hover .box {
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.6);
-  transform: scale(1.1); /* Slightly enlarge the tile */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Optional: Add a glowing effect to the shadow as well */
-.wrapper .column .box-wrapper:hover .shadow {
-  filter: blur(30px);
-  background: rgba(255, 255, 255, 0.5);
-  transition: filter 0.3s ease, background 0.3s ease;
+.popup-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
 }
