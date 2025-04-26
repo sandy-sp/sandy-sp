@@ -1,5 +1,4 @@
 body {
-  background: #1e1e1e;
   display: grid;
   height: 100vh;
   place-items: center;
@@ -14,24 +13,24 @@ body {
 }
 @keyframes Lottie_move {
   0% {
-    transform: translatey(0);
+    transform: translateY(0);
   }
   50% {
     transform: translate(-12px, -20px);
   }
   100% {
-    transform: translatey(0);
+    transform: translateY(0);
   }
 }
 @keyframes Lottie_moveIcon {
   0% {
-    transform: translatey(0);
+    transform: translateY(0);
   }
   50% {
     transform: translate(-18px, -30px);
   }
   100% {
-    transform: translatey(0);
+    transform: translateY(0);
   }
 }
 @keyframes Lottie_appear {
@@ -180,55 +179,56 @@ body {
   border-radius: 10px;
   position: relative;
   animation: Lottie_move 8s linear infinite;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .wrapper .column .box-wrapper .box-1 {
-  background: rgba(var(--FarbeEins));
+  background: rgba(var(--FarbeEins), 1);
 }
 
 .wrapper .column .box-wrapper .box-1::before {
   animation-delay: 0.5s !important;
-  color: rgba(var(--FarbeEins));
+  color: rgba(var(--FarbeEins), 1);
 }
 
 .wrapper .column .box-wrapper .box-2 {
-  background: rgba(var(--FarbeZwei));
+  background: rgba(var(--FarbeZwei), 1);
   animation-delay: 4s !important;
 }
 
 .wrapper .column .box-wrapper .box-2::before {
   animation-delay: 4.5s !important;
-  color: rgba(var(--FarbeZwei));
+  color: rgba(var(--FarbeZwei), 1);
 }
 
 .wrapper .column .box-wrapper .box-3 {
-  background: rgba(var(--FarbeDrei));
+  background: rgba(var(--FarbeDrei), 1);
   animation-delay: 8s !important;
 }
 
 .wrapper .column .box-wrapper .box-3::before {
   animation-delay: 8.5s !important;
-  color: rgba(var(--FarbeDrei));
+  color: rgba(var(--FarbeDrei), 1);
 }
 
 .wrapper .column .box-wrapper .box-4 {
-  background: rgba(var(--FarbeVier));
+  background: rgba(var(--FarbeVier), 1);
   animation-delay: 2s !important;
 }
 
 .wrapper .column .box-wrapper .box-4::before {
   animation-delay: 2.5s !important;
-  color: rgba(var(--FarbeVier));
+  color: rgba(var(--FarbeVier), 1);
 }
 
 .wrapper .column .box-wrapper .box-5 {
-  background: rgba(var(--FarbeFuenf));
+  background: rgba(var(--FarbeFuenf), 1);
   animation-delay: 6s !important;
 }
 
 .wrapper .column .box-wrapper .box-5::before {
   animation-delay: 6.5s !important;
-  color: rgba(var(--FarbeFuenf));
+  color: rgba(var(--FarbeFuenf), 1);
 }
 
 .wrapper .column .box-wrapper .box::after {
@@ -248,7 +248,7 @@ body {
   position: absolute;
   font-size: 2rem;
   top: -69%;
-  font-weight: 963;
+  font-weight: 900;
   animation: Lottie_appear 0.5s linear forwards;
   opacity: 0;
   transform: rotateX(0deg) rotate(361deg) skewX(44deg) translateX(-40px) translateY(-10px) !important;
@@ -263,6 +263,7 @@ body {
   left: 24px;
   filter: blur(20px);
   animation: Lottie_growShadow 8s linear infinite;
+  transition: filter 0.3s ease, background 0.3s ease;
 }
 
 .wrapper .column .box-wrapper .shadow-1 {
@@ -295,7 +296,7 @@ body {
   max-width: 30%; /* Optional: Limit the maximum width */
   max-height: 90%; /* Optional: Limit the maximum height */
   overflow: auto; /* Add scrollbars if content exceeds max dimensions */
-  background: #fff;
+  background: #afafaf93;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   display: none; /* Hidden by default */
