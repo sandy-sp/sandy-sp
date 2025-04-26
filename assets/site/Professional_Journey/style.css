@@ -342,3 +342,41 @@ body {
   background: rgba(255, 255, 255, 0.5);
   transition: filter 0.3s ease, background 0.3s ease;
 }
+
+/* Light Mode (default) */
+:root {
+  --popup-bg: #ffffff;
+  --popup-text: #1e1e1e;
+  --hover-bg: rgba(0, 0, 0, 0.8);
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --popup-bg: #1e1e1e;
+    --popup-text: #f5f5f5;
+    --hover-bg: rgba(255, 255, 255, 0.8);
+  }
+
+  .box {
+    background: rgba(var(--color-teal), 0.8); /* slightly more transparent for dark bg */
+  }
+
+  .shadow {
+    background: rgba(var(--color-teal), 0.3);
+  }
+}
+
+/* Then use variables everywhere */
+.popup {
+  background: var(--popup-bg);
+}
+
+.popup-content p {
+  color: var(--popup-text);
+}
+
+.hover-message {
+  background: var(--hover-bg);
+  color: var(--popup-text);
+}
