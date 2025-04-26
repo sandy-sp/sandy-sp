@@ -1,4 +1,5 @@
 body {
+  background: #ffffff00;
   display: grid;
   height: 100vh;
   place-items: center;
