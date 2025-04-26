@@ -1,78 +1,62 @@
-// Handle click-to-popup functionality
-document.querySelectorAll('.box-wrapper').forEach((box) => {
-  box.addEventListener('click', () => {
-    const popup = document.getElementById('popup');
-    popup.style.display = 'block';
-    const content = box.querySelector('.box').dataset.content || 'Details about the selected tile';
-    popup.querySelector('.popup-content p').innerHTML = content; 
-  });
-});
-
-// Close popup when clicking outside of it
-document.addEventListener('click', (event) => {
+document.addEventListener('DOMContentLoaded', () => {
+  // Element references
   const popup = document.getElementById('popup');
-  if (popup.style.display === 'block' && !popup.contains(event.target) && !event.target.closest('.box-wrapper')) {
+  const overlay = document.getElementById('overlay');
+  const closeBtn = popup.querySelector('.popup-close');
+
+  // Create a single tooltip element
+  const tooltip = document.createElement('div');
+  tooltip.className = 'hover-tooltip';
+  Object.assign(tooltip.style, {
+    position: 'absolute',
+    padding: '5px 10px',
+    background: '#000',
+    color: '#fff',
+    fontSize: '0.8em',
+    borderRadius: '5px',
+    display: 'none',
+    zIndex: '1000'
+  });
+  document.body.appendChild(tooltip);
+
+  // Attach events to each box wrapper
+  document.querySelectorAll('.box-wrapper').forEach(box => {
+    box.addEventListener('mouseenter', (e) => {
+      tooltip.textContent = 'Click to know more';
+      tooltip.style.top = `${e.clientY + 10}px`;
+      tooltip.style.left = `${e.clientX + 10}px`;
+      tooltip.style.display = 'block';
+    });
+
+    box.addEventListener('mousemove', (e) => {
+      tooltip.style.top = `${e.clientY + 10}px`;
+      tooltip.style.left = `${e.clientX + 10}px`;
+    });
+
+    box.addEventListener('mouseleave', () => {
+      tooltip.style.display = 'none';
+    });
+
+    box.addEventListener('click', () => {
+      const content = box.querySelector('.box').dataset.content || '';
+      popup.querySelector('.popup-content p').innerHTML = content;
+      popup.style.display = 'block';
+      overlay.style.display = 'block';
+      tooltip.style.display = 'none';
+    });
+  });
+
+  // Close popup on close button click
+  closeBtn.addEventListener('click', () => {
     popup.style.display = 'none';
-  }
-});
-
-// Add a close button inside the popup
-const closeButton = document.createElement('button');
-closeButton.textContent = '×';
-closeButton.style.position = 'absolute';
-closeButton.style.top = '10px';
-closeButton.style.right = '10px';
-closeButton.style.background = 'transparent';
-closeButton.style.border = 'none';
-closeButton.style.fontSize = '20px';
-closeButton.style.cursor = 'pointer';
-closeButton.addEventListener('click', () => {
-  document.getElementById('popup').style.display = 'none';
-});
-document.getElementById('popup').appendChild(closeButton);
-
-// Add hover effects dynamically
-document.querySelectorAll('.box-wrapper').forEach((box) => {
-  box.addEventListener('mouseenter', () => {
-    box.querySelector('.box').style.transform = 'scale(1.1)';
-    box.querySelector('.shadow').style.filter = 'blur(30px)';
-  });
-  box.addEventListener('mouseleave', () => {
-    box.querySelector('.box').style.transform = 'scale(1)';
-    box.querySelector('.shadow').style.filter = 'blur(20px)';
-  });
-});
-
-// Add hover message dynamically
-document.querySelectorAll('.box-wrapper').forEach((box) => {
-  const hoverMessage = document.createElement('div');
-  hoverMessage.textContent = 'Click to know more';
-  hoverMessage.style.position = 'absolute';
-  hoverMessage.style.background = '#000';
-  hoverMessage.style.color = '#fff';
-  hoverMessage.style.padding = '5px 10px';
-  hoverMessage.style.borderRadius = '5px';
-  hoverMessage.style.fontSize = '0.8em';
-  hoverMessage.style.display = 'none';
-  hoverMessage.style.zIndex = '1000';
-  document.body.appendChild(hoverMessage);
-
-  box.addEventListener('mouseenter', (event) => {
-    hoverMessage.style.display = 'block';
-    hoverMessage.style.top = `${event.clientY + 10}px`;
-    hoverMessage.style.left = `${event.clientX + 10}px`;
+    overlay.style.display = 'none';
   });
 
-  box.addEventListener('mousemove', (event) => {
-    hoverMessage.style.top = `${event.clientY + 10}px`;
-    hoverMessage.style.left = `${event.clientX + 10}px`;
-  });
-
-  box.addEventListener('mouseleave', () => {
-    hoverMessage.style.display = 'none';
-  });
-
-  box.addEventListener('click', () => {
-    hoverMessage.style.display = 'none'; // Hide the hover message on click
+  // Close popup on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      popup.style.display = 'none';
+      overlay.style.display = 'none';
+    }
   });
 });
