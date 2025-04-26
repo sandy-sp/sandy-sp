@@ -1,83 +1,65 @@
+/* --- Updated style.css with full original animations + transparent adaptation for Dark/Light mode --- */
+
+:root {
+  --FarbeEins: 95, 173, 159;
+  --FarbeZwei: 142, 126, 203;
+  --FarbeDrei: 247, 158, 129;
+  --FarbeVier: 65, 146, 175;
+  --FarbeFuenf: 242, 183, 97;
+}
+
 body {
   display: grid;
   height: 100vh;
   place-items: center;
   font-family: "Roboto";
+  background: transparent;
 }
-:root {
-  --FarbeEins: 95, 173, 159;    /* Soft teal */
-  --FarbeZwei: 142, 126, 203;   /* Lavender */
-  --FarbeDrei: 247, 158, 129;   /* Coral */
-  --FarbeVier: 65, 146, 175;    /* Ocean blue */
-  --FarbeFuenf: 242, 183, 97;   /* Golden amber */
-}
+
 @keyframes Lottie_move {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translate(-12px, -20px);
-  }
-  100% {
-    transform: translateY(0);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translate(-12px, -20px); }
 }
+
 @keyframes Lottie_moveIcon {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translate(-18px, -30px);
-  }
-  100% {
-    transform: translateY(0);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translate(-18px, -30px); }
 }
+
 @keyframes Lottie_appear {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
+
 @keyframes Lottie_grow {
-  0% {
-    clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
-  }
-  100% {
-    clip-path: polygon(100% 0, 0 0, 0 100%, 100% 100%);
-  }
+  0% { clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); }
+  100% { clip-path: polygon(100% 0, 0 0, 0 100%, 100% 100%); }
 }
+
 @keyframes Lottie_growShadow {
-  0% {
-    height: 80%;
-    width: 80%;
-  }
-  50% {
-    height: 160%;
-    width: 160%;
-  }
-  100% {
-    height: 80%;
-    width: 80%;
-  }
+  0%, 100% { height: 80%; width: 80%; }
+  50% { height: 160%; width: 160%; }
+}
+
+@keyframes Lottie_grow_vertical {
+  0% { clip-path: polygon(0 0, 100% 0, 100% 0, 0 0); }
+  100% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
 }
 
 .wrapper {
   display: flex;
   flex-direction: row;
-  position: relative;
   justify-content: center;
-  width: 250px;
-  height: 700px;
+  width: 90%;
+  max-width: 400px;
+  min-height: 80vh;
+  position: relative;
 }
 
-.wrapper .line-wrapper {
+.line-wrapper {
   width: 100%;
   height: 100%;
   position: absolute;
-  z-index: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -85,298 +67,168 @@ body {
   animation: Lottie_grow_vertical 8s linear forwards;
   animation-delay: 0.5s;
   opacity: 0.4;
-  clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
 }
 
-@keyframes Lottie_grow_vertical {
-  0% {
-    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
-  }
-  100% {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-  }
-}
-
-.wrapper .line-wrapper .line {
+.line {
   overflow: hidden;
   width: 4px;
-  height: 30%; /* Increased height for lines */
-  background: #cbc9c9;
+  height: 30%;
+  background: rgba(200, 200, 200, 0.4);
   border-radius: 10px;
 }
 
-/* Adjust line positioning to make them connect better with boxes */
-.wrapper .line-wrapper .line-1 {
-  transform: rotate(135deg) translateX(25px) translateY(-35px);
-  height: 28%;
-}
+.line-1, .line-3 { transform: rotate(135deg) translateX(25px) translateY(-35px); }
+.line-2, .line-4 { transform: rotate(-135deg) translateX(-25px) translateY(-35px); }
 
-.wrapper .line-wrapper .line-2 {
-  transform: rotate(-135deg) translateX(-25px) translateY(-35px);
-  height: 32%;
-}
-
-.wrapper .line-wrapper .line-3 {
-  transform: rotate(135deg) translateX(25px) translateY(-35px);
-  height: 32%;
-}
-
-.wrapper .line-wrapper .line-4 {
-  transform: rotate(-135deg) translateX(-25px) translateY(-35px);
-  height: 32%;
-}
-
-/* Update the column styles with increased spacing */
-.wrapper .column {
+.column {
   display: grid;
-  grid-template-rows: repeat(5, 1fr);
-  position: relative;
+  grid-template-rows: repeat(5, minmax(100px, 1fr));
+  gap: 120px;
   width: 100%;
-  height: 100%;
+  position: relative;
   z-index: 1;
-  gap: 120px; /* Add gap between grid items */
 }
 
-/* Remove individual box-wrapper position classes */
-.wrapper .column .box-wrapper-1,
-.wrapper .column .box-wrapper-2,
-.wrapper .column .box-wrapper-3,
-.wrapper .column .box-wrapper-4,
-.wrapper .column .box-wrapper-5 {
-  /* Remove individual transforms */
-}
-
-/* Add new dynamic positioning */
-.wrapper .column .box-wrapper {
-  opacity: 0;
-  z-index: 10;
-  animation: Lottie_appear 0.5s linear forwards;
+.box-wrapper {
   position: relative;
   display: flex;
   justify-content: center;
+  opacity: 0;
+  z-index: 10;
+  animation: Lottie_appear 0.5s linear forwards;
 }
 
-.wrapper .column .box-wrapper:nth-child(odd) {
-  justify-self: start;
-  transform: translateX(-45px) rotateX(43deg) rotate(53deg) skewY(345deg);
-}
+.box-wrapper:nth-child(odd) { justify-self: start; transform: translateX(-45px) rotateX(43deg) rotate(53deg) skewY(345deg); }
+.box-wrapper:nth-child(even) { justify-self: end; transform: translateX(45px) rotateX(43deg) rotate(53deg) skewY(345deg); }
 
-.wrapper .column .box-wrapper:nth-child(even) {
-  justify-self: end;
-  transform: translateX(45px) rotateX(43deg) rotate(53deg) skewY(345deg);
-}
+.box-wrapper:nth-child(1) { animation-delay: 0s; }
+.box-wrapper:nth-child(2) { animation-delay: 2s; }
+.box-wrapper:nth-child(3) { animation-delay: 4s; }
+.box-wrapper:nth-child(4) { animation-delay: 6s; }
+.box-wrapper:nth-child(5) { animation-delay: 8s; }
 
-/* Update animation delays */
-.wrapper .column .box-wrapper:nth-child(1) { animation-delay: 0s !important; }
-.wrapper .column .box-wrapper:nth-child(2) { animation-delay: 2s !important; }
-.wrapper .column .box-wrapper:nth-child(3) { animation-delay: 4s !important; }
-.wrapper .column .box-wrapper:nth-child(4) { animation-delay: 6s !important; }
-.wrapper .column .box-wrapper:nth-child(5) { animation-delay: 8s !important; }
-
-.wrapper .column .box-wrapper .box {
+.box {
   height: 64px;
-  aspect-ratio: 1;
+  aspect-ratio: 1 / 1;
   border-radius: 10px;
   position: relative;
   animation: Lottie_move 8s linear infinite;
+  background: rgba(var(--FarbeEins), 0.8);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.wrapper .column .box-wrapper .box-1 {
-  background: rgba(var(--FarbeEins), 1);
-}
+.box-1 { background: rgba(var(--FarbeEins), 0.8); }
+.box-2 { background: rgba(var(--FarbeZwei), 0.8); }
+.box-3 { background: rgba(var(--FarbeDrei), 0.8); }
+.box-4 { background: rgba(var(--FarbeVier), 0.8); }
+.box-5 { background: rgba(var(--FarbeFuenf), 0.8); }
 
-.wrapper .column .box-wrapper .box-1::before {
-  animation-delay: 0.5s !important;
-  color: rgba(var(--FarbeEins), 1);
-}
-
-.wrapper .column .box-wrapper .box-2 {
-  background: rgba(var(--FarbeZwei), 1);
-  animation-delay: 4s !important;
-}
-
-.wrapper .column .box-wrapper .box-2::before {
-  animation-delay: 4.5s !important;
-  color: rgba(var(--FarbeZwei), 1);
-}
-
-.wrapper .column .box-wrapper .box-3 {
-  background: rgba(var(--FarbeDrei), 1);
-  animation-delay: 8s !important;
-}
-
-.wrapper .column .box-wrapper .box-3::before {
-  animation-delay: 8.5s !important;
-  color: rgba(var(--FarbeDrei), 1);
-}
-
-.wrapper .column .box-wrapper .box-4 {
-  background: rgba(var(--FarbeVier), 1);
-  animation-delay: 2s !important;
-}
-
-.wrapper .column .box-wrapper .box-4::before {
-  animation-delay: 2.5s !important;
-  color: rgba(var(--FarbeVier), 1);
-}
-
-.wrapper .column .box-wrapper .box-5 {
-  background: rgba(var(--FarbeFuenf), 1);
-  animation-delay: 6s !important;
-}
-
-.wrapper .column .box-wrapper .box-5::before {
-  animation-delay: 6.5s !important;
-  color: rgba(var(--FarbeFuenf), 1);
-}
-
-.wrapper .column .box-wrapper .box::after {
+.box::after {
   content: "";
   position: absolute;
   height: 100%;
   width: 100%;
-  background: #cbc9c9;
+  background: rgba(200, 200, 200, 0.4);
   top: -10px;
   left: -8px;
   border-radius: 10px;
 }
 
-.wrapper .column .box-wrapper .box::before {
+.box::before {
   content: attr(data-label);
   white-space: nowrap;
   position: absolute;
   font-size: 2rem;
   top: -69%;
   font-weight: 900;
-  animation: Lottie_appear 0.5s linear forwards;
+  color: inherit;
   opacity: 0;
-  transform: rotateX(0deg) rotate(361deg) skewX(44deg) translateX(-40px) translateY(-10px) !important;
+  animation: Lottie_appear 0.5s linear forwards;
+  transform: rotateX(0deg) rotate(361deg) skewX(44deg) translateX(-40px) translateY(-10px);
 }
 
-.wrapper .column .box-wrapper .shadow {
+.shadow {
   position: absolute;
-  height: 100%;
   width: 100%;
+  height: 100%;
   top: 36px;
-  z-index: -1;
   left: 24px;
   filter: blur(20px);
   animation: Lottie_growShadow 8s linear infinite;
-  transition: filter 0.3s ease, background 0.3s ease;
+  border-radius: 10px;
 }
 
-.wrapper .column .box-wrapper .shadow-1 {
-  background: rgba(var(--FarbeEins), 0.4);
-}
-
-.wrapper .column .box-wrapper .shadow-2 {
-  background: rgba(var(--FarbeZwei), 0.4);
-}
-
-.wrapper .column .box-wrapper .shadow-3 {
-  background: rgba(var(--FarbeDrei), 0.4);
-}
-
-.wrapper .column .box-wrapper .shadow-4 {
-  background: rgba(var(--FarbeVier), 0.4);
-}
-
-.wrapper .column .box-wrapper .shadow-5 {
-  background: rgba(var(--FarbeFuenf), 0.4);
-}
-
+.shadow-1 { background: rgba(var(--FarbeEins), 0.3); }
+.shadow-2 { background: rgba(var(--FarbeZwei), 0.3); }
+.shadow-3 { background: rgba(var(--FarbeDrei), 0.3); }
+.shadow-4 { background: rgba(var(--FarbeVier), 0.3); }
+.shadow-5 { background: rgba(var(--FarbeFuenf), 0.3); }
 
 .popup {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  /* Remove fixed width and height */
-  max-width: 30%; /* Optional: Limit the maximum width */
-  max-height: 90%; /* Optional: Limit the maximum height */
-  overflow: auto; /* Add scrollbars if content exceeds max dimensions */
-  background: #afafaf93;
+  max-width: 90%;
+  background: rgba(255, 255, 255, 0.9);
+  color: inherit;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  display: none; /* Hidden by default */
+  display: none;
+  overflow: auto;
   z-index: 1000;
-}
-
-.popup-content {
-  padding: 20px;
-  text-align: center;
-}
-
-.close-popup {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 10px 20px;
-  background: #1e1e1e;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 5px;
-}
-
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: none; /* Hidden by default */
-  z-index: 999;
-}
-
-/* Add hover effect for glowing animation */
-.wrapper .column .box-wrapper:hover .box {
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.6);
-  transform: scale(1.1); /* Slightly enlarge the tile */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Optional: Add a glowing effect to the shadow as well */
-.wrapper .column .box-wrapper:hover .shadow {
-  filter: blur(30px);
-  background: rgba(255, 255, 255, 0.5);
-  transition: filter 0.3s ease, background 0.3s ease;
-}
-
-/* Light Mode (default) */
-:root {
-  --popup-bg: #ffffff;
-  --popup-text: #1e1e1e;
-  --hover-bg: rgba(0, 0, 0, 0.8);
-}
-
-/* Dark Mode */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --popup-bg: #1e1e1e;
-    --popup-text: #f5f5f5;
-    --hover-bg: rgba(255, 255, 255, 0.8);
-  }
-
-  .box {
-    background: rgba(var(--color-teal), 0.8); /* slightly more transparent for dark bg */
-  }
-
-  .shadow {
-    background: rgba(var(--color-teal), 0.3);
-  }
-}
-
-/* Then use variables everywhere */
-.popup {
-  background: var(--popup-bg);
+  padding: 1.5rem;
 }
 
 .popup-content p {
-  color: var(--popup-text);
+  margin: 0;
+  font-size: 1rem;
+  text-align: center;
+  color: inherit;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: inherit;
 }
 
 .hover-message {
-  background: var(--hover-bg);
-  color: var(--popup-text);
+  position: absolute;
+  background: rgba(0, 0, 0, 0.7);
+  color: inherit;
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  border-radius: 6px;
+  display: none;
+  z-index: 1000;
+}
+
+/* Hover Effects */
+.box-wrapper:hover .box {
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.6);
+  transform: scale(1.1);
+}
+
+.box-wrapper:hover .shadow {
+  filter: blur(30px);
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .wrapper {
+    max-width: 95%;
+  }
+  .popup {
+    padding: 1rem;
+  }
+  .popup-content p {
+    font-size: 0.9rem;
+  }
 }
