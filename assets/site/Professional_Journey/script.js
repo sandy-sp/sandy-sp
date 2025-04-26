@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Element references
-  const popup = document.getElementById('popup');
+  // References to popup and overlay
+  const popup   = document.getElementById('popup');
   const overlay = document.getElementById('overlay');
-  const closeBtn = popup.querySelector('.popup-close');
+  const closeBtn= popup.querySelector('.popup-close');
 
-  // Create a single tooltip element
+  // Create a single hover tooltip
   const tooltip = document.createElement('div');
   tooltip.className = 'hover-tooltip';
   Object.assign(tooltip.style, {
@@ -19,43 +19,47 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   document.body.appendChild(tooltip);
 
-  // Attach events to each box wrapper
+  // Box interaction handlers
   document.querySelectorAll('.box-wrapper').forEach(box => {
-    box.addEventListener('mouseenter', (e) => {
+    box.addEventListener('mouseenter', e => {
       tooltip.textContent = 'Click to know more';
-      tooltip.style.top = `${e.clientY + 10}px`;
-      tooltip.style.left = `${e.clientX + 10}px`;
+      tooltip.style.top     = `${e.clientY + 10}px`;
+      tooltip.style.left    = `${e.clientX + 10}px`;
       tooltip.style.display = 'block';
     });
-
-    box.addEventListener('mousemove', (e) => {
-      tooltip.style.top = `${e.clientY + 10}px`;
+    box.addEventListener('mousemove', e => {
+      tooltip.style.top  = `${e.clientY + 10}px`;
       tooltip.style.left = `${e.clientX + 10}px`;
     });
-
     box.addEventListener('mouseleave', () => {
       tooltip.style.display = 'none';
     });
-
     box.addEventListener('click', () => {
+      // Show popup with content
       const content = box.querySelector('.box').dataset.content || '';
       popup.querySelector('.popup-content p').innerHTML = content;
-      popup.style.display = 'block';
+      popup.style.display   = 'block';
       overlay.style.display = 'block';
       tooltip.style.display = 'none';
     });
   });
 
-  // Close popup on close button click
+  // Close popup on close button
   closeBtn.addEventListener('click', () => {
-    popup.style.display = 'none';
+    popup.style.display   = 'none';
     overlay.style.display = 'none';
   });
 
-  // Close popup on Escape key
-  document.addEventListener('keydown', (e) => {
+  // Close when clicking overlay
+  overlay.addEventListener('click', () => {
+    popup.style.display   = 'none';
+    overlay.style.display = 'none';
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
-      popup.style.display = 'none';
+      popup.style.display   = 'none';
       overlay.style.display = 'none';
     }
   });
