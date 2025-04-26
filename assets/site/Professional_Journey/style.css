@@ -285,39 +285,6 @@ body {
   background: rgba(var(--FarbeFuenf), 0.4);
 }
 
-/* Remove the row styles or comment them out since we're not using them */
-/*
-.wrapper .row {
-  display: flex;
-  align-items: center;
-}
-
-.wrapper .row-1 {
-  width: 100%;
-  justify-content: space-between;
-}
-
-.wrapper .row-1 .box-wrapper-2 {
-  animation-delay: 4s !important;
-}
-
-.wrapper .row-1 .box-wrapper-3 {
-  animation-delay: 8s !important;
-}
-
-.wrapper .row-2 {
-  width: 100%;
-  justify-content: space-around;
-}
-
-.wrapper .row-2 .box-wrapper-5 {
-  animation-delay: 6s !important;
-}
-
-.wrapper .row-2 .box-wrapper-4 {
-  animation-delay: 2s !important;
-}
-*/
 
 .popup {
   position: fixed;
