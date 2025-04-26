@@ -12,7 +12,6 @@ body {
   display: grid;
   height: 100vh;
   place-items: center;
-  font-family: "Roboto";
   background: transparent;
 }
 
