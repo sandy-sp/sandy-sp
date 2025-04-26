@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // References to popup and overlay
   const popup   = document.getElementById('popup');
   const overlay = document.getElementById('overlay');
   const closeBtn= popup.querySelector('.popup-close');
@@ -15,11 +14,23 @@ document.addEventListener('DOMContentLoaded', () => {
     fontSize: '0.8em',
     borderRadius: '5px',
     display: 'none',
-    zIndex: '1000'
+    zIndex: '1000',
+    pointerEvents: 'none'
   });
   document.body.appendChild(tooltip);
 
-  // Box interaction handlers
+  function openPopup(content) {
+    popup.querySelector('.popup-content p').innerHTML = content;
+    overlay.style.display = 'block';
+    popup.style.display   = 'block';
+  }
+
+  function closePopup() {
+    popup.style.display   = 'none';
+    overlay.style.display = 'none';
+  }
+
+  // Box hover and click handlers
   document.querySelectorAll('.box-wrapper').forEach(box => {
     box.addEventListener('mouseenter', e => {
       tooltip.textContent = 'Click to know more';
@@ -35,32 +46,15 @@ document.addEventListener('DOMContentLoaded', () => {
       tooltip.style.display = 'none';
     });
     box.addEventListener('click', () => {
-      // Show popup with content
       const content = box.querySelector('.box').dataset.content || '';
-      popup.querySelector('.popup-content p').innerHTML = content;
-      popup.style.display   = 'block';
-      overlay.style.display = 'block';
-      tooltip.style.display = 'none';
+      openPopup(content);
     });
   });
 
-  // Close popup on close button
-  closeBtn.addEventListener('click', () => {
-    popup.style.display   = 'none';
-    overlay.style.display = 'none';
-  });
-
-  // Close when clicking overlay
-  overlay.addEventListener('click', () => {
-    popup.style.display   = 'none';
-    overlay.style.display = 'none';
-  });
-
-  // Close on Escape key
+  // Closing triggers
+  closeBtn.addEventListener('click', closePopup);
+  overlay.addEventListener('click', closePopup);
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      popup.style.display   = 'none';
-      overlay.style.display = 'none';
-    }
+    if (e.key === 'Escape') closePopup();
   });
 });
