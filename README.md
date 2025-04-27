@@ -69,7 +69,6 @@ I'm an **AI-Driven Developer** passionate about building innovative solutions wi
 [![USGS](https://img.shields.io/badge/API-USGS-grey)](https://earthquake.usgs.gov/fdsnws/event/1/)
 [![Geopy](https://img.shields.io/badge/Geocoding-Geopy-blue)](https://pypi.org/project/geopy/)
 [![Openpyxl](https://img.shields.io/badge/Excel-openpyxl-1a73e8?logo=microsoft-excel&logoColor=white)](https://pypi.org/project/openpyxl)
-[![Docker](https://img.shields.io/badge/Deploy-Docker-2496ed?logo=docker)](https://www.docker.com)
 
 ---
 
