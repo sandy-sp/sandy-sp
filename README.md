@@ -80,10 +80,6 @@ I'm an **AI-Driven Developer** passionate about building innovative solutions wi
 
 ---
 
-## 🏆GitHub Trophies
-![](https://github-trophies.vercel.app/?username=sandy-sp&theme=onedark&no-frame=false&no-bg=false&margin-w=4)
-
----
 ## ✨ Visitor Counter
 
 <p align="center">
