@@ -69,6 +69,11 @@ I'm an **AI-Driven Developer** passionate about building innovative solutions wi
 [![USGS](https://img.shields.io/badge/API-USGS-grey)](https://earthquake.usgs.gov/fdsnws/event/1/)
 [![Geopy](https://img.shields.io/badge/Geocoding-Geopy-blue)](https://pypi.org/project/geopy/)
 [![Openpyxl](https://img.shields.io/badge/Excel-openpyxl-1a73e8?logo=microsoft-excel&logoColor=white)](https://pypi.org/project/openpyxl)
+![HTML](https://img.shields.io/badge/HTML-E34F26?style=flat&logo=html5&logoColor=white)
+![CSS](https://img.shields.io/badge/CSS-1572B6?style=flat&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
+![Jupyter Notebook](https://img.shields.io/badge/Jupyter_Notebook-F37626?style=flat&logo=jupyter&logoColor=white)
+![Shell](https://img.shields.io/badge/Shell-4EAA25?style=flat&logo=gnu-bash&logoColor=white)
 
 ---
 
