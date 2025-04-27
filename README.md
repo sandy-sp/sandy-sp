@@ -57,6 +57,20 @@ I'm an **AI-Driven Developer** passionate about building innovative solutions wi
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat&logo=linux&logoColor=black)
 [![PyQt5](https://img.shields.io/badge/GUI-PyQt5-green?logo=qt)](https://riverbankcomputing.com/software/pyqt/)
 [![Markdown](https://img.shields.io/badge/Format-Markdown-blue?logo=markdown)](https://daringfireball.net/projects/markdown/)
+[![Streamlit](https://img.shields.io/badge/Built%20with-Streamlit-ff4b4b?logo=streamlit&logoColor=white)](https://streamlit.io)
+[![Plotly](https://img.shields.io/badge/Charts-Plotly-3e4f6a?logo=plotly&logoColor=white)](https://plotly.com)
+[![Folium](https://img.shields.io/badge/Maps-Folium-43a047?logo=leaflet&logoColor=white)](https://python-visualization.github.io/folium/)
+[![GeoPandas](https://img.shields.io/badge/GeoPandas-0.10%2B-green?logo=python&logoColor=white)](https://geopandas.org/)
+[![Matplotlib](https://img.shields.io/badge/Plots-Matplotlib-yellow?logo=python&logoColor=white)](https://matplotlib.org/)
+[![Seaborn](https://img.shields.io/badge/Charts-Seaborn-4B8BBE?logo=python&logoColor=white)](https://seaborn.pydata.org/)
+[![Pandas](https://img.shields.io/badge/Data-Pandas-150458?logo=pandas&logoColor=white)](https://pandas.pydata.org)
+[![Requests](https://img.shields.io/badge/API-Requests-20232a?logo=python&logoColor=white)](https://docs.python-requests.org)
+[![Open-Meteo](https://img.shields.io/badge/API-Open--Meteo-green)](https://open-meteo.com/)
+[![USGS](https://img.shields.io/badge/API-USGS-grey)](https://earthquake.usgs.gov/fdsnws/event/1/)
+[![Geopy](https://img.shields.io/badge/Geocoding-Geopy-blue)](https://pypi.org/project/geopy/)
+[![Openpyxl](https://img.shields.io/badge/Excel-openpyxl-1a73e8?logo=microsoft-excel&logoColor=white)](https://pypi.org/project/openpyxl)
+[![Docker](https://img.shields.io/badge/Deploy-Docker-2496ed?logo=docker)](https://www.docker.com)
+
 ---
 
 ## 🏆GitHub Trophies
