@@ -55,6 +55,8 @@ I'm an **AI-Driven Developer** passionate about building innovative solutions wi
 ![Git](https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white)
 ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat&logo=githubactions&logoColor=white)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat&logo=linux&logoColor=black)
+[![PyQt5](https://img.shields.io/badge/GUI-PyQt5-green?logo=qt)](https://riverbankcomputing.com/software/pyqt/)
+[![Markdown](https://img.shields.io/badge/Format-Markdown-blue?logo=markdown)](https://daringfireball.net/projects/markdown/)
 ---
 
 ## 🏆GitHub Trophies
