@@ -9,6 +9,9 @@
   <a href="https://github.com/sandy-sp?tab=repositories">
     <img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.github.com%2Fusers%2Fsandy-sp&query=%24.public_repos&label=Repositories&color=brightgreen&logo=github&style=for-the-badge" alt="Repositories">
   </a>
+  <a href="https://sandy-sp.info">
+    <img src="https://img.shields.io/badge/Portfolio-sandy--sp.info-4ECDC4?style=for-the-badge&logo=internet-explorer&logoColor=white" alt="Portfolio">
+  </a>
 </p>
 
 ---
@@ -89,8 +92,15 @@ I'm an **AI-Driven Developer** passionate about building innovative solutions wi
   <em>Thanks for visiting! If you find my work useful, consider supporting me with a coffee ☕</em>
   <br>
   <em>📢 I'm currently open to exciting job opportunities in AI development and open-source collaboration. Feel free to <a href="https://www.linkedin.com/in/sandeep-paidipati">connect with me on LinkedIn</a>!</em>
+  <br>
+  <em>🌐 Check out my portfolio at <a href="https://sandy-sp.info">sandy-sp.info</a>!</em>
 </p>
-<p align="center"> <a href="https://buymeacoffee.com/sandeep.paidipati"> <img src="https://img.shields.io/badge/Support_My_Work-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black"> </a> </p>
+
+<p align="center"> 
+  <a href="https://buymeacoffee.com/sandeep.paidipati"> 
+    <img src="https://img.shields.io/badge/Support_My_Work-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black"> 
+  </a> 
+</p>
 
 ---
 
