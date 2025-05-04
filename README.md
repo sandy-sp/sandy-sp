@@ -37,7 +37,13 @@ I'm an **AI-Driven Developer** passionate about building innovative solutions wi
     <img src="https://img.shields.io/badge/Repo-ytgrid-blue?style=for-the-badge&logo=github" alt="ytgrid">
   </a>
   <a href="https://github.com/sandy-sp/Audionomy">
-    <img src="https://img.shields.io/badge/Repo-art--of--data--analysis-blue?style=for-the-badge&logo=github" alt="Audionomy">
+    <img src="https://img.shields.io/badge/Repo-Audionomy-blue?style=for-the-badge&logo=github" alt="Audionomy">
+  </a>
+  <a href="https://github.com/sandy-sp/metadata-cleaner">
+    <img src="https://img.shields.io/badge/Repo-metadata--cleaner-blue?style=for-the-badge&logo=github" alt="metadata-cleaner">
+  </a>
+  <a href="https://github.com/sandy-sp/ai-reply-index">
+    <img src="https://img.shields.io/badge/Repo-ai--reply--index-blue?style=for-the-badge&logo=github" alt="ai-reply-index">
   </a>
 </div>
 
