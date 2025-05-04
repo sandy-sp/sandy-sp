@@ -56,6 +56,19 @@ I'm an **AI-Driven Developer** passionate about building innovative solutions wi
   <iframe src="https://github-widgetbox.vercel.app/api/pin/?username=sandy-sp&repo=art-of-data-analysis&theme=dark" width="400" height="120" frameborder="0"></iframe>
 </div>
 
+<div align="center">
+  <img src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=sandy-sp&theme=dark" alt="Repos Per Language">
+  <img src="https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=sandy-sp&theme=dark" alt="Most Commit Language">
+</div>
+
+<div align="center">
+  <a href="https://github.com/sandy-sp/gittxt">
+    <img src="https://img.shields.io/github/stars/sandy-sp/gittxt?style=social" alt="gittxt">
+  </a>
+  <a href="https://github.com/sandy-sp/art-of-data-analysis">
+    <img src="https://img.shields.io/github/stars/sandy-sp/art-of-data-analysis?style=social" alt="art-of-data-analysis">
+  </a>
+</div>
 ## 🛠️ Tech Stack
 
 ![](https://github-readme-stats.vercel.app/api/top-langs/?username=sandy-sp&theme=dark&hide_border=false&include_all_commits=false&count_private=true&layout=compact)
