@@ -51,29 +51,15 @@ I'm an **AI-Driven Developer** passionate about building innovative solutions wi
 
 ## 📊 GitHub Analytics
 
-<div align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=sandy-sp&show_icons=true&theme=dark" alt="GitHub Stats" width="48%">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=sandy-sp&theme=dark" alt="GitHub Streak" width="50.5%">
-  <img src = "https://github-readme-activity-graph.vercel.app/graph?username=sandy-sp&theme=merko"/>
-</div>
+![GitHub Stats](https://github-readme-stats.vercel.app/api?username=sandy-sp&show_icons=true&theme=dark)
+![GitHub Streak](https://github-readme-streak-stats.herokuapp.com/?user=sandy-sp&theme=dark)
+![Activity Graph](https://github-readme-activity-graph.vercel.app/graph?username=sandy-sp&theme=merko)
 
 ## 🛠️ Tech Stack
 
-<div align="center" style="display: flex; justify-content: center; gap: 10px;">
-  <!-- Most Used Languages -->
-  <img 
-    src="https://github-readme-stats.vercel.app/api/top-langs/?username=sandy-sp&theme=dark&hide_border=false&include_all_commits=false&count_private=true&layout=compact" 
-    alt="Most Used Languages" 
-    width="48%"
-  />
-  
-  <!-- Repos Per Language -->
-  <img 
-    src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=sandy-sp&theme=dark" 
-    alt="Repos Per Language" 
-    width="48%"
-  />
-</div>
+![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=sandy-sp&theme=dark&hide_border=false&include_all_commits=false&count_private=true&layout=compact)
+
+![Repos Per Language](https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=sandy-sp&theme=dark)
 
 ![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=flat&logo=pytorch&logoColor=white)
 ![HuggingFace](https://img.shields.io/badge/HuggingFace-FFD21E?style=flat&logo=huggingface&logoColor=black)
