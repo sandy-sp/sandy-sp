@@ -61,14 +61,6 @@ I'm an **AI-Driven Developer** passionate about building innovative solutions wi
   <img src="https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=sandy-sp&theme=dark" alt="Most Commit Language">
 </div>
 
-<div align="center">
-  <a href="https://github.com/sandy-sp/gittxt">
-    <img src="https://img.shields.io/github/stars/sandy-sp/gittxt?style=social" alt="gittxt">
-  </a>
-  <a href="https://github.com/sandy-sp/art-of-data-analysis">
-    <img src="https://img.shields.io/github/stars/sandy-sp/art-of-data-analysis?style=social" alt="art-of-data-analysis">
-  </a>
-</div>
 ## 🛠️ Tech Stack
 
 ![](https://github-readme-stats.vercel.app/api/top-langs/?username=sandy-sp&theme=dark&hide_border=false&include_all_commits=false&count_private=true&layout=compact)
