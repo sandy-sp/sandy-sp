@@ -51,11 +51,6 @@ I'm an **AI-Driven Developer** passionate about building innovative solutions wi
   <img src = "https://github-readme-activity-graph.vercel.app/graph?username=sandy-sp&theme=merko"/>
 </div>
 
-<div align="center">
-  <iframe src="https://github-widgetbox.vercel.app/api/pin/?username=sandy-sp&repo=gittxt&theme=dark" width="400" height="120" frameborder="0"></iframe>
-  <iframe src="https://github-widgetbox.vercel.app/api/pin/?username=sandy-sp&repo=art-of-data-analysis&theme=dark" width="400" height="120" frameborder="0"></iframe>
-</div>
-
 ## 🛠️ Tech Stack
 
 <div align="center">
