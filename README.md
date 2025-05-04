@@ -59,7 +59,7 @@ I'm an **AI-Driven Developer** passionate about building innovative solutions wi
 
 ## 🛠️ Tech Stack
 
-<div align="center">
+<div align="center" style="display: flex; justify-content: center; gap: 10px;">
   <!-- Most Used Languages -->
   <img 
     src="https://github-readme-stats.vercel.app/api/top-langs/?username=sandy-sp&theme=dark&hide_border=false&include_all_commits=false&count_private=true&layout=compact" 
