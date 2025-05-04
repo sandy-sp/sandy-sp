@@ -32,6 +32,15 @@ I'm an **AI-Driven Developer** passionate about building innovative solutions wi
   </a>
 </div>
 
+<div align="center">
+  <a href="https://github.com/sandy-sp/gittxt">
+    <img src="https://img.shields.io/badge/Repo-gittxt-blue?style=for-the-badge&logo=github" alt="gittxt">
+  </a>
+  <a href="https://github.com/sandy-sp/art-of-data-analysis">
+    <img src="https://img.shields.io/badge/Repo-art--of--data--analysis-blue?style=for-the-badge&logo=github" alt="art-of-data-analysis">
+  </a>
+</div>
+
 ---
 
 ## 📊 GitHub Analytics
@@ -41,7 +50,6 @@ I'm an **AI-Driven Developer** passionate about building innovative solutions wi
   <img src="https://github-readme-streak-stats.herokuapp.com/?user=sandy-sp&theme=dark" alt="GitHub Streak" width="50.5%">
   <img src = "https://github-readme-activity-graph.vercel.app/graph?username=sandy-sp&theme=merko"/>
 </div>
-
 
 
 ## 🛠️ Tech Stack
