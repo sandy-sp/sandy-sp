@@ -56,15 +56,23 @@ I'm an **AI-Driven Developer** passionate about building innovative solutions wi
   <iframe src="https://github-widgetbox.vercel.app/api/pin/?username=sandy-sp&repo=art-of-data-analysis&theme=dark" width="400" height="120" frameborder="0"></iframe>
 </div>
 
-<div align="center">
-  <img src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=sandy-sp&theme=dark" alt="Repos Per Language">
-  <img src="https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=sandy-sp&theme=dark" alt="Most Commit Language">
-</div>
-
 ## 🛠️ Tech Stack
 
-![](https://github-readme-stats.vercel.app/api/top-langs/?username=sandy-sp&theme=dark&hide_border=false&include_all_commits=false&count_private=true&layout=compact)
-
+<div align="center">
+  <!-- Most Used Languages -->
+  <img 
+    src="https://github-readme-stats.vercel.app/api/top-langs/?username=sandy-sp&theme=dark&hide_border=false&include_all_commits=false&count_private=true&layout=compact" 
+    alt="Most Used Languages" 
+    width="48%"
+  />
+  
+  <!-- Repos Per Language -->
+  <img 
+    src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=sandy-sp&theme=dark" 
+    alt="Repos Per Language" 
+    width="48%"
+  />
+</div>
 
 ![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=flat&logo=pytorch&logoColor=white)
 ![HuggingFace](https://img.shields.io/badge/HuggingFace-FFD21E?style=flat&logo=huggingface&logoColor=black)
