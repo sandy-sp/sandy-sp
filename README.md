@@ -51,9 +51,11 @@ I'm an **AI-Driven Developer** passionate about building innovative solutions wi
 
 ## 📊 GitHub Analytics
 
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=sandy-sp&show_icons=true&theme=dark)
-![GitHub Streak](https://github-readme-streak-stats.herokuapp.com/?user=sandy-sp&theme=dark)
-![Activity Graph](https://github-readme-activity-graph.vercel.app/graph?username=sandy-sp&theme=merko)
+<div align="center">
+  <img src="https://github-readme-stats.vercel.app/api?username=sandy-sp&show_icons=true&theme=dark" alt="GitHub Stats" width="48%">
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=sandy-sp&theme=dark" alt="GitHub Streak" width="50.5%">
+  <img src = "https://github-readme-activity-graph.vercel.app/graph?username=sandy-sp&theme=merko"/>
+</div>
 
 ## 🛠️ Tech Stack
 
