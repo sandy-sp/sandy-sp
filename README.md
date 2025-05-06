@@ -59,9 +59,14 @@ I'm an **AI-Driven Developer** passionate about building innovative solutions wi
 
 ## 🛠️ Tech Stack
 
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=sandy-sp&theme=dark&hide_border=false&include_all_commits=false&count_private=true&layout=compact)
-
-![Repos Per Language](https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=sandy-sp&theme=dark)
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <div style="flex: 1; text-align: center;">
+    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=sandy-sp&theme=dark&hide_border=false&include_all_commits=false&count_private=true&layout=compact" alt="Top Languages" />
+  </div>
+  <div style="flex: 1; text-align: center;">
+    <img src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=sandy-sp&theme=dark" alt="Repos Per Language" />
+  </div>
+</div>
 
 ![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=flat&logo=pytorch&logoColor=white)
 ![HuggingFace](https://img.shields.io/badge/HuggingFace-FFD21E?style=flat&logo=huggingface&logoColor=black)
