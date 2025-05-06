@@ -16,7 +16,10 @@
 
 ---
 
-I'm an **AI-Driven Developer** passionate about building innovative solutions with **Generative AI** and **Large Language Models (LLMs)**. Originally a web designer, I've transitioned to AI development through self-directed learning and now focus on creating impactful open-source projects. I specialize in data visualization, real-world problem-solving, and collaboration on meaningful projects.
+I'm an **AI-Driven Developer** with a passion for crafting innovative solutions using **Generative AI** and **Large Language Models (LLMs)**. Transitioning from web design to AI development through self-directed learning, I now specialize in:
+ > - **Data Visualization**: Creating intuitive and impactful visual representations of complex data.
+ > - **Real-World Problem Solving**: Building practical solutions that address real-world challenges.
+ > - **Open-Source Collaboration**: Contributing to and leading meaningful projects in the AI community.
 
 ---
 
