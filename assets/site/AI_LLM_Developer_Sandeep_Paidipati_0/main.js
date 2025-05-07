@@ -65,6 +65,29 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
+// Add neuron firing simulation logic
+const neuronStates = new Array(cubeCount).fill(false);
+const activationDuration = 500; // Duration of activation in milliseconds
+
+function activateNeuron(index) {
+  neuronStates[index] = true;
+  instancedMesh.setColorAt(index, new THREE.Color(0xffff00)); // Bright yellow for firing
+  instancedMesh.instanceColor.needsUpdate = true;
+
+  setTimeout(() => {
+    neuronStates[index] = false;
+    instancedMesh.setColorAt(index, new THREE.Color(0x993333)); // Original color
+    instancedMesh.instanceColor.needsUpdate = true;
+  }, activationDuration);
+}
+
+function simulateNeuronFiring() {
+  const randomIndex = Math.floor(Math.random() * cubeCount);
+  if (!neuronStates[randomIndex]) {
+    activateNeuron(randomIndex);
+  }
+}
+
 // Animation loop
 function animate() {
   requestAnimationFrame(animate);
@@ -82,6 +105,9 @@ function animate() {
   // Rotate the instanced mesh with reduced sensitivity
   instancedMesh.rotation.x += 0.001 + mouse.y * 0.01;
   instancedMesh.rotation.y += 0.001 + mouse.x * 0.01;
+
+  // Simulate neuron firing
+  simulateNeuronFiring();
 
   // Render the scene
   renderer.render(scene, camera);
