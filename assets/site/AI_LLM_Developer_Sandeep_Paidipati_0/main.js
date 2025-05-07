@@ -52,60 +52,6 @@ for (let x = 0; x < gridSize; x++) {
 
 scene.add(instancedMesh);
 
-// Thunderbolt particle system setup
-const thunderboltShape = new THREE.Shape();
-thunderboltShape.moveTo(0, 0);
-thunderboltShape.lineTo(0.2, 0.5);
-thunderboltShape.lineTo(-0.1, 0.5);
-thunderboltShape.lineTo(0.1, 1);
-thunderboltShape.lineTo(-0.2, 0.5);
-thunderboltShape.lineTo(0, 0);
-
-const thunderboltGeometry = new THREE.ShapeGeometry(thunderboltShape);
-thunderboltGeometry.scale(3, 3, 3); // Increase the size of the thunderbolt by scaling it
-const thunderboltMaterial = new THREE.MeshBasicMaterial({ color: 0xFFA500, side: THREE.DoubleSide });
-
-const particlesGroup = new THREE.Group();
-const particleCount = 5000; // Number of particles
-
-// Create particles that move between cubes
-for (let i = 0; i < particleCount; i++) {
-  const particle = new THREE.Mesh(thunderboltGeometry, thunderboltMaterial);
-
-  // Initialize with a starting position within the cube grid bounds
-  const startPos = new THREE.Vector3(
-    (Math.random() - 0.5) * gridSize * spacing,
-    (Math.random() - 0.5) * gridSize * spacing,
-    (Math.random() - 0.5) * gridSize * spacing
-  );
-  particle.position.copy(startPos);
-
-  // Random scale for variation
-  const scale = Math.random() * 0.5 + 0.1;
-  particle.scale.set(scale, scale, scale);
-
-  // Random rotation
-  particle.rotation.set(
-    Math.random() * Math.PI,
-    Math.random() * Math.PI,
-    Math.random() * Math.PI
-  );
-
-  // Save movement info: current target & speed (in userData)
-  particle.userData = {
-    target: new THREE.Vector3(
-      (Math.random() - 0.5) * gridSize * spacing,
-      (Math.random() - 0.5) * gridSize * spacing,
-      (Math.random() - 0.5) * gridSize * spacing
-    ),
-    speed: 0.05 , // control speed factor
-  };
-
-  particlesGroup.add(particle);
-}
-
-instancedMesh.add(particlesGroup);
-
 // Mouse interaction
 window.addEventListener('mousemove', (e) => {
   mouse.x = (e.clientX / window.innerWidth) - 0.5;
@@ -136,27 +82,6 @@ function animate() {
   // Rotate the instanced mesh with reduced sensitivity
   instancedMesh.rotation.x += 0.001 + mouse.y * 0.01;
   instancedMesh.rotation.y += 0.001 + mouse.x * 0.01;
-
-  // Rotate the particle group for a dynamic effect
-  // particlesGroup.rotation.x += 0.001;
-  // particlesGroup.rotation.y += 0.002;
-
-  particlesGroup.children.forEach(particle => {
-    const target = particle.userData.target;
-    const speed = particle.userData.speed;
-
-    // Move the particle gradually towards its target
-    particle.position.lerp(target, speed);
-
-    // Set a new target if the particle is near its current target
-    if (particle.position.distanceTo(target) < 1) {
-      particle.userData.target.set(
-        (Math.random() - 0.5) * gridSize * spacing,
-        (Math.random() - 0.5) * gridSize * spacing,
-        (Math.random() - 0.5) * gridSize * spacing
-      );
-    }
-  });
 
   // Render the scene
   renderer.render(scene, camera);
