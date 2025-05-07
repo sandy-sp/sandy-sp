@@ -67,7 +67,7 @@ window.addEventListener('resize', () => {
 
 // Add neuron firing simulation logic
 const neuronStates = new Array(cubeCount).fill(false);
-const activationDuration = 500; // Duration of activation in milliseconds
+const activationDuration = 3000; // Duration of activation in milliseconds
 
 function activateNeuron(index) {
   neuronStates[index] = true;
