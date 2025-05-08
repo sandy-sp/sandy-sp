@@ -69,10 +69,52 @@ window.addEventListener('resize', () => {
 const neuronStates = new Array(cubeCount).fill(false);
 const activationDuration = 3000; // Duration of activation in milliseconds
 
+// Add pulse effect to activated neurons
+function pulseNeuron(index) {
+  const scale = { value: 1 };
+  const targetScale = 1.5; // Scale up by 1.5x
+  const duration = 500; // Pulse duration in milliseconds
+
+  const animateScale = () => {
+    const matrix = new THREE.Matrix4();
+    const position = new THREE.Vector3();
+    const quaternion = new THREE.Quaternion();
+    const scaleVector = new THREE.Vector3();
+
+    instancedMesh.getMatrixAt(index, matrix);
+    matrix.decompose(position, quaternion, scaleVector);
+
+    scaleVector.set(scale.value, scale.value, scale.value);
+    matrix.compose(position, quaternion, scaleVector);
+
+    instancedMesh.setMatrixAt(index, matrix);
+    instancedMesh.instanceMatrix.needsUpdate = true;
+  };
+
+  // Animate the scale up and down
+  const startTime = performance.now();
+  const animate = () => {
+    const elapsedTime = performance.now() - startTime;
+    if (elapsedTime < duration) {
+      scale.value = 1 + (targetScale - 1) * (elapsedTime / duration);
+      animateScale();
+      requestAnimationFrame(animate);
+    } else {
+      scale.value = 1; // Reset scale
+      animateScale();
+    }
+  };
+
+  animate();
+}
+
+// Update activateNeuron to include pulse effect
 function activateNeuron(index) {
   neuronStates[index] = true;
   instancedMesh.setColorAt(index, new THREE.Color(0xffff00)); // Bright yellow for firing
   instancedMesh.instanceColor.needsUpdate = true;
+
+  pulseNeuron(index); // Add pulse effect
 
   setTimeout(() => {
     neuronStates[index] = false;
