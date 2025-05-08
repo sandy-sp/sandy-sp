@@ -81,11 +81,16 @@ function activateNeuron(index) {
   }, activationDuration);
 }
 
+// Modify simulateNeuronFiring to activate neurons in a sequence
+let currentNeuronIndex = 0;
+
 function simulateNeuronFiring() {
-  const randomIndex = Math.floor(Math.random() * cubeCount);
-  if (!neuronStates[randomIndex]) {
-    activateNeuron(randomIndex);
+  if (!neuronStates[currentNeuronIndex]) {
+    activateNeuron(currentNeuronIndex);
   }
+
+  // Move to the next neuron in sequence
+  currentNeuronIndex = (currentNeuronIndex + 1) % cubeCount;
 }
 
 // Animation loop
