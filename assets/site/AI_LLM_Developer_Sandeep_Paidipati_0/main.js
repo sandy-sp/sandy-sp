@@ -21,7 +21,13 @@ document.body.appendChild(renderer.domElement);
 const cubeCount = 2028; // Number of cubes
 const size = 100;
 const geometry = new THREE.BoxGeometry(1.5, 1.5, 1.5);
-const material = new THREE.MeshBasicMaterial({ color: 993333, transparent: true, opacity: 0.8 });
+const material = new THREE.MeshStandardMaterial({ 
+  color: 0x993333, 
+  metalness: 0.5, // Adds metallic appearance
+  roughness: 0.5, // Adds surface roughness
+  transparent: true, 
+  opacity: 0.8 
+});
 
 instancedMesh = new THREE.InstancedMesh(geometry, material, cubeCount);
 
