@@ -69,16 +69,45 @@ window.addEventListener('resize', () => {
 const neuronStates = new Array(cubeCount).fill(false);
 const activationDuration = 3000; // Duration of activation in milliseconds
 
+// Modify activateNeuron to include gradual color transitions
 function activateNeuron(index) {
   neuronStates[index] = true;
-  instancedMesh.setColorAt(index, new THREE.Color(0xffff00)); // Bright yellow for firing
-  instancedMesh.instanceColor.needsUpdate = true;
 
-  setTimeout(() => {
-    neuronStates[index] = false;
-    instancedMesh.setColorAt(index, new THREE.Color(0x993333)); // Original color
+  const startColor = new THREE.Color(0x993333); // Original color
+  const endColor = new THREE.Color(0xffff00); // Bright yellow for firing
+  const duration = activationDuration / 2; // Half the duration for transition
+
+  let elapsedTime = 0;
+  const interval = 30; // Update every 30ms
+
+  const transitionToActive = setInterval(() => {
+    elapsedTime += interval;
+    const t = Math.min(elapsedTime / duration, 1); // Clamp t between 0 and 1
+    const currentColor = startColor.clone().lerp(endColor, t);
+    instancedMesh.setColorAt(index, currentColor);
     instancedMesh.instanceColor.needsUpdate = true;
-  }, activationDuration);
+
+    if (t === 1) {
+      clearInterval(transitionToActive);
+
+      // Start transition back to original color after a delay
+      setTimeout(() => {
+        let elapsedTimeBack = 0;
+        const transitionToInactive = setInterval(() => {
+          elapsedTimeBack += interval;
+          const tBack = Math.min(elapsedTimeBack / duration, 1);
+          const currentColorBack = endColor.clone().lerp(startColor, tBack);
+          instancedMesh.setColorAt(index, currentColorBack);
+          instancedMesh.instanceColor.needsUpdate = true;
+
+          if (tBack === 1) {
+            clearInterval(transitionToInactive);
+            neuronStates[index] = false;
+          }
+        }, interval);
+      }, duration);
+    }
+  }, interval);
 }
 
 function simulateNeuronFiring() {
