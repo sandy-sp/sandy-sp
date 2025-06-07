@@ -111,7 +111,7 @@ function pulseNeuron(index) {
 // Update activateNeuron to include pulse effect
 function activateNeuron(index) {
   neuronStates[index] = true;
-  instancedMesh.setColorAt(index, new THREE.Color(0xffff00)); // Bright yellow for firing
+  instancedMesh.setColorAt(index, new THREE.Color(0xff0000)); // Red for firing
   instancedMesh.instanceColor.needsUpdate = true;
 
   pulseNeuron(index); // Add pulse effect
