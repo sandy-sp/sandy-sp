@@ -56,6 +56,13 @@ const item = {
   show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } },
 } satisfies Variants;
 
+const heroHighlights = [
+  "LLM App Architecture",
+  "Generative AI Product Design",
+  "Data Visualization",
+  "Full-Stack Delivery",
+];
+
 export function HomePage() {
   return (
     <div className="relative min-h-screen overflow-x-clip bg-[radial-gradient(circle_at_top_right,#f8d7da_0%,#f4f4f5_35%,#ffffff_100%)] text-zinc-800">
@@ -83,45 +90,67 @@ export function HomePage() {
       </header>
 
       <main className="mx-auto flex w-full max-w-6xl flex-col gap-24 px-6 pb-16 pt-14 md:pt-20">
-        <motion.section
-          variants={container}
-          initial="hidden"
-          animate="show"
-          className="space-y-8"
-        >
-          <motion.p
-            variants={item}
-            className="inline-flex rounded-full border border-red-200 bg-red-50 px-4 py-1 text-xs font-semibold tracking-[0.18em] text-red-700 uppercase"
-          >
-            AI Developer Portfolio
-          </motion.p>
-          <motion.h1
-            variants={item}
-            className="max-w-4xl text-4xl leading-tight font-bold tracking-tight text-zinc-900 md:text-6xl"
-          >
-            Sandeep Paidipati — building real-world AI products with LLMs and full-stack engineering.
-          </motion.h1>
-          <motion.p
-            variants={item}
-            className="max-w-3xl text-lg leading-relaxed text-zinc-600"
-          >
-            I design and ship production-minded AI solutions across Generative AI, LLM workflows,
-            and web platforms with clean UX and scalable architecture.
-          </motion.p>
-          <motion.div variants={item} className="flex flex-wrap items-center gap-4">
-            <a
-              href="#projects"
-              className="rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-zinc-700"
+        <motion.section variants={container} initial="hidden" animate="show" className="grid gap-8 lg:grid-cols-[1.35fr_1fr] lg:items-end">
+          <div className="space-y-8">
+            <motion.p
+              variants={item}
+              className="inline-flex rounded-full border border-red-200 bg-red-50 px-4 py-1 text-xs font-semibold tracking-[0.18em] text-red-700 uppercase"
             >
-              View Projects
-            </a>
-            <a
-              href="#contact"
-              className="rounded-full border border-zinc-300 bg-white px-6 py-3 text-sm font-semibold text-zinc-900 transition hover:border-zinc-500"
+              AI Developer Portfolio
+            </motion.p>
+            <motion.h1
+              variants={item}
+              className="max-w-4xl text-4xl leading-[1.05] font-bold tracking-tight text-zinc-900 md:text-6xl"
             >
-              Reach Out
-            </a>
-          </motion.div>
+              Building intelligent products at the intersection of LLM engineering, UX, and full-stack systems.
+            </motion.h1>
+            <motion.p variants={item} className="max-w-3xl text-lg leading-relaxed text-zinc-600">
+              I turn AI concepts into production-ready web experiences with strong technical depth and clean product design.
+            </motion.p>
+            <motion.div variants={item} className="flex flex-wrap items-center gap-4">
+              <a
+                href="#projects"
+                className="rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-zinc-700"
+              >
+                Explore Projects
+              </a>
+              <a
+                href="#contact"
+                className="rounded-full border border-zinc-300 bg-white px-6 py-3 text-sm font-semibold text-zinc-900 transition hover:border-zinc-500"
+              >
+                Let&apos;s Collaborate
+              </a>
+            </motion.div>
+          </div>
+
+          <motion.aside
+            variants={item}
+            className="rounded-3xl border border-zinc-200/90 bg-white/90 p-6 shadow-sm backdrop-blur"
+          >
+            <p className="text-xs font-semibold tracking-[0.15em] text-red-700 uppercase">
+              Focus Areas
+            </p>
+            <div className="mt-4 grid gap-2">
+              {heroHighlights.map((focus) => (
+                <p
+                  key={focus}
+                  className="rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm font-medium text-zinc-700"
+                >
+                  {focus}
+                </p>
+              ))}
+            </div>
+            <div className="mt-6 grid grid-cols-2 gap-4 border-t border-zinc-200 pt-5">
+              <div>
+                <p className="text-2xl font-bold text-zinc-900">2023+</p>
+                <p className="text-xs text-zinc-500 uppercase tracking-wide">AI Specialist</p>
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-zinc-900">15+</p>
+                <p className="text-xs text-zinc-500 uppercase tracking-wide">Builds Shipped</p>
+              </div>
+            </div>
+          </motion.aside>
         </motion.section>
 
         <section id="about" className="grid gap-8 rounded-3xl border border-zinc-200 bg-white/90 p-8 shadow-sm md:grid-cols-3">
