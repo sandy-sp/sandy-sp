@@ -41,9 +41,7 @@ export function TopNavigation() {
       <nav className="nav-shell__inner">
         <div className="nav-shell__brand">
           <Link href="/" className="nav-shell__brand-link">
-            Sandeep
-            <span className="nav-shell__brand-dot" aria-hidden="true" />
-            Paidipati
+            Sandy-SP
           </Link>
         </div>
 
