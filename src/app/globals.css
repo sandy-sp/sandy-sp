@@ -241,6 +241,7 @@ main {
 }
 
 .rolling-switch--compact .rolling-switch__icon--right {
+  left: auto;
   right: 0.32rem;
 }
 
