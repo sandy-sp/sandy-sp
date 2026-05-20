@@ -13,6 +13,7 @@
   --brand-shadow: 0 0 16px rgba(185, 28, 28, 0.35);
   --toggle-shadow: 0 10px 24px rgba(185, 28, 28, 0.25);
   --toggle-sun: #111111;
+  --toggle-moon: #4b5563;
 }
 
 @theme inline {
@@ -34,6 +35,7 @@
   --brand-shadow: 0 0 26px rgba(248, 113, 113, 0.7);
   --toggle-shadow: 0 10px 24px rgba(248, 113, 113, 0.35);
   --toggle-sun: #d4d4d8;
+  --toggle-moon: #f4f4f5;
 }
 
 body {
@@ -260,8 +262,8 @@ main {
   position: absolute;
   left: 0.38rem;
   top: 0.38rem;
-  color: var(--toggle-sun);
-  opacity: 1;
+  color: var(--toggle-moon);
+  opacity: 0;
   pointer-events: none;
   transition:
     transform 0.5s cubic-bezier(0.65, 0, 0.35, 1),
@@ -272,7 +274,8 @@ main {
 .rolling-switch__icon--right {
   left: auto;
   right: 0.38rem;
-  opacity: 0;
+  opacity: 1;
+  color: var(--toggle-sun);
 }
 
 .rolling-switch__inner {
@@ -292,12 +295,10 @@ main {
 }
 
 .rolling-switch__input:checked ~ .rolling-switch__icon {
-  opacity: 0;
+  opacity: 1;
   transform: rotate(280deg);
-  color: #d4d4d8;
 }
 
 .rolling-switch__input:checked ~ .rolling-switch__icon--right {
-  opacity: 1;
-  color: #f4f4f5;
+  opacity: 0;
 }
