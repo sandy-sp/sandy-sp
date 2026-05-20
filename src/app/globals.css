@@ -10,6 +10,8 @@
   --border: rgba(15, 23, 42, 0.08);
   --pill-border: rgba(185, 28, 28, 0.35);
   --shadow: 0 18px 40px rgba(185, 28, 28, 0.18);
+  --brand-shadow: 0 6px 18px rgba(185, 28, 28, 0.35);
+  --toggle-shadow: 0 10px 24px rgba(185, 28, 28, 0.25);
 }
 
 @theme inline {
@@ -28,6 +30,8 @@
   --border: rgba(244, 244, 245, 0.12);
   --pill-border: rgba(248, 113, 113, 0.35);
   --shadow: 0 18px 40px rgba(185, 28, 28, 0.3);
+  --brand-shadow: 0 6px 18px rgba(248, 113, 113, 0.45);
+  --toggle-shadow: 0 10px 24px rgba(248, 113, 113, 0.35);
 }
 
 body {
@@ -61,6 +65,7 @@ body {
   font-weight: 600;
   text-decoration: none;
   color: var(--foreground);
+  text-shadow: var(--brand-shadow);
 }
 
 .brand-accent {
@@ -187,7 +192,8 @@ body {
   height: 1.5rem;
   border-radius: 999px;
   background: var(--background);
-  border: 1px solid var(--muted);
+  border: 1px solid var(--pill-border);
+  box-shadow: var(--toggle-shadow);
   appearance: none;
   cursor: pointer;
   transition: background-color 0.35s ease, border-color 0.35s ease;
@@ -199,7 +205,7 @@ body {
   position: absolute;
   left: 0.38rem;
   top: 0.38rem;
-  color: #a1a1aa;
+  color: var(--accent);
   pointer-events: none;
   transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1), color 0.35s ease;
 }
@@ -227,7 +233,7 @@ body {
 
 .rolling-switch__input:checked ~ .rolling-switch__icon {
   transform: rotate(280deg);
-  color: #71717a;
+  color: #d4d4d8;
 }
 
 .rolling-switch__input:checked ~ .rolling-switch__icon--right {

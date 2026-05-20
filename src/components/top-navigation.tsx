@@ -12,7 +12,7 @@ const links = [
 
 const socialLinks = [
   { href: "mailto:sandeep.paidipati@gmail.com", label: "Email" },
-  { href: "https://lindedin.com/in/sandy-sp", label: "in" },
+  { href: "https://linkedin.com/in/sandy-sp", label: "in" },
   { href: "https://github.com/sandy-sp", label: "GitHub" },
 ];
 
