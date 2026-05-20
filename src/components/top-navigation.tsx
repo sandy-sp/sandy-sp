@@ -11,10 +11,9 @@ const links = [
 ];
 
 const socialLinks = [
-  { href: "#", label: "Email" },
-  { href: "https://www.linkedin.com/in/sandeep-paidipati", label: "in" },
-  { href: "#", label: "x" },
-  { href: "#", label: "Be" },
+  { href: "mailto:sandeep.paidipati@gmail.com", label: "Email" },
+  { href: "https://lindedin.com/in/sandy-sp", label: "in" },
+  { href: "https://github.com/sandy-sp", label: "GitHub" },
 ];
 
 export function TopNavigation() {
@@ -41,7 +40,11 @@ export function TopNavigation() {
       <nav className="nav-shell__inner">
         <div className="nav-shell__brand">
           <Link href="/" className="nav-shell__brand-link">
-            Sandy-SP
+            Sandy
+            <span className="brand-accent" aria-hidden="true">
+              -
+            </span>
+            SP
           </Link>
         </div>
 
