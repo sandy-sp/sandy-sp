@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { PostHogProvider } from "@/components/posthog-provider";
-import { TopNavigation } from "@/components/top-navigation";
+import { ThemeProvider, themeNoFlashScript } from "@/components/theme-provider";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { TopPopDown } from "@/components/top-pop-down";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,12 +30,19 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeNoFlashScript }} />
+      </head>
       <body className="min-h-full flex flex-col">
-        <PostHogProvider>
-          <TopNavigation />
-          {children}
-        </PostHogProvider>
+        <ThemeProvider>
+          <PostHogProvider>
+            <TopPopDown />
+            {children}
+            <ThemeToggle />
+          </PostHogProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

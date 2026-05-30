@@ -23,6 +23,7 @@
 # misc
 .DS_Store
 *.pem
+*.lock
 
 # debug
 npm-debug.log*
@@ -40,3 +41,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# blender source (served copy lives in public/models)
+/src/logo-sp/

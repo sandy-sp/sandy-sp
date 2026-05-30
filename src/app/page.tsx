@@ -1,3 +1,9 @@
+import { ParticleBackground } from "@/components/particle-background";
+
 export default function Home() {
-  return <main className="min-h-[calc(100vh-4rem)]" />;
+  return (
+    <main className="home-shell">
+      <ParticleBackground />
+    </main>
+  );
 }
