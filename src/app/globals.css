@@ -74,6 +74,140 @@ main {
   pointer-events: none;
 }
 
+.particle-sphere-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+}
+
+.decoder-name {
+  --sphere-radius: min(29vw, 29svh);
+  position: fixed;
+  top: calc(50svh - var(--sphere-radius) - clamp(7.4rem, 11.2vw, 10.2rem));
+  left: clamp(1rem, 4vw, 4rem);
+  z-index: 8;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(-0.35rem, 0, 0);
+  transition:
+    opacity 640ms ease,
+    transform 640ms ease;
+}
+
+.decoder-name--ready {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.decoder-name__text {
+  --decoder-color: #000000;
+  min-width: 8ch;
+  margin: 0;
+  color: var(--decoder-color) !important;
+  font-family: var(--font-share-tech-mono), var(--font-geist-mono), monospace;
+  font-size: clamp(3rem, 5.9vw, 5.45rem);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1;
+  text-shadow: 0 0 14px rgba(153, 51, 51, 0.22);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.decoder-name__prompt {
+  display: inline-block;
+  margin-right: 0.34ch;
+}
+
+.decoder-name__output span {
+  display: inline-block;
+  min-width: 0.5ch;
+  position: relative;
+  will-change: contents;
+}
+
+[data-theme="light"] .decoder-name__text {
+  --decoder-color: #000000;
+  text-shadow: 0 0 10px rgba(153, 51, 51, 0.14);
+}
+
+[data-theme="dark"] .decoder-name__text {
+  --decoder-color: #ffffff;
+  text-shadow:
+    0 0 10px rgba(255, 255, 255, 0.22),
+    0 0 18px rgba(153, 51, 51, 0.28);
+}
+
+.decoder-name__cursor {
+  display: inline-block;
+  width: 0.58ch;
+  height: 0.82em;
+  margin-left: 0.2ch;
+  min-width: 0;
+  vertical-align: -0.08em;
+  animation: decoder-cursor-blink 0.85s steps(1, end) infinite;
+  background: var(--decoder-color) !important;
+  box-shadow: 0 0 10px rgba(153, 51, 51, 0.22);
+}
+
+.decoder-name__subtitle {
+  max-width: calc(100vw - 2.5rem);
+  margin: 0.68rem 0 0 0.08ch;
+  color: var(--decoder-color, #000000);
+  font-family: var(--font-share-tech-mono), var(--font-geist-mono), monospace;
+  font-size: clamp(1.38rem, 2.34vw, 1.98rem);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.14;
+  opacity: 0.9;
+  text-shadow: 0 0 8px rgba(153, 51, 51, 0.1);
+  white-space: nowrap;
+}
+
+.decoder-name__subtitle p {
+  min-height: 1.14em;
+  margin: 0;
+}
+
+.decoder-name__subtitle p + p {
+  margin-top: 0.16rem;
+}
+
+.decoder-name__subtitle-output--active::after {
+  display: inline-block;
+  width: 0.5ch;
+  height: 0.78em;
+  margin-left: 0.16ch;
+  vertical-align: -0.08em;
+  background: currentColor;
+  content: "";
+  animation: decoder-cursor-blink 0.85s steps(1, end) infinite;
+}
+
+[data-theme="light"] .decoder-name__subtitle {
+  color: #000000;
+}
+
+[data-theme="dark"] .decoder-name__subtitle {
+  color: #ffffff;
+  opacity: 0.74;
+}
+
+@keyframes decoder-cursor-blink {
+  0%,
+  48% {
+    opacity: 1;
+  }
+
+  49%,
+  100% {
+    opacity: 0;
+  }
+}
+
 .theme-toggle-shell {
   position: fixed;
   left: clamp(1rem, 3vw, 2.5rem);

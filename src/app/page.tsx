@@ -1,9 +1,11 @@
-import { ParticleBackground } from "@/components/particle-background";
+import { DecoderName } from "@/components/decoder-name";
+import { ParticleSphereLoader } from "@/components/particle-sphere-loader";
 
 export default function Home() {
   return (
     <main className="home-shell">
-      <ParticleBackground />
+      <ParticleSphereLoader />
+      <DecoderName />
     </main>
   );
 }
