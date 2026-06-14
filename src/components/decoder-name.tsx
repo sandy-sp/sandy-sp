@@ -3,30 +3,56 @@
 import { useEffect, useRef, useState } from "react";
 
 const words = ["Sandeep", "Sandy", "Sandy-SP"];
-const subtitleLines = ["// Agentic AI & Gen AI Application Developer"];
 const scrambleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_-+=[]{}|;:,.<>?";
 const nameHoldDuration = 3200;
 
 export function DecoderName() {
   const textRef = useRef<HTMLSpanElement>(null);
-  const subtitleRefs = useRef<Array<HTMLSpanElement | null>>([]);
   const [isSphereReady, setIsSphereReady] = useState(false);
-  const [activeSubtitleLine, setActiveSubtitleLine] = useState<number | null>(null);
+  const [isExiting, setIsExiting] = useState(false);
+  const [isScrollDismissed, setIsScrollDismissed] = useState(false);
+  const [promptHidden, setPromptHidden] = useState(false);
 
   useEffect(() => {
     const handleSpinStart = () => {
       setIsSphereReady(true);
     };
 
+    const handleEarthMorph = () => {
+      setIsExiting(true);
+    };
+
+    // Canvas persists across navigations; reveal on the next frame if it already spun up.
+    let frame = 0;
+
+    if ((window as typeof window & { __sphereSpun?: boolean }).__sphereSpun) {
+      frame = window.requestAnimationFrame(handleSpinStart);
+    }
+
     window.addEventListener("sphere-spin-start", handleSpinStart, { once: true });
+    window.addEventListener("sphere-morph-earth", handleEarthMorph, { once: true });
 
     return () => {
+      window.cancelAnimationFrame(frame);
       window.removeEventListener("sphere-spin-start", handleSpinStart);
+      window.removeEventListener("sphere-morph-earth", handleEarthMorph);
     };
   }, []);
 
+  // Scroll on the home page deletes the name; below the threshold it types again.
   useEffect(() => {
-    if (!isSphereReady) {
+    const handleHomeScroll = (event: Event) => {
+      const detail = (event as CustomEvent<{ progress: number }>).detail;
+      setIsScrollDismissed(Boolean(detail) && detail.progress > 0.02);
+    };
+
+    window.addEventListener("home-scroll", handleHomeScroll);
+
+    return () => window.removeEventListener("home-scroll", handleHomeScroll);
+  }, []);
+
+  useEffect(() => {
+    if (!isSphereReady || isExiting || isScrollDismissed) {
       return;
     }
 
@@ -52,10 +78,6 @@ export function DecoderName() {
         span.textContent = char === " " ? "\u00a0" : char;
         textElement.appendChild(span);
       }
-    };
-
-    const renderLine = (element: HTMLSpanElement, value: string) => {
-      element.textContent = value;
     };
 
     const scrambleNextCharacter = async (prefix: string, finalChar: string) => {
@@ -109,13 +131,6 @@ export function DecoderName() {
       let currentWord = "";
 
       renderText("");
-      setActiveSubtitleLine(null);
-
-      for (const element of subtitleRefs.current) {
-        if (element) {
-          renderLine(element, "");
-        }
-      }
 
       await sleep(reducedMotion.matches ? 160 : 520);
 
@@ -125,34 +140,6 @@ export function DecoderName() {
         return;
       }
 
-      await sleep(reducedMotion.matches ? 180 : 420);
-
-      for (let lineIndex = 0; lineIndex < subtitleLines.length; lineIndex += 1) {
-        const element = subtitleRefs.current[lineIndex];
-        const line = subtitleLines[lineIndex];
-
-        if (!element) {
-          continue;
-        }
-
-        let current = "";
-        setActiveSubtitleLine(lineIndex);
-        await sleep(reducedMotion.matches ? 40 : 160);
-
-        for (const char of line) {
-          if (cancelled) {
-            return;
-          }
-
-          current += char;
-          renderLine(element, current);
-          await sleep(reducedMotion.matches ? 8 : 26);
-        }
-
-        await sleep(reducedMotion.matches ? 60 : 180);
-      }
-
-      setActiveSubtitleLine(null);
       await sleep(reducedMotion.matches ? 360 : 760);
 
       let wordIndex = 1;
@@ -176,35 +163,74 @@ export function DecoderName() {
 
     return () => {
       cancelled = true;
-      setActiveSubtitleLine(null);
     };
-  }, [isSphereReady]);
+  }, [isSphereReady, isExiting, isScrollDismissed]);
+
+  // On scroll-dismiss, delete the current text character by character, then hide the #.
+  // Restores the prompt when scrolled back up (the typing effect re-runs).
+  useEffect(() => {
+    if (!isSphereReady || isExiting) {
+      return;
+    }
+
+    if (!isScrollDismissed) {
+      const id = window.requestAnimationFrame(() => setPromptHidden(false));
+      return () => window.cancelAnimationFrame(id);
+    }
+
+    const textElement = textRef.current;
+
+    if (!textElement) {
+      return;
+    }
+
+    let cancelled = false;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const sleep = (duration: number) =>
+      new Promise<void>((resolve) => window.setTimeout(resolve, duration));
+
+    const run = async () => {
+      let text = textElement.textContent ?? "";
+
+      if (reduced) {
+        textElement.textContent = "";
+        setPromptHidden(true);
+        return;
+      }
+
+      while (text.length > 0 && !cancelled) {
+        text = text.slice(0, -1);
+        textElement.textContent = text;
+        await sleep(85);
+      }
+
+      if (!cancelled) {
+        await sleep(160);
+        setPromptHidden(true);
+      }
+    };
+
+    void run();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [isScrollDismissed, isSphereReady, isExiting]);
 
   return (
-    <div className={`decoder-name${isSphereReady ? " decoder-name--ready" : ""}`} aria-label="Sandeep, Sandy, Sandy-SP">
+    <div
+      className={`decoder-name${isSphereReady ? " decoder-name--ready" : ""}${isExiting ? " decoder-name--exit" : ""}`}
+      aria-label="Sandeep, Sandy, Sandy-SP"
+    >
       {isSphereReady ? (
         <>
-          <h1 className="decoder-name__text">
+          <h1 className={`decoder-name__text${promptHidden ? " decoder-name__text--bare" : ""}`}>
             <span className="decoder-name__prompt" aria-hidden="true">
               #
             </span>
             <span className="decoder-name__output" ref={textRef} />
             <span className="decoder-name__cursor" aria-hidden="true" />
           </h1>
-          <div className="decoder-name__subtitle">
-            {subtitleLines.map((line, index) => (
-              <p key={line}>
-                <span
-                  className={`decoder-name__subtitle-output${
-                    activeSubtitleLine === index ? " decoder-name__subtitle-output--active" : ""
-                  }`}
-                  ref={(node) => {
-                    subtitleRefs.current[index] = node;
-                  }}
-                />
-              </p>
-            ))}
-          </div>
         </>
       ) : null}
     </div>

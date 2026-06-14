@@ -44,3 +44,6 @@ next-env.d.ts
 
 # blender source (served copy lives in public/models)
 /src/logo-sp/
+
+# claude code local settings + skills
+/.claude/

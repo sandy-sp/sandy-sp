@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Share_Tech_Mono } from "next/font/google";
 import "./globals.css";
+import { ParticleSphereLoader } from "@/components/particle-sphere-loader";
 import { PostHogProvider } from "@/components/posthog-provider";
+import { SphereSceneController } from "@/components/sphere-scene-controller";
 import { ThemeProvider, themeNoFlashScript } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -34,15 +36,17 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${shareTechMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${shareTechMono.variable} antialiased`}
       suppressHydrationWarning
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeNoFlashScript }} />
       </head>
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-screen flex flex-col">
         <ThemeProvider>
           <PostHogProvider>
+            <ParticleSphereLoader />
+            <SphereSceneController />
             {children}
             <ThemeToggle />
           </PostHogProvider>

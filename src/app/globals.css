@@ -3,7 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #212529;
-  --muted: #767676;
+  --muted: #5f5f5f;
   --accent: #993333;
   --surface: rgba(255, 255, 255, 0.68);
   --surface-strong: rgba(255, 255, 255, 0.95);
@@ -14,11 +14,23 @@
   --toggle-shadow: 0 10px 30px rgba(153, 51, 51, 0.3);
   --toggle-sun: #111111;
   --toggle-moon: #767676;
+
+  /* Motion tokens — one rhythm across the site. Enter = ease-out, exit = ease-in. */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in: cubic-bezier(0.55, 0, 1, 0.45);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 220ms;
+  --dur-base: 360ms;
+  --dur-slow: 640ms;
+  --dur-cinematic: 900ms;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+  --color-surface: var(--surface);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -26,7 +38,7 @@
 [data-theme="dark"] {
   --background: #111215;
   --foreground: #f4f4f5;
-  --muted: #767676;
+  --muted: #a1a1a1;
   --surface: rgba(17, 18, 21, 0.7);
   --surface-strong: rgba(30, 30, 34, 0.95);
   --border: rgba(244, 244, 245, 0.12);
@@ -39,7 +51,13 @@
 }
 
 body {
-  background: var(--background);
+  /* Decorative backdrop lives here (behind the persistent canvas in the layout) so the
+     transparent .home-shell never paints over the canvas. */
+  background:
+    radial-gradient(circle at 18% 18%, rgba(153, 51, 51, 0.1), transparent 20rem),
+    radial-gradient(circle at 82% 20%, rgba(118, 118, 118, 0.1), transparent 24rem),
+    var(--background);
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   text-rendering: optimizeLegibility;
@@ -58,11 +76,8 @@ main {
   min-height: 100svh;
   max-width: none;
   padding: 0;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 18% 18%, rgba(153, 51, 51, 0.1), transparent 20rem),
-    radial-gradient(circle at 82% 20%, rgba(118, 118, 118, 0.1), transparent 24rem),
-    var(--background);
+  overflow-x: clip;
+  background: transparent;
 }
 
 .particle-background {
@@ -70,7 +85,7 @@ main {
   inset: 0;
   z-index: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   pointer-events: none;
 }
 
@@ -79,22 +94,38 @@ main {
   inset: 0;
   z-index: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
+  pointer-events: none;
+}
+
+/* View Work swaps in the WebGL floating-objects background; hide the particle canvas. */
+html.route-work .particle-sphere-loader {
+  display: none;
+}
+
+.work-bg-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100vw;
+  height: 100dvh;
   pointer-events: none;
 }
 
 .decoder-name {
   --sphere-radius: min(29vw, 29svh);
+  --decoder-edge-gap: clamp(1rem, 4vw, 4rem);
   position: fixed;
-  top: calc(50svh - var(--sphere-radius) - clamp(7.4rem, 11.2vw, 10.2rem));
-  left: clamp(1rem, 4vw, 4rem);
+  top: clamp(1.25rem, calc(50svh - var(--sphere-radius) - clamp(7.4rem, 11.2vw, 10.2rem)), 8.5rem);
+  left: var(--decoder-edge-gap);
+  max-width: calc(100vw - (var(--decoder-edge-gap) * 2));
   z-index: 8;
   opacity: 0;
   pointer-events: none;
   transform: translate3d(-0.35rem, 0, 0);
   transition:
-    opacity 640ms ease,
-    transform 640ms ease;
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
 }
 
 .decoder-name--ready {
@@ -108,7 +139,7 @@ main {
   margin: 0;
   color: var(--decoder-color) !important;
   font-family: var(--font-share-tech-mono), var(--font-geist-mono), monospace;
-  font-size: clamp(3rem, 5.9vw, 5.45rem);
+  font-size: clamp(2.25rem, 5.45vw, 5.45rem);
   font-weight: 400;
   letter-spacing: 0;
   line-height: 1;
@@ -120,6 +151,17 @@ main {
 .decoder-name__prompt {
   display: inline-block;
   margin-right: 0.34ch;
+  transition: opacity var(--dur-base) var(--ease-in);
+}
+
+/* After the name is deleted on scroll, the # prompt and cursor disappear too. The
+   cursor's blink keyframes set opacity, so we must stop the animation, not just set
+   opacity:0 (a running animation would override it and keep flashing). */
+.decoder-name__text--bare .decoder-name__prompt,
+.decoder-name__text--bare .decoder-name__cursor {
+  opacity: 0;
+  animation: none;
+  transition: opacity var(--dur-base) var(--ease-in);
 }
 
 .decoder-name__output span {
@@ -153,47 +195,528 @@ main {
   box-shadow: 0 0 10px rgba(153, 51, 51, 0.22);
 }
 
-.decoder-name__subtitle {
-  max-width: calc(100vw - 2.5rem);
-  margin: 0.68rem 0 0 0.08ch;
-  color: var(--decoder-color, #000000);
+.decoder-name--exit {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(-2.4rem, -1.4rem, 0);
+  filter: blur(3px);
+  transition:
+    opacity 760ms ease-in,
+    transform 760ms ease-in,
+    filter 760ms ease-in;
+}
+
+.decoder-name--exit .decoder-name__text {
+  letter-spacing: 0.42ch;
+  transition: letter-spacing 760ms ease-in;
+}
+
+/* Scroll track: in normal flow so its height natively expands the document, giving
+   the window real scrollY distance. The canvas stays fixed/full-viewport behind it. */
+.timeline-stage {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  min-height: 300vh;
+  pointer-events: none;
+}
+
+/* Right pane: offset past the left ~42% canvas region and laid out in normal flow so
+   the biography blocks scroll up past the pinned map instead of bunching in a corner. */
+.timeline-column {
+  margin-left: 42%;
+  width: auto;
+  padding: 92svh clamp(1.5rem, 4vw, 4.5rem) 24svh clamp(1rem, 3vw, 3rem);
+  opacity: 0;
+  pointer-events: none;
+  color: var(--foreground);
+  transition: opacity 200ms linear;
+}
+
+.timeline-column__eyebrow {
+  margin: 0 0 1.5rem;
+  color: var(--accent);
   font-family: var(--font-share-tech-mono), var(--font-geist-mono), monospace;
-  font-size: clamp(1.38rem, 2.34vw, 1.98rem);
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: 1.14;
-  opacity: 0.9;
-  text-shadow: 0 0 8px rgba(153, 51, 51, 0.1);
-  white-space: nowrap;
+  font-size: 0.74rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
 }
 
-.decoder-name__subtitle p {
-  min-height: 1.14em;
+.timeline-column__list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8svh, 16svh, 22svh);
   margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.decoder-name__subtitle p + p {
-  margin-top: 0.16rem;
+.timeline-block {
+  border-left: 1px solid var(--border);
+  padding-left: clamp(1rem, 2vw, 1.75rem);
 }
 
-.decoder-name__subtitle-output--active::after {
+.timeline-block__year {
+  display: block;
+  margin-bottom: 0.55rem;
+  color: var(--muted);
+  font-family: var(--font-share-tech-mono), var(--font-geist-mono), monospace;
+  font-size: 0.74rem;
+  letter-spacing: 0.18em;
+}
+
+.timeline-block__title {
+  margin: 0 0 0.7rem;
+  font-family: var(--font-share-tech-mono), var(--font-geist-mono), monospace;
+  font-size: clamp(1.4rem, 3vw, 2.4rem);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.05;
+}
+
+.timeline-block__body {
+  max-width: 38ch;
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: clamp(0.92rem, 1.4vw, 1.08rem);
+  line-height: 1.5;
+}
+
+@media (max-width: 760px) {
+  .timeline-column {
+    margin-left: 22%;
+    padding-top: 86svh;
+  }
+}
+
+/* Intro lock: prevents native scroll until the globe reaches EARTH_LOCK. Toggled off
+   the moment the rotation locks so the 300vh track scrolls freely from then on. */
+html.scroll-locked {
+  overflow: hidden;
+}
+
+.scroll-cue {
+  position: fixed;
+  bottom: clamp(1.4rem, 4.5svh, 2.6rem);
+  left: 50%;
+  z-index: 8;
+  color: var(--foreground);
+  font-family: var(--font-share-tech-mono), var(--font-geist-mono), monospace;
+  font-size: clamp(0.78rem, 1.4vw, 1rem);
+  letter-spacing: 0.08ch;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(-50%, 0.8rem, 0);
+  text-shadow: 0 0 10px rgba(153, 51, 51, 0.2);
+  transition:
+    opacity var(--dur-cinematic) var(--ease-out),
+    transform var(--dur-cinematic) var(--ease-out);
+}
+
+.scroll-cue--visible {
+  opacity: 0.85;
+  transform: translate3d(-50%, 0, 0);
+  animation: scroll-cue-pulse 2.6s ease-in-out 1.2s infinite;
+}
+
+/* Home scroll track: extends the document so the page has scroll distance for the
+   sphere -> tesseract morph. The canvas stays fixed/full-viewport behind it. */
+.home-bio__spacer {
+  width: 100%;
+  height: 950vh;
+  pointer-events: none;
+}
+
+/* AI fields — pinned center, revealed one by one on scroll over the network. */
+.home-ai {
+  position: fixed;
+  inset: 0;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.home-ai__inner {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 5vh, 3.75rem);
+  width: 100%;
+  max-width: min(62ch, 86vw);
+  padding: 0 clamp(1.5rem, 5vw, 3rem);
+}
+
+.home-ai__card {
+  border-left: 1px solid var(--border);
+  padding-left: clamp(1rem, 2vw, 1.75rem);
+  will-change: opacity, transform;
+}
+
+.home-ai__num {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--accent);
+  font-family: var(--font-share-tech-mono), var(--font-geist-mono), monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+}
+
+.home-ai__title {
+  margin: 0 0 0.7rem;
+  color: var(--foreground);
+  font-family: var(--font-share-tech-mono), var(--font-geist-mono), monospace;
+  font-size: clamp(1.5rem, 3.4vw, 2.6rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.06;
+  text-shadow: 0 0 16px rgba(153, 51, 51, 0.16);
+}
+
+.home-ai__body {
+  margin: 0;
+  max-width: 46ch;
+  color: var(--muted);
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: clamp(0.95rem, 1.4vw, 1.18rem);
+  line-height: 1.6;
+}
+
+/* Section 4 — contact card under the SOCIAL particle text. */
+.home-social {
+  position: fixed;
+  inset: 0;
+  z-index: 6;
+  display: flex;
+  align-items: flex-end;
+  pointer-events: none;
+}
+
+.home-social__grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  width: 100%;
+  padding: clamp(1.5rem, 4vw, 4rem);
+  padding-bottom: clamp(2rem, 6vh, 5rem);
+  will-change: opacity, transform;
+}
+
+.home-social__box {
+  max-width: min(58ch, 60vw);
+  padding: clamp(1.25rem, 2.5vw, 2.25rem);
+  border: 0.5px solid var(--border);
+  border-radius: 1rem;
+  background: var(--surface);
+  backdrop-filter: blur(16px) saturate(1.1);
+}
+
+.home-social__lead {
+  margin: 0 0 clamp(1.25rem, 3vh, 2rem);
+  color: var(--foreground);
+  font-family: var(--font-share-tech-mono), var(--font-geist-mono), monospace;
+  font-size: clamp(1.1rem, 2.2vw, 1.9rem);
+  line-height: 1.3;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+.home-social__muted {
+  color: var(--muted);
+}
+
+.home-social__face {
+  color: var(--accent);
+}
+
+.home-social__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(0.6rem, 1.2vw, 1rem);
+}
+
+.home-social__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5ch;
+  min-height: 2.75rem;
+  padding: 0 clamp(1rem, 1.8vw, 1.5rem);
+  border: 0.5px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--foreground);
+  font-family: var(--font-share-tech-mono), var(--font-geist-mono), monospace;
+  font-size: clamp(0.8rem, 1.1vw, 0.95rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition:
+    border-color var(--dur-base) var(--ease-out),
+    color var(--dur-base) var(--ease-out),
+    background-color var(--dur-base) var(--ease-out);
+}
+
+.home-social__btn:hover,
+.home-social__btn:focus-visible {
+  outline: none;
+  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--accent);
+}
+
+.home-social__aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: clamp(1rem, 2vh, 2rem);
+}
+
+.home-social__logo {
+  border: 0.5px solid var(--border);
+  border-radius: 1rem;
+  padding: clamp(0.75rem, 1.5vw, 1.25rem);
+  background: var(--surface);
+  backdrop-filter: blur(16px) saturate(1.1);
+}
+
+.home-social__footer {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-share-tech-mono), var(--font-geist-mono), monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+}
+
+@media (max-width: 760px) {
+  .home-social__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-social__box {
+    max-width: none;
+  }
+
+  .home-social__aside {
+    align-items: flex-start;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+
+/* Bio panel: pinned to the right half, vertically centered, faded in by scroll (JS sets
+   opacity + translateX). The tesseract slides into the left half as this appears. */
+.home-bio__panel {
+  position: fixed;
+  top: 0;
+  right: clamp(1.5rem, 5vw, 5rem);
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100svh;
+  max-width: min(48ch, 48vw);
+  margin: 0;
+  text-align: left;
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
+  /* Scroll-scrubbed: JS sets opacity each frame, so keep the transition short to track
+     the scroll tightly instead of perpetually chasing a long ease. */
+  transition: opacity 120ms linear;
+}
+
+.home-bio__red {
+  color: var(--accent);
+}
+
+.home-bio__caret {
   display: inline-block;
   width: 0.5ch;
-  height: 0.78em;
-  margin-left: 0.16ch;
-  vertical-align: -0.08em;
-  background: currentColor;
-  content: "";
+  height: 1em;
+  margin: 0 0.06ch -0.12em;
+  background: var(--accent);
   animation: decoder-cursor-blink 0.85s steps(1, end) infinite;
 }
 
-[data-theme="light"] .decoder-name__subtitle {
-  color: #000000;
+.home-bio__heading {
+  margin: 0 0 1.4rem;
+  color: var(--foreground);
+  font-family: var(--font-share-tech-mono), var(--font-geist-mono), monospace;
+  font-size: clamp(1.9rem, 4.4vw, 3.6rem);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.04;
+  text-shadow: 0 0 18px rgba(153, 51, 51, 0.18);
 }
 
-[data-theme="dark"] .decoder-name__subtitle {
-  color: #ffffff;
-  opacity: 0.74;
+.home-bio__body {
+  margin: 0;
+  max-width: 42ch;
+  color: var(--muted);
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: clamp(0.95rem, 1.4vw, 1.18rem);
+  line-height: 1.6;
+}
+
+.home-bio__body + .home-bio__body {
+  margin-top: 1.1rem;
+}
+
+@media (max-width: 760px) {
+  /* Drop the hero name below the nav dock so they don't collide near the top. */
+  .decoder-name {
+    top: clamp(4.75rem, 13svh, 7rem);
+  }
+
+  /* Object is centered on mobile, so the bio becomes a translucent card over it. */
+  .home-bio__panel {
+    left: clamp(0.9rem, 4vw, 1.5rem);
+    right: clamp(0.9rem, 4vw, 1.5rem);
+    top: 50%;
+    bottom: auto;
+    height: auto;
+    max-height: 84svh;
+    overflow: hidden;
+    transform: translateY(-50%);
+    padding: clamp(1.1rem, 4.5vw, 1.6rem);
+    border: 0.5px solid var(--border);
+    border-radius: 1rem;
+    background: var(--surface);
+    backdrop-filter: blur(16px) saturate(1.1);
+    text-align: left;
+  }
+
+  .home-bio__heading {
+    margin-bottom: 1rem;
+    font-size: clamp(1.5rem, 7vw, 2.2rem);
+  }
+
+  .home-bio__body {
+    max-width: none;
+    margin-left: 0;
+    font-size: clamp(0.9rem, 3.7vw, 1.05rem);
+  }
+}
+
+.home-whisper {
+  --sphere-radius: min(29vw, 29svh);
+  position: fixed;
+  /* Sit just under the sphere (center 50svh + radius + gap), clamped so it never
+     runs off the bottom on short viewports. Right-aligned on the right half. */
+  top: min(
+    calc(50svh + var(--sphere-radius) + clamp(1.25rem, 4svh, 2.75rem)),
+    calc(100svh - 6.5rem)
+  );
+  right: clamp(1.1rem, 4vw, 3.5rem);
+  z-index: 8;
+  max-width: min(90vw, 40ch);
+  margin: 0;
+  color: var(--foreground);
+  font-family: var(--font-share-tech-mono), var(--font-geist-mono), monospace;
+  font-size: clamp(1rem, 1.7vw, 1.45rem);
+  line-height: 1.45;
+  text-align: right;
+  text-shadow: 0 0 10px rgba(153, 51, 51, 0.16);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(0, 0.8rem, 0);
+  transition:
+    opacity var(--dur-cinematic) var(--ease-out) 200ms,
+    transform var(--dur-cinematic) var(--ease-out) 200ms;
+}
+
+.home-whisper--visible {
+  opacity: 0.82;
+  transform: translate3d(0, 0, 0);
+}
+
+.home-whisper p {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.home-whisper__char {
+  display: inline-block;
+  white-space: pre;
+  transition: opacity var(--dur-slow) var(--ease-in);
+}
+
+.home-whisper p + p {
+  margin-top: 0.3rem;
+}
+
+.home-whisper__face {
+  color: var(--accent);
+}
+
+.home-whisper__shout {
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+
+.home-whisper__arrow {
+  display: inline-block;
+  margin-left: 0.15ch;
+  animation: scroll-cue-pulse 2.6s ease-in-out 1.2s infinite;
+}
+
+@media (max-width: 760px) {
+  /* Object is centered on mobile; move the whisper to the bottom and let it wrap. */
+  .home-whisper {
+    top: auto;
+    bottom: clamp(5.5rem, 20svh, 9rem);
+    left: clamp(1rem, 5vw, 2rem);
+    right: clamp(1rem, 5vw, 2rem);
+    max-width: none;
+    text-align: center;
+    font-size: clamp(0.85rem, 4vw, 1.05rem);
+  }
+
+  .home-whisper p {
+    white-space: normal;
+  }
+
+  .home-ai__inner {
+    gap: clamp(1.5rem, 5vh, 2.5rem);
+    padding: clamp(1.25rem, 5vw, 1.75rem);
+    border: 0.5px solid var(--border);
+    border-radius: 1rem;
+    background: var(--surface);
+    backdrop-filter: blur(14px) saturate(1.1);
+  }
+
+  .home-ai__title {
+    font-size: clamp(1.4rem, 6.5vw, 2rem);
+  }
+
+  .home-social__lead {
+    font-size: clamp(1.05rem, 5vw, 1.5rem);
+  }
+}
+
+@keyframes scroll-cue-pulse {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+
+  50% {
+    opacity: 0.45;
+  }
 }
 
 @keyframes decoder-cursor-blink {
@@ -312,4 +835,17 @@ main {
 
 .rolling-switch__input:checked ~ .rolling-switch__icon--right {
   opacity: 0;
+}
+
+/* Honor OS reduced-motion: kill blink/pulse loops and collapse transitions.
+   JS paths already branch on the media query; this covers pure-CSS motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
