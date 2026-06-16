@@ -1,9 +1,9 @@
-import { DecoderName } from "@/components/decoder-name";
-import { HomeAiFields } from "@/components/home-ai-fields";
-import { HomeBio } from "@/components/home-bio";
-import { HomeNavOverlay } from "@/components/home-nav-overlay";
-import { HomeSocial } from "@/components/home-social";
-import { HomeWhisper } from "@/components/home-whisper";
+import { DecoderName } from "@/components/home/decoder-name";
+import { HomeAiFields } from "@/components/home/home-ai-fields";
+import { HomeBio } from "@/components/home/home-bio";
+import { HomeNavOverlay } from "@/components/shared/home-nav-overlay";
+import { HomeSocial } from "@/components/home/home-social";
+import { HomeWhisper } from "@/components/home/home-whisper";
 
 export default function Home() {
   return (

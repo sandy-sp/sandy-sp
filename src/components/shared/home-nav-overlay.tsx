@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { NavLogo } from "@/components/nav-logo";
+import { NavLogo } from "@/components/shared/nav-logo";
 
 type NavCell = {
   label: string;

@@ -1,5 +1,5 @@
-import { HomeNavOverlay } from "@/components/home-nav-overlay";
-import { WorkBackground } from "@/components/work-background";
+import { HomeNavOverlay } from "@/components/shared/home-nav-overlay";
+import { WorkBackground } from "@/components/work/work-background";
 
 export default function OpenSourceProjectsPage() {
   return (

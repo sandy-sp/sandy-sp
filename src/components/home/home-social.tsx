@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { NavLogo } from "@/components/nav-logo";
+import { NavLogo } from "@/components/shared/nav-logo";
 
 function smoothstep(edge0: number, edge1: number, value: number) {
   const t = Math.max(0, Math.min(1, (value - edge0) / (edge1 - edge0)));

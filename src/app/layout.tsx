@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Share_Tech_Mono } from "next/font/google";
 import "./globals.css";
-import { ParticleSphereLoader } from "@/components/particle-sphere-loader";
-import { PostHogProvider } from "@/components/posthog-provider";
-import { SphereSceneController } from "@/components/sphere-scene-controller";
-import { ThemeProvider, themeNoFlashScript } from "@/components/theme-provider";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { ParticleSphereLoader } from "@/components/shared/particle-sphere-loader";
+import { PostHogProvider } from "@/components/shared/posthog-provider";
+import { SphereSceneController } from "@/components/shared/sphere-scene-controller";
+import { ThemeProvider, themeNoFlashScript } from "@/components/shared/theme-provider";
+import { ThemeToggle } from "@/components/shared/theme-toggle";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
