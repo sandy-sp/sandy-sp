@@ -19,6 +19,11 @@ export function SphereSceneController() {
       "route-work",
       pathname.startsWith("/open-source-projects"),
     );
+
+    // Home enables scroll-snapping between its four sections.
+    document.documentElement.classList.toggle("route-home", pathname === "/");
+
+    return () => document.documentElement.classList.remove("route-home");
   }, [pathname]);
 
   return null;

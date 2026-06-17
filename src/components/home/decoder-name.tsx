@@ -82,7 +82,9 @@ export function DecoderName() {
 
     const scrambleNextCharacter = async (prefix: string, finalChar: string) => {
       if (reducedMotion.matches || finalChar === " ") {
-        renderText(prefix + finalChar);
+        if (!cancelled) {
+          renderText(prefix + finalChar);
+        }
         await sleep(55);
         return;
       }
@@ -96,8 +98,12 @@ export function DecoderName() {
         await sleep(58);
       }
 
-      renderText(prefix + finalChar);
-      await sleep(90);
+      // Only commit the settled character if we weren't cancelled mid-scramble —
+      // otherwise this would re-write a char after the scroll-dismiss delete cleared it.
+      if (!cancelled) {
+        renderText(prefix + finalChar);
+        await sleep(90);
+      }
     };
 
     const typeWord = async (word: string) => {

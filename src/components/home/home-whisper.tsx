@@ -13,7 +13,12 @@ type Seg = { t: string; c?: string };
 const LINES: Seg[][] = [
   [{ t: "Oh, didn't see you there " }, { t: "ツ", c: "home-whisper__face" }],
   [{ t: "Now, " }, { t: "WHY DON'T YOU SCROLL DOWN", c: "home-whisper__shout" }],
-  [{ t: "To Know More About ME " }, { t: "↓", c: "home-whisper__arrow" }],
+  [
+    { t: "To Know More About " },
+    { t: "ME", c: "home-whisper__me" },
+    { t: " " },
+    { t: "↓", c: "home-whisper__arrow" },
+  ],
 ];
 
 // Global running character index where each [line][segment] starts (built once at load,
@@ -32,6 +37,15 @@ const SEG_BASES: number[][] = (() => {
 export function HomeWhisper() {
   const [isReady, setIsReady] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  // The seeded per-char delays use Math.sin, which serializes with different float
+  // precision on server vs client. Apply them only after mount to avoid a hydration
+  // mismatch (which would otherwise leave the subtree un-patched).
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const id = window.requestAnimationFrame(() => setMounted(true));
+    return () => window.cancelAnimationFrame(id);
+  }, []);
 
   useEffect(() => {
     if ((window as typeof window & { __sphereSpun?: boolean }).__sphereSpun) {
@@ -70,8 +84,9 @@ export function HomeWhisper() {
                     key={i}
                     className="home-whisper__char"
                     style={{
-                      opacity: isScrolled ? 0 : 1,
-                      transitionDelay: isScrolled ? `${seeded(i) * 0.55}s` : "0s",
+                      // Each character fades in (and later out) at its own random moment.
+                      opacity: isReady && !isScrolled ? 1 : 0,
+                      transitionDelay: mounted ? `${seeded(i) * 0.6}s` : "0s",
                     }}
                   >
                     {ch === " " ? " " : ch}

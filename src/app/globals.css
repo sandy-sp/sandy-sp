@@ -322,12 +322,18 @@ html.scroll-locked {
   animation: scroll-cue-pulse 2.6s ease-in-out 1.2s infinite;
 }
 
-/* Home scroll track: extends the document so the page has scroll distance for the
-   sphere -> tesseract morph. The canvas stays fixed/full-viewport behind it. */
-.home-bio__spacer {
+/* Home scroll track: four blocks whose tops are the section snap points. Their summed
+   height is the scroll distance that paces the morph. Canvas stays fixed behind them. */
+.home-snap {
   width: 100%;
-  height: 950vh;
   pointer-events: none;
+  scroll-snap-align: start;
+}
+
+/* Snap between the four home sections on scroll up/down. */
+html.route-home {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
 }
 
 /* AI fields — pinned center, revealed one by one on scroll over the network. */
@@ -636,17 +642,13 @@ html.scroll-locked {
   line-height: 1.45;
   text-align: right;
   text-shadow: 0 0 10px rgba(153, 51, 51, 0.16);
+  /* Container is just a gate now; the per-character fade does the entrance/exit. */
   opacity: 0;
   pointer-events: none;
-  transform: translate3d(0, 0.8rem, 0);
-  transition:
-    opacity var(--dur-cinematic) var(--ease-out) 200ms,
-    transform var(--dur-cinematic) var(--ease-out) 200ms;
 }
 
 .home-whisper--visible {
   opacity: 0.82;
-  transform: translate3d(0, 0, 0);
 }
 
 .home-whisper p {
@@ -673,9 +675,21 @@ html.scroll-locked {
   letter-spacing: 0.02em;
 }
 
+.home-whisper__me {
+  color: var(--accent);
+}
+
 .home-whisper__arrow {
-  display: inline-block;
-  margin-left: 0.15ch;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.7em;
+  height: 1.7em;
+  margin-left: 0.45ch;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  color: var(--accent);
+  vertical-align: middle;
   animation: scroll-cue-pulse 2.6s ease-in-out 1.2s infinite;
 }
 

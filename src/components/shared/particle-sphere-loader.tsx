@@ -886,12 +886,12 @@ export function ParticleSphereLoader() {
     let aboutMorphScheduled = false;
     let homeScroll = 0;
     let homeScrollTarget = 0;
-    // Mouse parallax: the hero sphere drifts opposite the cursor. Targets are normalized
-    // [-1,1] from screen center; rendered values ease toward them each frame.
+    // Mouse drives the hero sphere's rotation (it stays in place). Targets are normalized
+    // [-1,1] from screen center; spinYaw/spinTilt ease toward them as rotation offsets.
     let pointerTargetX = 0;
     let pointerTargetY = 0;
-    let parallaxX = 0;
-    let parallaxY = 0;
+    let spinYaw = 0;
+    let spinTilt = 0;
     let tessAssignments: TessAssign[] = [];
     let netNodes: { hx: number; hy: number; vx: number; vy: number }[] = [];
     let socialTargets: ({ x: number; y: number } | null)[] = [];
@@ -1181,11 +1181,15 @@ export function ParticleSphereLoader() {
     const drawSphere = (now: number, width: number, height: number, dtFactor: number, darkMode: boolean) => {
       const spinElapsed = state === "HOME" ? Math.max(0, now - homeStartedAt - settleDelay) : 0;
       const spinRamp = clamp(spinElapsed / spinRampDuration, 0, 1);
-      const renderYaw = reducedMotion ? 0 : spinElapsed * 0.00012 * spinRamp;
-      const renderTilt = renderYaw * 0.42;
+      const baseYaw = reducedMotion ? 0 : spinElapsed * 0.00012 * spinRamp;
+      const baseTilt = baseYaw * 0.42;
       const spinVelocityPerMs = spinRamp >= 1 ? 0.00012 : (2 * spinElapsed * 0.00012) / spinRampDuration;
-      lastHomeYaw = renderYaw;
+      // Base (auto-spin) drives the morph hand-off; mouse spin is a hero-only extra offset.
+      lastHomeYaw = baseYaw;
       lastHomeYawVelocity = reducedMotion ? 0 : spinVelocityPerMs * 16.667;
+      const heroFactor = clamp(1 - homeScroll / 0.32, 0, 1);
+      const renderYaw = baseYaw + spinYaw * heroFactor;
+      const renderTilt = baseTilt + spinTilt * heroFactor;
 
       const formed = state !== "FORMING";
       const overallMorph = formed || reducedMotion ? 1 : clamp(morphFrame / transitionFrames, 0, 1);
@@ -1205,10 +1209,8 @@ export function ParticleSphereLoader() {
       // On narrow screens keep the object centered (text panels stack as cards instead of
       // sitting to the right); on wider screens slide it left for the split layout.
       const leftEnd = width < 760 ? 0.5 : 0.28;
-      // Opposite-to-cursor parallax, strongest on the hero sphere and gone once morphed.
-      const parAmount = Math.min(width, height) * 0.05 * (1 - ph1);
-      const homeCenterX = mix(width / 2, width * leftEnd, leftShift) - parallaxX * parAmount;
-      const centerY = height / 2 - parallaxY * parAmount;
+      const homeCenterX = mix(width / 2, width * leftEnd, leftShift);
+      const centerY = height / 2;
       const tessActive = ph1 > 0.001;
       const tessScale = mesh.radius * 0.46;
       const angleXW = reducedMotion ? 0.6 : now * 0.00025;
@@ -1813,14 +1815,14 @@ export function ParticleSphereLoader() {
       lastFrameAt = now;
       const darkMode = document.documentElement.dataset.theme === "dark";
 
-      // Ease parallax toward the cursor target (disabled under reduced motion).
+      // Ease the sphere's mouse-driven spin offset (rotates toward the cursor).
       if (reducedMotion) {
-        parallaxX = 0;
-        parallaxY = 0;
+        spinYaw = 0;
+        spinTilt = 0;
       } else {
-        const k = clamp(0.06 * dtFactor, 0, 1);
-        parallaxX += (pointerTargetX - parallaxX) * k;
-        parallaxY += (pointerTargetY - parallaxY) * k;
+        const k = clamp(0.05 * dtFactor, 0, 1);
+        spinYaw += (pointerTargetX * 0.45 - spinYaw) * k;
+        spinTilt += (pointerTargetY * 0.3 - spinTilt) * k;
       }
 
       // Ease the scroll-driven home morph toward its target while idling on the sphere.

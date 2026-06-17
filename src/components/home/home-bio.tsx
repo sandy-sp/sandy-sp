@@ -121,7 +121,11 @@ export function HomeBio() {
 
   return (
     <>
-      <div className="home-bio__spacer" aria-hidden="true" />
+      {/* Scroll track split into 4 snap blocks; each block top lands on a section
+          (hero / about / focus / social). Total height = pacing for the morph. */}
+      {["255vh", "255vh", "332vh", "108vh"].map((height, i) => (
+        <div key={i} className="home-snap" style={{ height }} aria-hidden="true" />
+      ))}
       <div ref={panelRef} className="home-bio__panel">
         <div ref={innerRef} className="home-bio__inner">
         {SEGMENTS.map((seg, i) => {
