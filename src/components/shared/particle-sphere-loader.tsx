@@ -886,6 +886,12 @@ export function ParticleSphereLoader() {
     let aboutMorphScheduled = false;
     let homeScroll = 0;
     let homeScrollTarget = 0;
+    // Mouse parallax: the hero sphere drifts opposite the cursor. Targets are normalized
+    // [-1,1] from screen center; rendered values ease toward them each frame.
+    let pointerTargetX = 0;
+    let pointerTargetY = 0;
+    let parallaxX = 0;
+    let parallaxY = 0;
     let tessAssignments: TessAssign[] = [];
     let netNodes: { hx: number; hy: number; vx: number; vy: number }[] = [];
     let socialTargets: ({ x: number; y: number } | null)[] = [];
@@ -1199,8 +1205,10 @@ export function ParticleSphereLoader() {
       // On narrow screens keep the object centered (text panels stack as cards instead of
       // sitting to the right); on wider screens slide it left for the split layout.
       const leftEnd = width < 760 ? 0.5 : 0.28;
-      const homeCenterX = mix(width / 2, width * leftEnd, leftShift);
-      const centerY = height / 2;
+      // Opposite-to-cursor parallax, strongest on the hero sphere and gone once morphed.
+      const parAmount = Math.min(width, height) * 0.05 * (1 - ph1);
+      const homeCenterX = mix(width / 2, width * leftEnd, leftShift) - parallaxX * parAmount;
+      const centerY = height / 2 - parallaxY * parAmount;
       const tessActive = ph1 > 0.001;
       const tessScale = mesh.radius * 0.46;
       const angleXW = reducedMotion ? 0.6 : now * 0.00025;
@@ -1805,6 +1813,16 @@ export function ParticleSphereLoader() {
       lastFrameAt = now;
       const darkMode = document.documentElement.dataset.theme === "dark";
 
+      // Ease parallax toward the cursor target (disabled under reduced motion).
+      if (reducedMotion) {
+        parallaxX = 0;
+        parallaxY = 0;
+      } else {
+        const k = clamp(0.06 * dtFactor, 0, 1);
+        parallaxX += (pointerTargetX - parallaxX) * k;
+        parallaxY += (pointerTargetY - parallaxY) * k;
+      }
+
       // Ease the scroll-driven home morph toward its target while idling on the sphere.
       if (state === "HOME") {
         if (reducedMotion) {
@@ -1948,6 +1966,11 @@ export function ParticleSphereLoader() {
       }
     };
 
+    const handlePointerMove = (event: PointerEvent) => {
+      pointerTargetX = (event.clientX / window.innerWidth) * 2 - 1;
+      pointerTargetY = (event.clientY / window.innerHeight) * 2 - 1;
+    };
+
     resize();
 
     // Skip the loading screen: particles assemble straight into the sphere from their
@@ -1962,6 +1985,7 @@ export function ParticleSphereLoader() {
     window.addEventListener("earth-zoom", handleZoom);
     window.addEventListener("sphere-scene", handleScene);
     window.addEventListener("home-scroll", handleHomeScroll);
+    window.addEventListener("pointermove", handlePointerMove, { passive: true });
 
     return () => {
       window.cancelAnimationFrame(animationFrame);
@@ -1972,6 +1996,7 @@ export function ParticleSphereLoader() {
       window.removeEventListener("earth-zoom", handleZoom);
       window.removeEventListener("sphere-scene", handleScene);
       window.removeEventListener("home-scroll", handleHomeScroll);
+      window.removeEventListener("pointermove", handlePointerMove);
     };
   }, []);
 

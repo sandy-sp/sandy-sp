@@ -2,10 +2,7 @@
 
 import { Fragment, useEffect, useRef, useState } from "react";
 
-function smoothstep(edge0: number, edge1: number, value: number) {
-  const t = Math.max(0, Math.min(1, (value - edge0) / (edge1 - edge0)));
-  return t * t * (3 - 2 * t);
-}
+import { revealStyle, smoothstep } from "@/lib/scroll-motion";
 
 // Phase 1 is P 0->0.32 (sphere -> tesseract). The bio types within it and the panel
 // retires before phase 2 (the particle network / AI fields) begins.
@@ -57,6 +54,7 @@ const SEGMENT_STARTS = SEGMENTS.map((_, i) =>
 
 export function HomeBio() {
   const panelRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
   const [revealChars, setRevealChars] = useState(0);
 
   useEffect(() => {
@@ -73,15 +71,25 @@ export function HomeBio() {
 
       window.dispatchEvent(new CustomEvent("home-scroll", { detail: { progress } }));
 
+      // Fade in during phase 1, then back out as phase 2 (AI fields) takes over.
+      const panelIn = smoothstep(0.06, 0.15, progress);
+      const panelOut = smoothstep(0.3, 0.34, progress);
+      const visible = panelIn * (1 - panelOut);
       const panel = panelRef.current;
+      const inner = innerRef.current;
 
       if (panel) {
-        // Fade in during phase 1, then back out as phase 2 (AI fields) takes over.
-        const panelIn = smoothstep(0.06, 0.14, progress);
-        const panelOut = smoothstep(0.29, 0.33, progress);
-        const visible = panelIn * (1 - panelOut);
+        // Opacity on the panel so the mobile card background fades with the text.
         panel.style.opacity = `${visible}`;
         panel.style.pointerEvents = visible > 0.5 ? "auto" : "none";
+      }
+
+      if (inner) {
+        // Directional rise + blur on the content (transform stays off the panel so the
+        // mobile centering transform isn't clobbered).
+        const s = revealStyle(panelIn, panelOut, reduced);
+        inner.style.transform = s.transform as string;
+        inner.style.filter = s.filter as string;
       }
 
       const charProgress = reduced
@@ -115,6 +123,7 @@ export function HomeBio() {
     <>
       <div className="home-bio__spacer" aria-hidden="true" />
       <div ref={panelRef} className="home-bio__panel">
+        <div ref={innerRef} className="home-bio__inner">
         {SEGMENTS.map((seg, i) => {
           const segStart = SEGMENT_STARTS[i];
 
@@ -152,6 +161,7 @@ export function HomeBio() {
             </p>
           );
         })}
+        </div>
       </div>
     </>
   );

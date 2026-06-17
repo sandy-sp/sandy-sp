@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 const words = ["Sandeep", "Sandy", "Sandy-SP"];
 const scrambleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_-+=[]{}|;:,.<>?";
-const nameHoldDuration = 3200;
+const nameHoldDuration = 5500;
 
 export function DecoderName() {
   const textRef = useRef<HTMLSpanElement>(null);
@@ -88,16 +88,16 @@ export function DecoderName() {
       }
 
       const startedAt = performance.now();
-      const duration = 280;
+      const duration = 480;
 
       while (!cancelled && performance.now() - startedAt < duration) {
         const randomIndex = Math.floor(Math.random() * scrambleChars.length);
         renderText(prefix + scrambleChars[randomIndex]);
-        await sleep(32);
+        await sleep(58);
       }
 
       renderText(prefix + finalChar);
-      await sleep(62);
+      await sleep(90);
     };
 
     const typeWord = async (word: string) => {
@@ -121,7 +121,7 @@ export function DecoderName() {
       while (current.length > 0 && !cancelled) {
         current = current.slice(0, -1);
         renderText(current);
-        await sleep(reducedMotion.matches ? 80 : 95);
+        await sleep(reducedMotion.matches ? 90 : 120);
       }
 
       return current;
@@ -132,7 +132,8 @@ export function DecoderName() {
 
       renderText("");
 
-      await sleep(reducedMotion.matches ? 160 : 520);
+      // Wait for the nav to drop and the decoder to slide in from the left before typing.
+      await sleep(reducedMotion.matches ? 200 : 1150);
 
       currentWord = await typeWord(words[0]);
 
@@ -140,13 +141,14 @@ export function DecoderName() {
         return;
       }
 
-      await sleep(reducedMotion.matches ? 360 : 760);
+      // Hold the first name on screen the full duration before cycling.
+      await sleep(reducedMotion.matches ? 1800 : nameHoldDuration);
 
       let wordIndex = 1;
 
       while (!cancelled) {
         await deleteWord(currentWord);
-        await sleep(240);
+        await sleep(380);
 
         currentWord = await typeWord(words[wordIndex]);
 

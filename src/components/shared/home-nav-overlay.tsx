@@ -73,11 +73,28 @@ function useScramble(target: string) {
   return { display, start };
 }
 
-function BentoCell({ cell, active }: { cell: NavCell; active: boolean }) {
+function BentoCell({
+  cell,
+  active,
+  side,
+}: {
+  cell: NavCell;
+  active: boolean;
+  side: "left" | "center" | "right";
+}) {
   const { display, start } = useScramble(cell.label);
 
+  // Outer corner is pill-round, inner corner (toward the logo) stays tight.
+  const rounding =
+    side === "left"
+      ? "rounded-l-full rounded-r-md"
+      : side === "right"
+        ? "rounded-r-full rounded-l-md"
+        : "rounded-md";
+
   const boxedClass = [
-    "group flex items-center justify-center rounded-md border-[0.5px] px-3 py-2 sm:px-5 sm:py-3 text-center backdrop-blur-md",
+    "group flex items-center justify-center border-[0.5px] px-4 py-2 sm:px-6 sm:py-3 text-center backdrop-blur-md",
+    rounding,
     "transition-[border-color,background-color,box-shadow] duration-300 ease-out min-h-11",
     "hover:border-accent/50 hover:bg-accent/10 hover:shadow-[0_0_18px_-6px_var(--accent)]",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-0",
@@ -143,22 +160,24 @@ export function HomeNavOverlay() {
     };
   }, []);
 
+  // Float down from above the top edge on entry; float back up out of frame on scroll.
   const stateClass = isScrolled
-    ? "-translate-y-[160%] opacity-0"
+    ? "-translate-y-[180%] opacity-0"
     : isReady
       ? "translate-y-0 opacity-100"
-      : "-translate-y-2 opacity-0";
+      : "-translate-y-[180%] opacity-0";
   const pointerClass = isReady && !isScrolled ? "pointer-events-auto" : "pointer-events-none";
 
   return (
     <nav
       aria-label="Primary"
-      className={`fixed left-1/2 top-4 z-[9] grid -translate-x-1/2 grid-cols-3 gap-2 transition-[opacity,transform] duration-700 ease-out ${stateClass} ${pointerClass}`}
+      className={`fixed left-1/2 top-4 z-[9] flex -translate-x-1/2 items-stretch gap-1 transition-[opacity,translate] duration-700 ease-out ${stateClass} ${pointerClass}`}
     >
-      {cells.map((cell) => (
+      {cells.map((cell, i) => (
         <BentoCell
           key={cell.label}
           cell={cell}
+          side={i === 0 ? "left" : i === cells.length - 1 ? "right" : "center"}
           active={cell.href === "/" ? pathname === "/" : pathname.startsWith(cell.href)}
         />
       ))}

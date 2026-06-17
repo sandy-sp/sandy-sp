@@ -3,11 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { NavLogo } from "@/components/shared/nav-logo";
-
-function smoothstep(edge0: number, edge1: number, value: number) {
-  const t = Math.max(0, Math.min(1, (value - edge0) / (edge1 - edge0)));
-  return t * t * (3 - 2 * t);
-}
+import { revealStyle, smoothstep } from "@/lib/scroll-motion";
 
 type SocialLink = { label: string; href: string };
 
@@ -33,22 +29,21 @@ export function HomeSocial() {
     return () => window.removeEventListener("home-scroll", handle);
   }, []);
 
-  const reveal = smoothstep(0.74, 0.9, progress);
   const visible = progress > 0.68;
+  const overall = smoothstep(0.74, 0.9, progress);
+  // Staggered child windows so the card assembles piece by piece.
+  const leadStyle = revealStyle(smoothstep(0.74, 0.84, progress));
+  const asideStyle = revealStyle(smoothstep(0.8, 0.92, progress));
 
   return (
     <div className="home-social" style={{ visibility: visible ? "visible" : "hidden" }}>
       <h2 className="sr-only">Social</h2>
       <div
         className="home-social__grid"
-        style={{
-          opacity: reveal,
-          transform: `translateY(${(1 - reveal) * 1.6}rem)`,
-          pointerEvents: reveal > 0.5 ? "auto" : "none",
-        }}
+        style={{ pointerEvents: overall > 0.5 ? "auto" : "none" }}
       >
         <div className="home-social__box">
-          <p className="home-social__lead">
+          <p className="home-social__lead" style={leadStyle}>
             <span className="home-social__muted">And that&rsquo;s all,</span>
             <br />
             <span className="home-social__muted">folks</span>{" "}
@@ -57,10 +52,11 @@ export function HomeSocial() {
             together or just say hi, hit me up
           </p>
           <div className="home-social__buttons">
-            {LINKS.map((link) => (
+            {LINKS.map((link, i) => (
               <a
                 key={link.label}
                 className="home-social__btn"
+                style={revealStyle(smoothstep(0.8 + i * 0.03, 0.9 + i * 0.03, progress))}
                 href={link.href}
                 target={link.href.startsWith("mailto:") ? undefined : "_blank"}
                 rel={link.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
@@ -70,7 +66,7 @@ export function HomeSocial() {
             ))}
           </div>
         </div>
-        <div className="home-social__aside">
+        <div className="home-social__aside" style={asideStyle}>
           <div className="home-social__logo">
             <NavLogo className="block h-20 w-20 sm:h-28 sm:w-28" />
           </div>

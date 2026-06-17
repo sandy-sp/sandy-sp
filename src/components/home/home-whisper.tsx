@@ -13,7 +13,7 @@ type Seg = { t: string; c?: string };
 const LINES: Seg[][] = [
   [{ t: "Oh, didn't see you there " }, { t: "ツ", c: "home-whisper__face" }],
   [{ t: "Now, " }, { t: "WHY DON'T YOU SCROLL DOWN", c: "home-whisper__shout" }],
-  [{ t: "For Good Stuff " }, { t: "↓", c: "home-whisper__arrow" }],
+  [{ t: "To Know More About ME " }, { t: "↓", c: "home-whisper__arrow" }],
 ];
 
 // Global running character index where each [line][segment] starts (built once at load,
