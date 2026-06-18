@@ -72,7 +72,12 @@ export function HomeWhisper() {
   }, []);
 
   return (
-    <div className={`home-whisper${isReady ? " home-whisper--visible" : ""}`} aria-hidden={!isReady}>
+    <div
+      className={`home-whisper${isReady ? " home-whisper--visible" : ""}${
+        isScrolled ? " home-whisper--scrolled" : ""
+      }`}
+      aria-hidden={!isReady}
+    >
       {LINES.map((line, li) => (
         <p key={li}>
           {line.map((seg, si) => (

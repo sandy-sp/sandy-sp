@@ -4,10 +4,13 @@ import { Fragment, useEffect, useRef, useState } from "react";
 
 import { revealStyle, smoothstep } from "@/lib/scroll-motion";
 
-// Phase 1 is P 0->0.32 (sphere -> tesseract). The bio types within it and the panel
-// retires before phase 2 (the particle network / AI fields) begins.
-const REVEAL_START = 0.12;
-const REVEAL_END = 0.29;
+// Section 2 = P 0 -> 0.40 (sphere -> tesseract). The whole section's scroll is the morph;
+// once it's formed (~P 0.40, the section-2 snap) the bio types in automatically (time-based,
+// not scroll-bound). Panel fades both ways: in 0.36->0.40, out 0.46->0.52.
+const TYPE_TRIGGER = 0.4; // start typing once the tesseract has formed
+const TYPE_RESET_LOW = 0.36; // scrolled back toward the sphere -> reset for a re-type
+const TYPE_RESET_HIGH = 0.5; // moved on toward the network -> reset
+const TYPE_SECONDS = 2.4; // time to type the whole bio
 
 type Part = { text: string; red?: boolean };
 type Segment = { parts: Part[]; tag: "h2" | "p" };
@@ -17,7 +20,7 @@ const SEGMENTS: Segment[] = [
   {
     tag: "p",
     parts: [
-      { text: "Hey — I'm " },
+      { text: "Hey, I'm " },
       { text: "Sandeep", red: true },
       { text: ". You can also call me Sandy." },
     ],
@@ -33,13 +36,13 @@ const SEGMENTS: Segment[] = [
       },
     ],
   },
-  { tag: "p", parts: [{ text: "Started as a script junkie who taught himself to code." }] },
+  { tag: "p", parts: [{ text: "Started as a script junkie and taught myself to code." }] },
   {
     tag: "p",
     parts: [
       { text: "These days I'm deep in " },
-      { text: "A.I.", red: true },
-      { text: ", though I haven't locked onto a single sub-niche yet." },
+      { text: "Artificial Intelligence", red: true },
+      { text: ", though I haven't locked onto a single speciality yet." },
     ],
   },
 ];
@@ -55,49 +58,41 @@ const SEGMENT_STARTS = SEGMENTS.map((_, i) =>
 export function HomeBio() {
   const panelRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef(0);
   const [revealChars, setRevealChars] = useState(0);
 
+  // Scroll: dispatch progress, drive panel fade in/out (both directions), stash progress.
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let frame = 0;
 
     const update = () => {
       frame = 0;
-      // Progress spans the full document scroll range, so P always reaches 1 at the very
-      // bottom no matter the spacer height. Pacing is controlled purely by the spacer
-      // height in CSS (taller = slower). This avoids the spacer/MORPH_SPAN drift bug.
+      // Progress spans the full document scroll range, so P always reaches 1 at the bottom.
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress = maxScroll > 0 ? Math.min(Math.max(window.scrollY / maxScroll, 0), 1) : 0;
+      progressRef.current = progress;
 
       window.dispatchEvent(new CustomEvent("home-scroll", { detail: { progress } }));
 
-      // Fade in during phase 1, then back out as phase 2 (AI fields) takes over.
-      const panelIn = smoothstep(0.06, 0.15, progress);
-      const panelOut = smoothstep(0.3, 0.34, progress);
+      // Panel fades in as the tesseract finishes; fades out FIRST (before the network
+      // spreads) when the user scrolls on from section 2.
+      const panelIn = smoothstep(0.36, 0.4, progress);
+      const panelOut = smoothstep(0.41, 0.47, progress);
       const visible = panelIn * (1 - panelOut);
       const panel = panelRef.current;
       const inner = innerRef.current;
 
       if (panel) {
-        // Opacity on the panel so the mobile card background fades with the text.
         panel.style.opacity = `${visible}`;
         panel.style.pointerEvents = visible > 0.5 ? "auto" : "none";
       }
 
       if (inner) {
-        // Directional rise + blur on the content (transform stays off the panel so the
-        // mobile centering transform isn't clobbered).
         const s = revealStyle(panelIn, panelOut, reduced);
         inner.style.transform = s.transform as string;
         inner.style.filter = s.filter as string;
       }
-
-      const charProgress = reduced
-        ? progress > REVEAL_START
-          ? 1
-          : 0
-        : smoothstep(REVEAL_START, REVEAL_END, progress);
-      setRevealChars(Math.round(charProgress * TOTAL_CHARS));
     };
 
     const onScroll = () => {
@@ -114,8 +109,46 @@ export function HomeBio() {
       window.cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
-      // Reset the morph when leaving the home page.
       window.dispatchEvent(new CustomEvent("home-scroll", { detail: { progress: 0 } }));
+    };
+  }, []);
+
+  // Typewriter: time-based (not scroll-bound). Once the tesseract has formed and we're in
+  // the about zone, the bio types itself out; it resets when we scroll away so it re-types.
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const speed = TOTAL_CHARS / TYPE_SECONDS;
+    let chars = 0;
+    let last = performance.now();
+    let raf = 0;
+
+    const tick = (now: number) => {
+      const dt = Math.min((now - last) / 1000, 0.05);
+      last = now;
+      const p = progressRef.current;
+      const inZone = p >= TYPE_RESET_LOW && p <= TYPE_RESET_HIGH;
+
+      if (!inZone) {
+        chars = 0;
+      } else if (reduced) {
+        chars = p >= TYPE_TRIGGER ? TOTAL_CHARS : 0;
+      } else if (p >= TYPE_TRIGGER) {
+        chars = Math.min(TOTAL_CHARS, chars + speed * dt);
+      }
+
+      // Hold the scroll while the bio is actively typing at the section-2 stop, then release.
+      const lock = !reduced && chars > 0.5 && chars < TOTAL_CHARS && p >= TYPE_TRIGGER && p < 0.46;
+      document.documentElement.classList.toggle("scroll-locked", lock);
+
+      setRevealChars((prev) => (Math.round(chars) !== prev ? Math.round(chars) : prev));
+      raf = window.requestAnimationFrame(tick);
+    };
+
+    raf = window.requestAnimationFrame(tick);
+
+    return () => {
+      window.cancelAnimationFrame(raf);
+      document.documentElement.classList.remove("scroll-locked");
     };
   }, []);
 
@@ -123,7 +156,7 @@ export function HomeBio() {
     <>
       {/* Scroll track split into 4 snap blocks; each block top lands on a section
           (hero / about / focus / social). Total height = pacing for the morph. */}
-      {["255vh", "255vh", "332vh", "108vh"].map((height, i) => (
+      {["420vh", "273vh", "347vh", "110vh"].map((height, i) => (
         <div key={i} className="home-snap" style={{ height }} aria-hidden="true" />
       ))}
       <div ref={panelRef} className="home-bio__panel">

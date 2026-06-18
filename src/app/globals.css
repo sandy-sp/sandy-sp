@@ -691,6 +691,12 @@ html.route-home {
   color: var(--accent);
   vertical-align: middle;
   animation: scroll-cue-pulse 2.6s ease-in-out 1.2s infinite;
+  transition: border-color var(--dur-slow) var(--ease-in);
+}
+
+/* The arrow glyph fades per-character; fade its circle border out on scroll too. */
+.home-whisper--scrolled .home-whisper__arrow {
+  border-color: transparent;
 }
 
 @media (max-width: 760px) {

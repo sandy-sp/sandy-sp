@@ -29,11 +29,11 @@ export function HomeSocial() {
     return () => window.removeEventListener("home-scroll", handle);
   }, []);
 
-  const visible = progress > 0.68;
-  const overall = smoothstep(0.74, 0.9, progress);
+  const visible = progress > 0.72;
+  const overall = smoothstep(0.82, 0.94, progress);
   // Staggered child windows so the card assembles piece by piece.
-  const leadStyle = revealStyle(smoothstep(0.74, 0.84, progress));
-  const asideStyle = revealStyle(smoothstep(0.8, 0.92, progress));
+  const leadStyle = revealStyle(smoothstep(0.82, 0.9, progress));
+  const asideStyle = revealStyle(smoothstep(0.86, 0.96, progress));
 
   return (
     <div className="home-social" style={{ visibility: visible ? "visible" : "hidden" }}>
@@ -56,7 +56,7 @@ export function HomeSocial() {
               <a
                 key={link.label}
                 className="home-social__btn"
-                style={revealStyle(smoothstep(0.8 + i * 0.03, 0.9 + i * 0.03, progress))}
+                style={revealStyle(smoothstep(0.86 + i * 0.03, 0.94 + i * 0.03, progress))}
                 href={link.href}
                 target={link.href.startsWith("mailto:") ? undefined : "_blank"}
                 rel={link.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}

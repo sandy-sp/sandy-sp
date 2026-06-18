@@ -886,6 +886,9 @@ export function ParticleSphereLoader() {
     let aboutMorphScheduled = false;
     let homeScroll = 0;
     let homeScrollTarget = 0;
+    // Eases 0->1 once the about phase is reached (P>=0.40), nudging the formed tesseract a
+    // little left to clear room for the bio text. Stays centered while forming.
+    let aboutShift = 0;
     // Mouse drives the hero sphere's rotation (it stays in place). Targets are normalized
     // [-1,1] from screen center; spinYaw/spinTilt ease toward them as rotation offsets.
     let pointerTargetX = 0;
@@ -1187,7 +1190,7 @@ export function ParticleSphereLoader() {
       // Base (auto-spin) drives the morph hand-off; mouse spin is a hero-only extra offset.
       lastHomeYaw = baseYaw;
       lastHomeYawVelocity = reducedMotion ? 0 : spinVelocityPerMs * 16.667;
-      const heroFactor = clamp(1 - homeScroll / 0.32, 0, 1);
+      const heroFactor = clamp(1 - homeScroll / 0.4, 0, 1);
       const renderYaw = baseYaw + spinYaw * heroFactor;
       const renderTilt = baseTilt + spinTilt * heroFactor;
 
@@ -1197,21 +1200,22 @@ export function ParticleSphereLoader() {
       const dotBase = darkMode ? "214, 92, 92" : "153, 51, 51";
       const lineBase = "118, 118, 118";
       const dotGlow = darkMode ? "236, 121, 121" : "153, 51, 51";
-      // Three scroll phases: P 0->0.32 sphere -> tesseract; 0.32->0.62 tesseract -> drifting
-      // particle network; 0.66->1 the unlinked dots peel off to spell SOCIAL.
+      // Scroll phases. The sphere -> tesseract FORM completes early (by P ~0.22) so the
+      // bio text can type in afterwards within the same section; then 0.32->0.62 the
+      // tesseract drifts into a network and 0.66->1 the unlinked dots spell SOCIAL.
       const P = clamp(homeScroll, 0, 1);
-      const ph1 = clamp(P / 0.32, 0, 1);
-      const ph2 = clamp((P - 0.32) / 0.3, 0, 1);
-      const ph3 = clamp((P - 0.66) / 0.34, 0, 1);
-      const settle = smoothstep(0.6, 1.0, ph1);
-      const morph = mix(0.5 * smoothstep(0.0, 0.3, ph1), 1.0, settle);
-      const leftShift = smoothstep(0.05, 0.9, ph1);
-      // On narrow screens keep the object centered (text panels stack as cards instead of
-      // sitting to the right); on wider screens slide it left for the split layout.
-      const leftEnd = width < 760 ? 0.5 : 0.28;
-      const homeCenterX = mix(width / 2, width * leftEnd, leftShift);
+      const formPhase = clamp(P / 0.4, 0, 1);
+      // Network spreads AFTER the bio text fades (~0.47) and finishes before the AI fields.
+      const ph2 = clamp((P - 0.46) / 0.12, 0, 1);
+      const ph3 = clamp((P - 0.7) / 0.27, 0, 1);
+      const settle = smoothstep(0.6, 1.0, formPhase);
+      const morph = mix(0.5 * smoothstep(0.0, 0.3, formPhase), 1.0, settle);
+      // Form in the center; only nudge left (a little) once the about phase eases in.
+      // Narrow screens stay centered (the bio stacks as a card).
+      const leftEnd = width < 760 ? 0.5 : 0.4;
+      const homeCenterX = mix(width / 2, width * leftEnd, aboutShift);
       const centerY = height / 2;
-      const tessActive = ph1 > 0.001;
+      const tessActive = formPhase > 0.001;
       const tessScale = mesh.radius * 0.46;
       const angleXW = reducedMotion ? 0.6 : now * 0.00025;
       const angleYW = reducedMotion ? 0.3 : now * 0.00017;
@@ -1289,8 +1293,8 @@ export function ParticleSphereLoader() {
 
       // Sphere wireframe dissolves early; tesseract wireframe ghosts in before the dots
       // finish settling, so the frame is already there to receive them (no line pop).
-      const sphereLineFade = clamp(1 - smoothstep(0.0, 0.4, ph1), 0, 1);
-      const tessLineFade = smoothstep(0.5, 1.0, ph1);
+      const sphereLineFade = clamp(1 - smoothstep(0.0, 0.4, formPhase), 0, 1);
+      const tessLineFade = smoothstep(0.5, 1.0, formPhase);
 
       context.save();
       context.globalCompositeOperation = "source-over";
@@ -1336,7 +1340,7 @@ export function ParticleSphereLoader() {
         }
 
         // Tesseract wireframe fades out as the network forms.
-        const wf = (1 - ph2) * smoothstep(0.5, 1.0, ph1);
+        const wf = (1 - ph2) * smoothstep(0.5, 1.0, formPhase);
         if (wf > 0.01) {
           const tessProj = tessVerts3D.map((pt) =>
             projectPoint(pt, mesh.radius, homeCenterX, centerY, renderYaw, renderTilt),
@@ -1837,6 +1841,12 @@ export function ParticleSphereLoader() {
           }
         }
       }
+
+      // Ease the left nudge: centered while forming, glides left once the about phase hits.
+      const aboutTarget = homeScroll >= 0.4 ? 1 : 0;
+      aboutShift = reducedMotion
+        ? aboutTarget
+        : aboutShift + (aboutTarget - aboutShift) * clamp(0.07 * dtFactor, 0, 1);
 
       if (state === "FORMING") {
         morphFrame += 1;

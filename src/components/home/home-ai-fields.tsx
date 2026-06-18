@@ -24,10 +24,11 @@ const FIELDS: Field[] = [
   },
 ];
 
-// Each field reveals in its own slice of phase 2 (P 0.32 -> 0.62), after the about-me
-// panel has left and before SOCIAL (phase 3) begins.
-const FIELD_START = 0.36;
-const FIELD_STEP = 0.07;
+// Fields reveal only after the network has spread (P ~0.58), finishing by the section-3
+// snap (~0.66), then leave before SOCIAL.
+const FIELD_START = 0.585;
+const FIELD_STEP = 0.022;
+const FIELD_WIN = 0.03;
 
 export function HomeAiFields() {
   const [progress, setProgress] = useState(0);
@@ -43,17 +44,17 @@ export function HomeAiFields() {
     return () => window.removeEventListener("home-scroll", handle);
   }, []);
 
-  // Only present during phase 2; gone before about-me (below) and SOCIAL (above).
-  const sectionVisible = progress > 0.33 && progress < 0.67;
-  // Whole section lifts/blurs out as SOCIAL (phase 3) begins.
-  const sectionOut = smoothstep(0.6, 0.66, progress);
+  // Present only after the network has spread; gone before SOCIAL (above).
+  const sectionVisible = progress > 0.56 && progress < 0.71;
+  // Whole section lifts/blurs out as SOCIAL begins.
+  const sectionOut = smoothstep(0.67, 0.71, progress);
 
   return (
     <div className="home-ai" style={{ visibility: sectionVisible ? "visible" : "hidden" }}>
       <div className="home-ai__inner">
         {FIELDS.map((field, i) => {
           const start = FIELD_START + i * FIELD_STEP;
-          const cardIn = smoothstep(start, start + 0.08, progress);
+          const cardIn = smoothstep(start, start + FIELD_WIN, progress);
 
           return (
             <article
