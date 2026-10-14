@@ -1,7 +1,7 @@
 # Website Content Analysis (Migrated Source)
 
 **Source website:** `www.sandy-sp.info`  
-**Owner:** Sandeep Paidipati  
+**Owner:** Sandeep  
 **Title:** AI Developer | LLM & Generative AI Expert  
 **Focus:** Crafting innovative solutions using Generative AI, Large Language Models (LLMs), Data Visualization, and Open-Source Collaboration.
 

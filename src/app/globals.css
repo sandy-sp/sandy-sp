@@ -1,28 +1,23 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #212529;
-  --muted: #5f5f5f;
-  --accent: #993333;
-  --surface: rgba(255, 255, 255, 0.68);
-  --surface-strong: rgba(255, 255, 255, 0.95);
-  --border: rgba(15, 23, 42, 0.08);
-  --pill-border: rgba(153, 51, 51, 0.48);
-  --shadow: 0 18px 52px rgba(153, 51, 51, 0.22);
-  --brand-shadow: 0 0 16px rgba(153, 51, 51, 0.4);
-  --toggle-shadow: 0 10px 30px rgba(153, 51, 51, 0.3);
-  --toggle-sun: #111111;
-  --toggle-moon: #767676;
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *, .dark, .dark *));
 
-  /* Motion tokens — one rhythm across the site. Enter = ease-out, exit = ease-in. */
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-in: cubic-bezier(0.55, 0, 1, 0.45);
-  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --dur-fast: 220ms;
-  --dur-base: 360ms;
-  --dur-slow: 640ms;
-  --dur-cinematic: 900ms;
+:root {
+  --background: #faf9f8;
+  --foreground: #18181b;
+  --muted: #52525b;
+  --accent: #993333;
+  --accent-hover: #7e2222;
+  --accent-subtle: rgba(153, 51, 51, 0.08);
+  --accent-text: #8b2525;
+  --surface: rgba(255, 255, 255, 0.92);
+  --surface-card: #ffffff;
+  --border: rgba(24, 24, 27, 0.08);
+  --card-border: rgba(153, 51, 51, 0.12);
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.03), 0 8px 24px -4px rgba(153, 51, 51, 0.05);
+  --card-shadow-hover: 0 16px 36px -8px rgba(153, 51, 51, 0.14);
+  --header-bg: rgba(250, 249, 248, 0.88);
+  --code-bg: #f4f3f1;
 }
 
 @theme inline {
@@ -33,844 +28,124 @@
   --color-surface: var(--surface);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-terminal: var(--font-share-tech-mono);
 }
 
 [data-theme="dark"] {
-  --background: #111215;
+  --background: #0e0f14;
   --foreground: #f4f4f5;
-  --muted: #a1a1a1;
-  --surface: rgba(17, 18, 21, 0.7);
-  --surface-strong: rgba(30, 30, 34, 0.95);
-  --border: rgba(244, 244, 245, 0.12);
-  --pill-border: rgba(153, 51, 51, 0.62);
-  --shadow: 0 18px 54px rgba(153, 51, 51, 0.34);
-  --brand-shadow: 0 0 26px rgba(153, 51, 51, 0.72);
-  --toggle-shadow: 0 10px 30px rgba(153, 51, 51, 0.42);
-  --toggle-sun: #d4d4d8;
-  --toggle-moon: #f4f4f5;
+  --muted: #a1a1aa;
+  --accent: #e04848;
+  --accent-hover: #f87171;
+  --accent-subtle: rgba(224, 72, 72, 0.14);
+  --accent-text: #f87171;
+  --surface: rgba(18, 19, 26, 0.82);
+  --surface-card: rgba(22, 23, 31, 0.88);
+  --border: rgba(255, 255, 255, 0.08);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.55);
+  --card-shadow-hover: 0 16px 40px -6px rgba(224, 72, 72, 0.22);
+  --header-bg: rgba(14, 15, 20, 0.85);
+  --code-bg: rgba(255, 255, 255, 0.04);
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: light dark;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 body {
-  /* Decorative backdrop lives here (behind the persistent canvas in the layout) so the
-     transparent .home-shell never paints over the canvas. */
-  background:
-    radial-gradient(circle at 18% 18%, rgba(153, 51, 51, 0.1), transparent 20rem),
-    radial-gradient(circle at 82% 20%, rgba(118, 118, 118, 0.1), transparent 24rem),
-    var(--background);
-  background-attachment: fixed;
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
-  text-rendering: optimizeLegibility;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
   overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-main {
-  width: 100%;
-  max-width: min(72rem, 92vw);
-  margin: 0 auto;
-  padding: clamp(1.5rem, 2vw, 3rem) 1.5rem;
+/* Elegant light mode backdrop ambient pattern */
+[data-theme="light"] body {
+  background-image:
+    radial-gradient(circle at 18% 12%, rgba(153, 51, 51, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 82% 80%, rgba(153, 51, 51, 0.025) 0%, transparent 45%);
+  background-attachment: fixed;
 }
 
-.home-shell {
-  position: relative;
-  min-height: 100svh;
-  max-width: none;
-  padding: 0;
-  overflow-x: clip;
+/* Elegant dark mode backdrop ambient pattern */
+[data-theme="dark"] body {
+  background-image:
+    radial-gradient(circle at 18% 12%, rgba(220, 38, 38, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 82% 80%, rgba(153, 51, 51, 0.05) 0%, transparent 50%);
+  background-attachment: fixed;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.particle-background {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  width: 100vw;
-  height: 100dvh;
-  pointer-events: none;
+::-webkit-scrollbar-thumb {
+  background: rgba(140, 140, 150, 0.22);
+  border-radius: 9999px;
 }
 
-.particle-sphere-loader {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  width: 100vw;
-  height: 100dvh;
-  pointer-events: none;
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(220, 38, 38, 0.6);
 }
 
-/* View Work swaps in the WebGL floating-objects background; hide the particle canvas. */
-html.route-work .particle-sphere-loader {
-  display: none;
-}
-
-.work-bg-canvas {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  width: 100vw;
-  height: 100dvh;
-  pointer-events: none;
-}
-
-.decoder-name {
-  --sphere-radius: min(29vw, 29svh);
-  --decoder-edge-gap: clamp(1rem, 4vw, 4rem);
-  position: fixed;
-  top: clamp(1.25rem, calc(50svh - var(--sphere-radius) - clamp(7.4rem, 11.2vw, 10.2rem)), 8.5rem);
-  left: var(--decoder-edge-gap);
-  max-width: calc(100vw - (var(--decoder-edge-gap) * 2));
-  z-index: 8;
-  opacity: 0;
-  pointer-events: none;
-  transform: translate3d(-3rem, 0, 0);
-  /* Slides in from the left, delayed so it follows the nav dropping in. */
-  transition:
-    opacity var(--dur-slow) var(--ease-out) 450ms,
-    transform var(--dur-slow) var(--ease-out) 450ms;
-}
-
-.decoder-name--ready {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
-}
-
-.decoder-name__text {
-  --decoder-color: #000000;
-  min-width: 8ch;
-  margin: 0;
-  color: var(--decoder-color) !important;
-  font-family: var(--font-share-tech-mono), var(--font-geist-mono), monospace;
-  font-size: clamp(2.25rem, 5.45vw, 5.45rem);
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: 1;
-  text-shadow: 0 0 14px rgba(153, 51, 51, 0.22);
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.decoder-name__prompt {
-  display: inline-block;
-  margin-right: 0.34ch;
-  transition: opacity var(--dur-base) var(--ease-in);
-}
-
-/* After the name is deleted on scroll, the # prompt and cursor disappear too. The
-   cursor's blink keyframes set opacity, so we must stop the animation, not just set
-   opacity:0 (a running animation would override it and keep flashing). */
-.decoder-name__text--bare .decoder-name__prompt,
-.decoder-name__text--bare .decoder-name__cursor {
-  opacity: 0;
-  animation: none;
-  transition: opacity var(--dur-base) var(--ease-in);
-}
-
-.decoder-name__output span {
-  display: inline-block;
-  min-width: 0.5ch;
-  position: relative;
-  will-change: contents;
-}
-
-[data-theme="light"] .decoder-name__text {
-  --decoder-color: #000000;
-  text-shadow: 0 0 10px rgba(153, 51, 51, 0.14);
-}
-
-[data-theme="dark"] .decoder-name__text {
-  --decoder-color: #ffffff;
-  text-shadow:
-    0 0 10px rgba(255, 255, 255, 0.22),
-    0 0 18px rgba(153, 51, 51, 0.28);
-}
-
-.decoder-name__cursor {
-  display: inline-block;
-  width: 0.58ch;
-  height: 0.82em;
-  margin-left: 0.2ch;
-  min-width: 0;
-  vertical-align: -0.08em;
-  animation: decoder-cursor-blink 0.85s steps(1, end) infinite;
-  background: var(--decoder-color) !important;
-  box-shadow: 0 0 10px rgba(153, 51, 51, 0.22);
-}
-
-.decoder-name--exit {
-  opacity: 0;
-  pointer-events: none;
-  transform: translate3d(-2.4rem, -1.4rem, 0);
-  filter: blur(3px);
-  transition:
-    opacity 760ms ease-in,
-    transform 760ms ease-in,
-    filter 760ms ease-in;
-}
-
-.decoder-name--exit .decoder-name__text {
-  letter-spacing: 0.42ch;
-  transition: letter-spacing 760ms ease-in;
-}
-
-/* Scroll track: in normal flow so its height natively expands the document, giving
-   the window real scrollY distance. The canvas stays fixed/full-viewport behind it. */
-.timeline-stage {
-  position: relative;
-  z-index: 5;
-  width: 100%;
-  min-height: 300vh;
-  pointer-events: none;
-}
-
-/* Right pane: offset past the left ~42% canvas region and laid out in normal flow so
-   the biography blocks scroll up past the pinned map instead of bunching in a corner. */
-.timeline-column {
-  margin-left: 42%;
-  width: auto;
-  padding: 92svh clamp(1.5rem, 4vw, 4.5rem) 24svh clamp(1rem, 3vw, 3rem);
-  opacity: 0;
-  pointer-events: none;
-  color: var(--foreground);
-  transition: opacity 200ms linear;
-}
-
-.timeline-column__eyebrow {
-  margin: 0 0 1.5rem;
-  color: var(--accent);
-  font-family: var(--font-share-tech-mono), var(--font-geist-mono), monospace;
-  font-size: 0.74rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-}
-
-.timeline-column__list {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(8svh, 16svh, 22svh);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.timeline-block {
-  border-left: 1px solid var(--border);
-  padding-left: clamp(1rem, 2vw, 1.75rem);
-}
-
-.timeline-block__year {
-  display: block;
-  margin-bottom: 0.55rem;
-  color: var(--muted);
-  font-family: var(--font-share-tech-mono), var(--font-geist-mono), monospace;
-  font-size: 0.74rem;
-  letter-spacing: 0.18em;
-}
-
-.timeline-block__title {
-  margin: 0 0 0.7rem;
-  font-family: var(--font-share-tech-mono), var(--font-geist-mono), monospace;
-  font-size: clamp(1.4rem, 3vw, 2.4rem);
-  font-weight: 400;
-  letter-spacing: 0.04em;
-  line-height: 1.05;
-}
-
-.timeline-block__body {
-  max-width: 38ch;
-  margin: 0;
-  color: var(--muted);
-  font-family: var(--font-geist-sans), sans-serif;
-  font-size: clamp(0.92rem, 1.4vw, 1.08rem);
-  line-height: 1.5;
-}
-
-@media (max-width: 760px) {
-  .timeline-column {
-    margin-left: 22%;
-    padding-top: 86svh;
+/* Fluid graphic keyframe animations */
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 
-/* Intro lock: prevents native scroll until the globe reaches EARTH_LOCK. Toggled off
-   the moment the rotation locks so the 300vh track scrolls freely from then on. */
-html.scroll-locked {
-  overflow: hidden;
-}
-
-.scroll-cue {
-  position: fixed;
-  bottom: clamp(1.4rem, 4.5svh, 2.6rem);
-  left: 50%;
-  z-index: 8;
-  color: var(--foreground);
-  font-family: var(--font-share-tech-mono), var(--font-geist-mono), monospace;
-  font-size: clamp(0.78rem, 1.4vw, 1rem);
-  letter-spacing: 0.08ch;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transform: translate3d(-50%, 0.8rem, 0);
-  text-shadow: 0 0 10px rgba(153, 51, 51, 0.2);
-  transition:
-    opacity var(--dur-cinematic) var(--ease-out),
-    transform var(--dur-cinematic) var(--ease-out);
-}
-
-.scroll-cue--visible {
-  opacity: 0.85;
-  transform: translate3d(-50%, 0, 0);
-  animation: scroll-cue-pulse 2.6s ease-in-out 1.2s infinite;
-}
-
-/* Home scroll track: four blocks whose tops are the section snap points. Their summed
-   height is the scroll distance that paces the morph. Canvas stays fixed behind them. */
-.home-snap {
-  width: 100%;
-  pointer-events: none;
-  scroll-snap-align: start;
-}
-
-/* Snap between the four home sections on scroll up/down. */
-html.route-home {
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
-}
-
-/* AI fields — pinned center, revealed one by one on scroll over the network. */
-.home-ai {
-  position: fixed;
-  inset: 0;
-  z-index: 6;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-}
-
-.home-ai__inner {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(2rem, 5vh, 3.75rem);
-  width: 100%;
-  max-width: min(62ch, 86vw);
-  padding: 0 clamp(1.5rem, 5vw, 3rem);
-}
-
-.home-ai__card {
-  border-left: 1px solid var(--border);
-  padding-left: clamp(1rem, 2vw, 1.75rem);
-  will-change: opacity, transform;
-}
-
-.home-ai__num {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: var(--accent);
-  font-family: var(--font-share-tech-mono), var(--font-geist-mono), monospace;
-  font-size: 0.78rem;
-  letter-spacing: 0.22em;
-}
-
-.home-ai__title {
-  margin: 0 0 0.7rem;
-  color: var(--foreground);
-  font-family: var(--font-share-tech-mono), var(--font-geist-mono), monospace;
-  font-size: clamp(1.5rem, 3.4vw, 2.6rem);
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  line-height: 1.06;
-  text-shadow: 0 0 16px rgba(153, 51, 51, 0.16);
-}
-
-.home-ai__body {
-  margin: 0;
-  max-width: 46ch;
-  color: var(--muted);
-  font-family: var(--font-geist-sans), sans-serif;
-  font-size: clamp(0.95rem, 1.4vw, 1.18rem);
-  line-height: 1.6;
-}
-
-/* Section 4 — contact card under the SOCIAL particle text. */
-.home-social {
-  position: fixed;
-  inset: 0;
-  z-index: 6;
-  display: flex;
-  align-items: flex-end;
-  pointer-events: none;
-}
-
-.home-social__grid {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: end;
-  gap: clamp(1.5rem, 4vw, 4rem);
-  width: 100%;
-  padding: clamp(1.5rem, 4vw, 4rem);
-  padding-bottom: clamp(2rem, 6vh, 5rem);
-  will-change: opacity, transform;
-}
-
-.home-social__box {
-  max-width: min(58ch, 60vw);
-  padding: clamp(1.25rem, 2.5vw, 2.25rem);
-  border: 0.5px solid var(--border);
-  border-radius: 1rem;
-  background: var(--surface);
-  backdrop-filter: blur(16px) saturate(1.1);
-}
-
-.home-social__lead {
-  margin: 0 0 clamp(1.25rem, 3vh, 2rem);
-  color: var(--foreground);
-  font-family: var(--font-share-tech-mono), var(--font-geist-mono), monospace;
-  font-size: clamp(1.1rem, 2.2vw, 1.9rem);
-  line-height: 1.3;
-  text-transform: uppercase;
-  letter-spacing: 0.01em;
-}
-
-.home-social__muted {
-  color: var(--muted);
-}
-
-.home-social__face {
-  color: var(--accent);
-}
-
-.home-social__buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: clamp(0.6rem, 1.2vw, 1rem);
-}
-
-.home-social__btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5ch;
-  min-height: 2.75rem;
-  padding: 0 clamp(1rem, 1.8vw, 1.5rem);
-  border: 0.5px solid var(--border);
-  border-radius: 999px;
-  background: var(--surface);
-  color: var(--foreground);
-  font-family: var(--font-share-tech-mono), var(--font-geist-mono), monospace;
-  font-size: clamp(0.8rem, 1.1vw, 0.95rem);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition:
-    border-color var(--dur-base) var(--ease-out),
-    color var(--dur-base) var(--ease-out),
-    background-color var(--dur-base) var(--ease-out);
-}
-
-.home-social__btn:hover,
-.home-social__btn:focus-visible {
-  outline: none;
-  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
-  color: var(--accent);
-}
-
-.home-social__aside {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: clamp(1rem, 2vh, 2rem);
-}
-
-.home-social__logo {
-  border: 0.5px solid var(--border);
-  border-radius: 1rem;
-  padding: clamp(0.75rem, 1.5vw, 1.25rem);
-  background: var(--surface);
-  backdrop-filter: blur(16px) saturate(1.1);
-}
-
-.home-social__footer {
-  margin: 0;
-  color: var(--muted);
-  font-family: var(--font-share-tech-mono), var(--font-geist-mono), monospace;
-  font-size: 0.78rem;
-  letter-spacing: 0.06em;
-}
-
-@media (max-width: 760px) {
-  .home-social__grid {
-    grid-template-columns: 1fr;
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0px);
   }
-
-  .home-social__box {
-    max-width: none;
-  }
-
-  .home-social__aside {
-    align-items: flex-start;
-  }
-}
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-
-/* Bio panel: pinned to the right half, vertically centered, faded in by scroll (JS sets
-   opacity + translateX). The tesseract slides into the left half as this appears. */
-.home-bio__panel {
-  position: fixed;
-  top: 0;
-  right: clamp(1.5rem, 5vw, 5rem);
-  z-index: 6;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100svh;
-  max-width: min(48ch, 48vw);
-  margin: 0;
-  text-align: left;
-  opacity: 0;
-  pointer-events: none;
-  will-change: opacity;
-  /* Scroll-scrubbed: JS sets opacity each frame, so keep the transition short to track
-     the scroll tightly instead of perpetually chasing a long ease. */
-  transition: opacity 120ms linear;
-}
-
-.home-bio__inner {
-  will-change: transform, filter;
-}
-
-.home-bio__red {
-  color: var(--accent);
-}
-
-.home-bio__caret {
-  display: inline-block;
-  width: 0.5ch;
-  height: 1em;
-  margin: 0 0.06ch -0.12em;
-  background: var(--accent);
-  animation: decoder-cursor-blink 0.85s steps(1, end) infinite;
-}
-
-.home-bio__heading {
-  margin: 0 0 1.4rem;
-  color: var(--foreground);
-  font-family: var(--font-share-tech-mono), var(--font-geist-mono), monospace;
-  font-size: clamp(1.9rem, 4.4vw, 3.6rem);
-  font-weight: 400;
-  letter-spacing: 0.01em;
-  line-height: 1.04;
-  text-shadow: 0 0 18px rgba(153, 51, 51, 0.18);
-}
-
-.home-bio__body {
-  margin: 0;
-  max-width: 42ch;
-  color: var(--muted);
-  font-family: var(--font-geist-sans), sans-serif;
-  font-size: clamp(0.95rem, 1.4vw, 1.18rem);
-  line-height: 1.6;
-}
-
-.home-bio__body + .home-bio__body {
-  margin-top: 1.1rem;
-}
-
-@media (max-width: 760px) {
-  /* Drop the hero name below the nav dock so they don't collide near the top. */
-  .decoder-name {
-    top: clamp(4.75rem, 13svh, 7rem);
-  }
-
-  /* Object is centered on mobile, so the bio becomes a translucent card over it. */
-  .home-bio__panel {
-    left: clamp(0.9rem, 4vw, 1.5rem);
-    right: clamp(0.9rem, 4vw, 1.5rem);
-    top: 50%;
-    bottom: auto;
-    height: auto;
-    max-height: 84svh;
-    overflow: hidden;
-    transform: translateY(-50%);
-    padding: clamp(1.1rem, 4.5vw, 1.6rem);
-    border: 0.5px solid var(--border);
-    border-radius: 1rem;
-    background: var(--surface);
-    backdrop-filter: blur(16px) saturate(1.1);
-    text-align: left;
-  }
-
-  .home-bio__heading {
-    margin-bottom: 1rem;
-    font-size: clamp(1.5rem, 7vw, 2.2rem);
-  }
-
-  .home-bio__body {
-    max-width: none;
-    margin-left: 0;
-    font-size: clamp(0.9rem, 3.7vw, 1.05rem);
-  }
-}
-
-.home-whisper {
-  --sphere-radius: min(29vw, 29svh);
-  position: fixed;
-  /* Sit just under the sphere (center 50svh + radius + gap), clamped so it never
-     runs off the bottom on short viewports. Right-aligned on the right half. */
-  top: min(
-    calc(50svh + var(--sphere-radius) + clamp(1.25rem, 4svh, 2.75rem)),
-    calc(100svh - 6.5rem)
-  );
-  right: clamp(1.1rem, 4vw, 3.5rem);
-  z-index: 8;
-  max-width: min(90vw, 40ch);
-  margin: 0;
-  color: var(--foreground);
-  font-family: var(--font-share-tech-mono), var(--font-geist-mono), monospace;
-  font-size: clamp(1rem, 1.7vw, 1.45rem);
-  line-height: 1.45;
-  text-align: right;
-  text-shadow: 0 0 10px rgba(153, 51, 51, 0.16);
-  /* Container is just a gate now; the per-character fade does the entrance/exit. */
-  opacity: 0;
-  pointer-events: none;
-}
-
-.home-whisper--visible {
-  opacity: 0.82;
-}
-
-.home-whisper p {
-  margin: 0;
-  white-space: nowrap;
-}
-
-.home-whisper__char {
-  display: inline-block;
-  white-space: pre;
-  transition: opacity var(--dur-slow) var(--ease-in);
-}
-
-.home-whisper p + p {
-  margin-top: 0.3rem;
-}
-
-.home-whisper__face {
-  color: var(--accent);
-}
-
-.home-whisper__shout {
-  color: var(--accent);
-  letter-spacing: 0.02em;
-}
-
-.home-whisper__me {
-  color: var(--accent);
-}
-
-.home-whisper__arrow {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.7em;
-  height: 1.7em;
-  margin-left: 0.45ch;
-  border: 1px solid var(--accent);
-  border-radius: 50%;
-  color: var(--accent);
-  vertical-align: middle;
-  animation: scroll-cue-pulse 2.6s ease-in-out 1.2s infinite;
-  transition: border-color var(--dur-slow) var(--ease-in);
-}
-
-/* The arrow glyph fades per-character; fade its circle border out on scroll too. */
-.home-whisper--scrolled .home-whisper__arrow {
-  border-color: transparent;
-}
-
-@media (max-width: 760px) {
-  /* Object is centered on mobile; move the whisper to the bottom and let it wrap. */
-  .home-whisper {
-    top: auto;
-    bottom: clamp(5.5rem, 20svh, 9rem);
-    left: clamp(1rem, 5vw, 2rem);
-    right: clamp(1rem, 5vw, 2rem);
-    max-width: none;
-    text-align: center;
-    font-size: clamp(0.85rem, 4vw, 1.05rem);
-  }
-
-  .home-whisper p {
-    white-space: normal;
-  }
-
-  .home-ai__inner {
-    gap: clamp(1.5rem, 5vh, 2.5rem);
-    padding: clamp(1.25rem, 5vw, 1.75rem);
-    border: 0.5px solid var(--border);
-    border-radius: 1rem;
-    background: var(--surface);
-    backdrop-filter: blur(14px) saturate(1.1);
-  }
-
-  .home-ai__title {
-    font-size: clamp(1.4rem, 6.5vw, 2rem);
-  }
-
-  .home-social__lead {
-    font-size: clamp(1.05rem, 5vw, 1.5rem);
-  }
-}
-
-@keyframes scroll-cue-pulse {
-  0%,
-  100% {
-    opacity: 0.85;
-  }
-
   50% {
-    opacity: 0.45;
+    transform: translateY(-6px);
   }
 }
 
-@keyframes decoder-cursor-blink {
-  0%,
-  48% {
+@keyframes pulseSubtle {
+  0%, 100% {
     opacity: 1;
+    transform: scale(1);
   }
-
-  49%,
-  100% {
-    opacity: 0;
+  50% {
+    opacity: 0.8;
+    transform: scale(1.04);
   }
 }
 
-.theme-toggle-shell {
-  position: fixed;
-  left: clamp(1rem, 3vw, 2.5rem);
-  bottom: clamp(1rem, 3vw, 2.5rem);
-  z-index: 60;
-  display: inline-flex;
-  border: 1px solid var(--pill-border);
-  border-radius: 1rem;
-  padding: 0.5rem;
-  background: var(--surface);
-  backdrop-filter: blur(18px) saturate(1.2);
-  box-shadow: var(--toggle-shadow);
+.animate-spin-slow {
+  animation: spinSlow 14s linear infinite;
 }
 
-.rolling-switch {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
+.animate-float-gentle {
+  animation: floatGentle 4s ease-in-out infinite;
 }
 
-.rolling-switch--compact .rolling-switch__input {
-  width: 2.4rem;
-  height: 1.3rem;
-}
-
-.rolling-switch--compact .rolling-switch__inner {
-  width: 0.9rem;
-  height: 0.9rem;
-  top: 0.2rem;
-}
-
-.rolling-switch--compact .rolling-switch__input:checked ~ .rolling-switch__inner {
-  transform: translateX(1.1rem);
-}
-
-.rolling-switch--compact .rolling-switch__icon {
-  width: 0.7rem;
-  height: 0.7rem;
-  left: 0.32rem;
-  top: 0.32rem;
-}
-
-.rolling-switch--compact .rolling-switch__icon--right {
-  left: auto;
-  right: 0.32rem;
-}
-
-.rolling-switch__input {
-  width: 2.75rem;
-  height: 1.5rem;
-  border-radius: 999px;
-  background: var(--background);
-  border: 1px solid var(--pill-border);
-  box-shadow: var(--toggle-shadow);
-  appearance: none;
-  cursor: pointer;
-  transition: background-color 0.35s ease, border-color 0.35s ease;
-}
-
-.rolling-switch__icon {
-  width: 0.75rem;
-  height: 0.75rem;
-  position: absolute;
-  left: 0.38rem;
-  top: 0.38rem;
-  color: var(--toggle-moon);
-  opacity: 0;
-  pointer-events: none;
-  transition:
-    transform 0.5s cubic-bezier(0.65, 0, 0.35, 1),
-    color 0.35s ease,
-    opacity 0.2s ease;
-}
-
-.rolling-switch__icon--right {
-  left: auto;
-  right: 0.38rem;
-  opacity: 1;
-  color: var(--toggle-sun);
-}
-
-.rolling-switch__inner {
-  position: absolute;
-  left: 0.26rem;
-  top: 0.24rem;
-  width: 1rem;
-  height: 1rem;
-  border-radius: 999px;
-  background: var(--accent);
-  pointer-events: none;
-  transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
-}
-
-.rolling-switch__input:checked ~ .rolling-switch__inner {
-  transform: translateX(1.23rem);
-}
-
-.rolling-switch__input:checked ~ .rolling-switch__icon {
-  opacity: 1;
-  transform: rotate(280deg);
-}
-
-.rolling-switch__input:checked ~ .rolling-switch__icon--right {
-  opacity: 0;
-}
-
-/* Honor OS reduced-motion: kill blink/pulse loops and collapse transitions.
-   JS paths already branch on the media query; this covers pure-CSS motion. */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+.animate-pulse-subtle {
+  animation: pulseSubtle 3s ease-in-out infinite;
 }

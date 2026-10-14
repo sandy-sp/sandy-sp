@@ -1,19 +1,17 @@
-import { DecoderName } from "@/components/home/decoder-name";
-import { HomeAiFields } from "@/components/home/home-ai-fields";
-import { HomeBio } from "@/components/home/home-bio";
-import { HomeNavOverlay } from "@/components/shared/home-nav-overlay";
-import { HomeSocial } from "@/components/home/home-social";
-import { HomeWhisper } from "@/components/home/home-whisper";
+import { HeroSection } from "@/components/home/hero-section";
+import { HardwareScoutWidget } from "@/components/home/hardware-scout-widget";
+import { ArchitectureVisualizer } from "@/components/home/architecture-visualizer";
+import { FeaturedProjects } from "@/components/home/featured-projects";
+import { ContactSection } from "@/components/home/contact-section";
 
 export default function Home() {
   return (
-    <main className="home-shell">
-      <DecoderName />
-      <HomeNavOverlay />
-      <HomeWhisper />
-      <HomeBio />
-      <HomeAiFields />
-      <HomeSocial />
-    </main>
+    <div className="relative z-10 w-full flex flex-col">
+      <HeroSection />
+      <HardwareScoutWidget />
+      <ArchitectureVisualizer />
+      <FeaturedProjects />
+      <ContactSection />
+    </div>
   );
 }

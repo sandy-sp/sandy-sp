@@ -1,5 +1,5 @@
-import { AboutExperience } from "@/components/about/about-experience";
+import { redirect } from "next/navigation";
 
 export default function AboutPage() {
-  return <AboutExperience />;
+  redirect("/journey");
 }

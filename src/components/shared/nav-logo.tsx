@@ -16,7 +16,6 @@ function Model({ handle }: { handle: Ref<LogoHandle> }) {
   const speed = useRef(9);
   const { scene } = useGLTF(MODEL_URL);
 
-  // Clone, center at origin, normalize to a unit size so it fits regardless of export.
   const { object, scale } = useMemo(() => {
     const clone = scene.clone(true);
     const box = new THREE.Box3().setFromObject(clone);
@@ -26,10 +25,9 @@ function Model({ handle }: { handle: Ref<LogoHandle> }) {
     box.getCenter(center);
     clone.position.sub(center);
     const maxDim = Math.max(size.x, size.y, size.z) || 1;
-    return { object: clone, scale: 1.7 / maxDim };
+    return { object: clone, scale: 1.75 / maxDim };
   }, [scene]);
 
-  // Queue one full turn, but only when not already mid-spin (no hover-spam stacking).
   useImperativeHandle(
     handle,
     () => ({
@@ -43,7 +41,6 @@ function Model({ handle }: { handle: Ref<LogoHandle> }) {
     [],
   );
 
-  // Consume the pending rotation budget; otherwise hold still (no idle spin).
   useFrame((_, delta) => {
     const group = groupRef.current;
     if (!group || pending.current <= 0) return;
@@ -59,7 +56,7 @@ function Model({ handle }: { handle: Ref<LogoHandle> }) {
   );
 }
 
-export function NavLogo({ className = "block h-9 w-12" }: { className?: string }) {
+export function NavLogo({ className = "block h-9 w-11" }: { className?: string }) {
   const handleRef = useRef<LogoHandle>(null);
 
   const trigger = (rate: number) => {
@@ -70,8 +67,8 @@ export function NavLogo({ className = "block h-9 w-12" }: { className?: string }
   return (
     <span
       className={className}
-      onPointerEnter={() => trigger(18)} // hover: quick single spin
-      onClick={() => trigger(9)} // click: 360° at normal speed
+      onPointerEnter={() => trigger(18)}
+      onClick={() => trigger(9)}
     >
       <Canvas
         className="pointer-events-none"
@@ -79,9 +76,9 @@ export function NavLogo({ className = "block h-9 w-12" }: { className?: string }
         gl={{ alpha: true }}
         camera={{ position: [0, 0, 3], fov: 35 }}
       >
-        <ambientLight intensity={0.9} />
-        <directionalLight position={[2, 3, 4]} intensity={1.6} />
-        <directionalLight position={[-3, -1, 2]} intensity={0.5} color="#993333" />
+        <ambientLight intensity={1.1} />
+        <directionalLight position={[2, 3, 4]} intensity={1.8} />
+        <directionalLight position={[-3, -1, 2]} intensity={0.7} color="#dc2626" />
         <Suspense fallback={null}>
           <Model handle={handleRef} />
         </Suspense>

@@ -19,9 +19,8 @@ type ThemeContextValue = {
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
-// Runs in <head> before paint — sets data-theme so there is no flash.
-// Keep in sync with the logic below.
-export const themeNoFlashScript = `(function(){try{var s=localStorage.getItem('theme');var t=s==='light'||s==='dark'?s:(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;}catch(e){}})();`;
+// Runs in <head> before paint — sets data-theme and class="dark" so there is no flash.
+export const themeNoFlashScript = `(function(){try{var s=localStorage.getItem('theme');var t=s==='light'||s==='dark'?s:(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;if(t==='dark'){document.documentElement.classList.add('dark');}else{document.documentElement.classList.remove('dark');}}catch(e){}})();`;
 
 function readInitialTheme(): Theme {
   if (typeof document !== "undefined") {
@@ -35,7 +34,6 @@ function readInitialTheme(): Theme {
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(readInitialTheme);
-  // Whether the user has made an explicit choice (stop following the system).
   const [explicit, setExplicit] = useState<boolean>(() => {
     if (typeof window === "undefined") {
       return false;
@@ -44,9 +42,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     return stored === "light" || stored === "dark";
   });
 
-  // Apply theme to <html> and broadcast for non-React consumers.
+  // Apply theme to <html> as both data-theme attribute and .dark class for Tailwind
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
     window.dispatchEvent(new CustomEvent("portfolio-theme", { detail: { theme } }));
   }, [theme]);
 
