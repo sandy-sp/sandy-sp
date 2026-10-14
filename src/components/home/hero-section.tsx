@@ -1,18 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { ArrowRight, Check, Copy, Terminal, Mail } from "lucide-react";
+import { ArrowRight, Mail } from "lucide-react";
 
 export function HeroSection() {
-  const [copiedCmd, setCopiedCmd] = useState<string | null>(null);
-
-  const copyCommand = (cmd: string) => {
-    navigator.clipboard.writeText(cmd);
-    setCopiedCmd(cmd);
-    setTimeout(() => setCopiedCmd(null), 2500);
-  };
-
   return (
     <section className="relative pt-16 pb-20 sm:pt-24 sm:pb-28 overflow-hidden">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
@@ -75,62 +66,6 @@ export function HeroSection() {
               <Mail className="w-4 h-4 text-red-500" />
               <span>Email</span>
             </a>
-          </div>
-
-          {/* Quick PyPI Install Badges */}
-          <div className="pt-4 flex flex-col sm:flex-row items-start sm:items-center gap-3 text-xs font-mono text-neutral-500 dark:text-neutral-400">
-            <span className="text-neutral-400 dark:text-neutral-500 uppercase tracking-wider text-[11px] font-semibold">
-              Live PyPI Tools:
-            </span>
-            <div className="flex flex-wrap items-center gap-2">
-              <button
-                id="copy-pip-gittxt"
-                onClick={() => copyCommand("pip install gittxt")}
-                className="group flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-neutral-200 dark:border-white/10 bg-neutral-100/70 dark:bg-white/5 hover:border-red-500/40 text-neutral-800 dark:text-neutral-200 transition-all"
-              >
-                <Terminal className="w-3.5 h-3.5 text-red-500" />
-                <span>pip install gittxt</span>
-                {copiedCmd === "pip install gittxt" ? (
-                  <Check className="w-3 h-3 text-emerald-500 ml-1" />
-                ) : (
-                  <Copy className="w-3 h-3 opacity-40 group-hover:opacity-100 ml-1" />
-                )}
-              </button>
-
-              <button
-                id="copy-pip-ollama-scout"
-                onClick={() => copyCommand("pipx install ollama-scout")}
-                className="group flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-neutral-200 dark:border-white/10 bg-neutral-100/70 dark:bg-white/5 hover:border-red-500/40 text-neutral-800 dark:text-neutral-200 transition-all"
-              >
-                <Terminal className="w-3.5 h-3.5 text-red-500" />
-                <span>pipx install ollama-scout</span>
-                {copiedCmd === "pipx install ollama-scout" ? (
-                  <Check className="w-3 h-3 text-emerald-500 ml-1" />
-                ) : (
-                  <Copy className="w-3 h-3 opacity-40 group-hover:opacity-100 ml-1" />
-                )}
-              </button>
-            </div>
-          </div>
-
-          {/* Credential Ribbon */}
-          <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-6 pt-10 mt-6 border-t border-neutral-200/90 dark:border-white/10">
-            <div className="flex flex-col">
-              <span className="text-2xl sm:text-3xl font-bold font-mono text-neutral-900 dark:text-white">9+ Years</span>
-              <span className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">Software & Systems</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-2xl sm:text-3xl font-bold font-mono text-red-700 dark:text-red-400">Ahuja Scholar</span>
-              <span className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">M.S. Info Systems &bull; CSU &apos;24</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-2xl sm:text-3xl font-bold font-mono text-neutral-900 dark:text-white">AI Architect</span>
-              <span className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">OrbisQ &bull; Multi-Agent RAG</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-2xl sm:text-3xl font-bold font-mono text-neutral-900 dark:text-white">PyPI Author</span>
-              <span className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">9+ Open Source Packages</span>
-            </div>
           </div>
         </div>
       </div>

@@ -109,7 +109,7 @@ export function CommandPalette() {
         icon: Cpu,
         shortcut: "VRAM",
         action: () => {
-          router.push("/#hardware-scout");
+          router.push("/open-source-projects#proj-ollama-scout");
           setOpen(false);
         },
       },
