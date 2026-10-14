@@ -2,170 +2,115 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { Menu, X, Sun, Moon, Sparkles, Search, Mail } from "lucide-react";
-import { GithubIcon, LinkedinIcon } from "./icons";
-import { useTheme } from "./theme-provider";
+import { useEffect, useRef, useState } from "react";
+import { RollLink } from "@/components/ui/roll-link";
 import { NavLogo } from "./nav-logo";
+
+const NAV = [
+  { name: "Work", href: "/work" },
+  { name: "Journey", href: "/journey" },
+  { name: "Stack", href: "/skills" },
+  { name: "Contact", href: "/#contact" },
+];
 
 export function SiteHeader() {
   const pathname = usePathname();
-  const { theme, toggle } = useTheme();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
 
-  const navLinks = [
-    { name: "Projects", href: "/open-source-projects", id: "nav-link-projects" },
-    { name: "Journey", href: "/journey", id: "nav-link-journey" },
-    { name: "Skills", href: "/skills", id: "nav-link-skills" },
-  ];
+  // Hide while scrolling down, return on any upward scroll.
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY;
+      setHidden(y > 120 && y > lastY.current);
+      lastY.current = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-  const isActive = (href: string) => {
-    return pathname.startsWith(href);
-  };
+  useEffect(() => {
+    document.documentElement.style.overflow = open ? "hidden" : "";
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
-  const openCommandPalette = () => {
-    window.dispatchEvent(new CustomEvent("open-command-palette"));
-  };
+  const isActive = (href: string) => !href.includes("#") && pathname.startsWith(href);
 
   return (
-    <header className="sticky top-4 z-50 w-full px-4 sm:px-6 max-w-6xl mx-auto">
-      <div className="relative flex items-center justify-between h-14 sm:h-16 px-3 sm:px-6 rounded-2xl border border-neutral-200/90 dark:border-white/10 bg-white/90 dark:bg-[#0e0f14]/85 backdrop-blur-xl shadow-lg shadow-black/5 dark:shadow-red-950/10 transition-all duration-300">
-        {/* Brand 3D Interactive Logo & Role */}
-        <Link
-          href="/"
-          id="brand-logo-link"
-          className="group flex items-center gap-2 sm:gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 rounded-xl px-1.5 py-1 -ml-1 hover:bg-neutral-100/70 dark:hover:bg-white/5 transition-all"
-          aria-label="Home - AI Solutions Specialist"
-        >
-          <NavLogo className="block h-8 w-11 shrink-0" />
-          <span className="font-mono text-xs sm:text-sm font-semibold tracking-wider text-zinc-900 dark:text-zinc-100 group-hover:text-red-700 dark:group-hover:text-red-400 transition-colors uppercase">
-            AI Solutions Specialist
+    <header
+      className="fixed inset-x-0 top-0 z-50 transition-transform duration-[450ms]"
+      style={{
+        transform: hidden && !open ? "translateY(-100%)" : "none",
+        transitionTimingFunction: "var(--ease-out)",
+        viewTransitionName: "site-header",
+        paddingTop: "env(safe-area-inset-top, 0px)",
+      }}
+    >
+      <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-ink via-ink/70 to-transparent" />
+      <div className="shell relative flex h-20 items-center justify-between gap-6">
+        <Link href="/" className="group flex items-center gap-3" aria-label="Sandeep Paidipati, home">
+          <NavLogo className="block h-9 w-10 shrink-0" />
+          <span className="flex flex-col leading-tight">
+            <span className="text-[15px] font-semibold tracking-[-0.02em]">Sandeep Paidipati</span>
+            <span className="t-mono text-[10px]!">AI Solutions Engineer</span>
           </span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-1 bg-neutral-100/80 dark:bg-white/5 p-1 rounded-xl border border-neutral-200/80 dark:border-white/5" aria-label="Main Navigation">
-          {navLinks.map((link) => {
-            const active = isActive(link.href);
-            return (
-              <Link
-                key={link.id}
-                id={link.id}
-                href={link.href}
-                className={`relative px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 ${
-                  active
-                    ? "text-red-700 dark:text-red-400 bg-white dark:bg-white/10 shadow-sm border border-neutral-200/60 dark:border-transparent font-semibold"
-                    : "text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white hover:bg-white/60 dark:hover:bg-white/5"
-                }`}
-              >
-                {link.name}
-                {active && (
-                  <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-red-500" />
-                )}
-              </Link>
-            );
-          })}
+        <nav aria-label="Main" className="hidden items-center gap-9 md:flex">
+          {NAV.map((item) => (
+            <RollLink
+              key={item.href}
+              href={item.href}
+              className="text-[15px] font-medium"
+              aria-current={isActive(item.href) ? "page" : undefined}
+            >
+              {item.name}
+            </RollLink>
+          ))}
         </nav>
 
-        {/* Right Action Icons, Search & Theme Toggle */}
-        <div className="flex items-center gap-2">
-          {/* Command Palette Trigger */}
-          <button
-            id="header-cmd-palette-btn"
-            onClick={openCommandPalette}
-            type="button"
-            aria-label="Open command palette (Cmd+K)"
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-neutral-200 dark:border-white/10 text-neutral-600 dark:text-neutral-400 hover:text-red-700 dark:hover:text-red-400 hover:border-red-500/40 hover:bg-neutral-100/70 dark:hover:bg-white/5 text-xs font-mono transition-all"
-          >
-            <Search className="w-3.5 h-3.5 text-neutral-400" />
-            <span className="hidden sm:inline font-semibold">⌘K</span>
-          </button>
-
-          {/* Social & Contact Links */}
-          <a
-            id="header-email-link"
-            href="mailto:sandeep.paidipati@gmail.com"
-            aria-label="Email Sandy"
-            className="p-2 rounded-xl text-neutral-600 dark:text-neutral-300 hover:text-red-700 dark:hover:text-red-400 hover:bg-neutral-100 dark:hover:bg-white/5 transition-all"
-          >
-            <Mail className="w-4 h-4" />
-          </a>
-          <a
-            id="header-github-link"
-            href="https://github.com/sandy-sp"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub Profile"
-            className="p-2 rounded-xl text-neutral-600 dark:text-neutral-300 hover:text-red-700 dark:hover:text-red-400 hover:bg-neutral-100 dark:hover:bg-white/5 transition-all"
-          >
-            <GithubIcon className="w-4 h-4" />
-          </a>
-          <a
-            id="header-linkedin-link"
-            href="https://www.linkedin.com/in/sandy-sp/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn Profile"
-            className="p-2 rounded-xl text-neutral-600 dark:text-neutral-300 hover:text-red-700 dark:hover:text-red-400 hover:bg-neutral-100 dark:hover:bg-white/5 transition-all"
-          >
-            <LinkedinIcon className="w-4 h-4" />
-          </a>
-
-          {/* Theme Toggle */}
-          <button
-            id="header-theme-toggle-btn"
-            onClick={toggle}
-            type="button"
-            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-            className="p-2 rounded-xl border border-neutral-200 dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:text-red-700 dark:hover:text-red-400 hover:bg-neutral-100 dark:hover:bg-white/5 hover:border-red-500/30 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
-          >
-            {theme === "dark" ? (
-              <Sun className="w-4 h-4 text-red-400 animate-spin-slow" />
-            ) : (
-              <Moon className="w-4 h-4 text-neutral-700" />
-            )}
-          </button>
-
-          {/* Mobile Hamburger Toggle */}
-          <button
-            id="mobile-menu-toggle-btn"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            type="button"
-            aria-label="Toggle navigation menu"
-            className="md:hidden p-2 rounded-xl border border-neutral-200 dark:border-white/10 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-white/5 transition-all focus:outline-none"
-          >
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
-        </div>
+        <button
+          type="button"
+          className="t-mono text-bone! relative z-10 -mr-2 px-2 py-3 md:hidden"
+          aria-expanded={open}
+          aria-controls="mobile-menu"
+          onClick={() => setOpen((v) => !v)}
+        >
+          {open ? "Close" : "Menu"}
+        </button>
       </div>
 
-      {/* Mobile Drawer Menu */}
-      {mobileMenuOpen && (
-        <div
-          id="mobile-navigation-drawer"
-          className="md:hidden mt-2 p-4 rounded-2xl border border-neutral-200/90 dark:border-white/10 bg-white/95 dark:bg-[#0e0f14]/95 backdrop-blur-2xl shadow-xl flex flex-col gap-2 transition-all animate-in fade-in slide-in-from-top-2"
-        >
-          {navLinks.map((link) => {
-            const active = isActive(link.href);
-            return (
-              <Link
-                key={link.id}
-                id={`mobile-${link.id}`}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className={`flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                  active
-                    ? "bg-red-500/10 text-red-700 dark:text-red-400 font-semibold"
-                    : "text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-white/5"
-                }`}
-              >
-                <span>{link.name}</span>
-                {active && <Sparkles className="w-3.5 h-3.5 text-red-500" />}
-              </Link>
-            );
-          })}
-        </div>
-      )}
+      <div
+        id="mobile-menu"
+        className="fixed inset-0 -z-0 flex flex-col justify-end bg-ink md:hidden"
+        style={{
+          visibility: open ? "visible" : "hidden",
+          opacity: open ? 1 : 0,
+          transition: `opacity var(--t-ui) ${open ? "var(--ease-out)" : "var(--ease-in)"}, visibility 0s ${open ? "0s" : "var(--t-ui)"}`,
+        }}
+      >
+        <nav aria-label="Mobile" className="shell flex flex-col pb-16">
+          {NAV.map((item, i) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setOpen(false)}
+              className="t-display-2 border-t border-rule py-4 hover:text-ember focus-visible:text-ember"
+              style={{
+                transform: open ? "none" : "translateY(24px)",
+                opacity: open ? 1 : 0,
+                transition: `transform 600ms var(--ease-out) ${open ? i * 40 + 60 : 0}ms, opacity 400ms var(--ease-out) ${open ? i * 40 + 60 : 0}ms`,
+              }}
+            >
+              {item.name}
+            </Link>
+          ))}
+          <p className="t-mono mt-8">sandeep.paidipati@gmail.com</p>
+        </nav>
+      </div>
     </header>
   );
 }

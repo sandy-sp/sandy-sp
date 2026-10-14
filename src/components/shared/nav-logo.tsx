@@ -78,7 +78,7 @@ export function NavLogo({ className = "block h-9 w-11" }: { className?: string }
       >
         <ambientLight intensity={1.1} />
         <directionalLight position={[2, 3, 4]} intensity={1.8} />
-        <directionalLight position={[-3, -1, 2]} intensity={0.7} color="#dc2626" />
+        <directionalLight position={[-3, -1, 2]} intensity={0.7} color="#e5462e" />
         <Suspense fallback={null}>
           <Model handle={handleRef} />
         </Suspense>

@@ -1,184 +1,187 @@
 export interface Project {
   id: string;
   title: string;
-  tagline: string;
-  description: string;
+  /** One line for index rows. */
+  summary: string;
+  /** Short type label shown in mono (PyPI, App, CLI...). */
+  kind: string;
   category: "AI & LLM" | "Developer Tools" | "Data & Analytics";
-  technologies: string[];
+  description: string;
+  /** What it does, in concrete terms. */
   features: string[];
+  /** Why it is built the way it is. */
+  notes?: string;
+  technologies: string[];
   githubUrl: string;
-  demoUrl?: string;
+  packageUrl?: string;
   installCommand?: string;
-  badge?: string;
   featured: boolean;
-  architectureNotes?: string;
 }
 
 export const PROJECTS: Project[] = [
   {
     id: "gittxt",
     title: "Gittxt",
-    tagline: "AI-Ready Git Repository Extractor & Token Optimizer",
-    description:
-      "A published PyPI CLI utility designed to fetch, parse, and structure text-based files from Git repositories, optimizing them for seamless, high-density ingestion into LLM context windows (Claude 3.5 Sonnet, GPT-4o, Gemini).",
+    summary: "Turns a Git repository into clean, token-aware LLM context.",
+    kind: "PyPI",
     category: "AI & LLM",
-    technologies: ["Python", "AsyncIO", "FastAPI", "Streamlit", "PyPI", "Docker", "LLM Context"],
+    description:
+      "A command-line tool that pulls the text files out of a repository, filters out noise, and packs what's left into a structure an LLM can actually use. I built it because pasting a codebase into a chat window by hand was slow and lossy.",
     features: [
-      "Repository-to-prompt packing with smart AST/file filtering and .gittxtignore support",
-      "Compresses repository contexts by up to 80% while retaining structural semantics",
-      "FastAPI and Streamlit plugin architecture for flexible deployment and dataset delivery",
+      "Filters by file type, size and a .gittxtignore file, so binaries and vendored code stay out",
+      "Packs context to cut token count by up to 80% while keeping the repository's structure readable",
+      "Runs as a CLI, a FastAPI service or a Streamlit app, with zip export",
     ],
+    notes:
+      "Caches fetched repositories locally so repeated runs are fast and work offline. Output is token-counted so you know whether it fits a model's context window before you send it.",
+    technologies: ["Python", "AsyncIO", "FastAPI", "Streamlit", "Docker"],
     githubUrl: "https://github.com/sandy-sp/gittxt",
-    demoUrl: "https://pypi.org/project/gittxt/",
+    packageUrl: "https://pypi.org/project/gittxt/",
     installCommand: "pip install gittxt",
-    badge: "PyPI Package",
     featured: true,
-    architectureNotes: "Published on PyPI. Supports offline caching, zip exports, and token-aware context window structuring.",
   },
   {
     id: "ollama-scout",
     title: "ollama-scout",
-    tagline: "Hardware-Aware Local LLM Recommender & Hardware Benchmarker",
-    description:
-      "A Python CLI tool that scans your local GPU VRAM, CPU architecture, and system RAM, then recommends perfectly sized Ollama models grouped by practical use cases, complete with interactive guided selection.",
+    summary: "Reads your hardware and tells you which local models will run.",
+    kind: "PyPI",
     category: "AI & LLM",
-    technologies: ["Python", "Ollama", "Hardware Telemetry", "CLI", "PyPI", "PyTorch"],
+    description:
+      "A CLI that scans GPU VRAM, CPU and system RAM, then recommends Ollama models that fit, grouped by what you want to do: coding, chat, reasoning or vision. It saves the trial-and-error of pulling a 30GB model only to watch it run out of memory.",
     features: [
-      "Sub-second scanning of NVIDIA/Apple Silicon/AMD GPU memory and unified RAM",
-      "Context-aware model sizing: coding, chat, reasoning, and vision capabilities",
-      "Dual mode: beginner-friendly interactive terminal wizard and power-user CLI flags",
+      "Detects NVIDIA, AMD and Apple Silicon memory, including unified memory",
+      "Sizes recommendations by quantization and use case",
+      "Guided interactive mode for beginners, plain flags for scripting",
     ],
+    notes: "Recommendations come from the memory the machine actually has, not from a model's advertised size.",
+    technologies: ["Python", "Ollama", "CLI", "Hardware telemetry"],
     githubUrl: "https://github.com/sandy-sp/ollama-scout",
-    demoUrl: "https://pypi.org/project/ollama-scout/",
+    packageUrl: "https://pypi.org/project/ollama-scout/",
     installCommand: "pipx install ollama-scout",
-    badge: "PyPI Package",
     featured: true,
-    architectureNotes: "Automates local LLM deployment decisions based on real hardware constraints, preventing Out-Of-Memory kernel panics.",
   },
   {
     id: "audionomy",
     title: "Audionomy",
-    tagline: "Autonomous Audio Dataset Management & Spectral Visualization Engine",
-    description:
-      "An end-to-end dataset curation and visualization platform built specifically for AI speech researchers and machine learning developers to manage, inspect, annotate, and export audio training datasets.",
+    summary: "Curate, inspect and export audio datasets for speech models.",
+    kind: "App",
     category: "Data & Analytics",
-    technologies: ["Python", "FastAPI", "Librosa", "Audio ML", "React", "Docker", "Spectral Analysis"],
+    description:
+      "A dataset manager for people training speech models. Load recordings, look at waveforms and mel spectrograms, fix metadata, normalize and chunk audio, then export in formats Hugging Face and PyTorch read directly.",
     features: [
-      "Real-time spectral analysis, Mel-spectrogram rendering, and acoustic waveform inspection",
-      "Automated audio normalization, dynamic chunking, and metadata curation pipelines",
-      "Seamless dataset batch export formats compatible with Hugging Face and PyTorch",
+      "Waveform and mel-spectrogram views for spotting clipping, silence and noise",
+      "Batch normalization, chunking and metadata editing",
+      "Exports compatible with Hugging Face datasets and PyTorch loaders",
     ],
+    notes: "Signal processing runs in a Python backend (Librosa); the React front end stays responsive on large batches.",
+    technologies: ["Python", "FastAPI", "Librosa", "React", "Docker"],
     githubUrl: "https://github.com/sandy-sp/audionomy",
-    badge: "Dataset Engineering",
     featured: true,
-    architectureNotes: "Bridges audio signal processing algorithms with modern web UI to simplify high-volume speech AI dataset preparation.",
-  },
-  {
-    id: "linkedin-post-studio",
-    title: "LinkedIn Post Studio",
-    tagline: "AI-Draft to LinkedIn-Safe Formatting & Unicode Publishing Studio",
-    description:
-      "A specialized writing studio that bridges AI-generated Markdown drafts with LinkedIn's strict plain-text engine. Converts Markdown into LinkedIn-safe Unicode typography with real-time desktop & mobile feed previews.",
-    category: "Developer Tools",
-    technologies: ["TypeScript", "React", "Next.js", "Unicode Parsing", "Tailwind CSS", "UI/UX"],
-    features: [
-      "Smart Markdown paste parsing: handles bold, italic, code, and bullet styles via Unicode glyphs",
-      "Accurate LinkedIn desktop & mobile post collapse preview (detects '...see more' cutoff)",
-      "Real-time character, word, hashtag, and mention compliance telemetry",
-    ],
-    githubUrl: "https://github.com/sandy-sp/linkedin-post-studio",
-    badge: "Content Tooling",
-    featured: false,
-    architectureNotes: "Eliminates broken Markdown syntax when pasting AI outputs into social networks.",
-  },
-  {
-    id: "ytgrid",
-    title: "YTGrid",
-    tagline: "Scalable Hybrid CLI + REST API YouTube Automation Engine",
-    description:
-      "A containerized automation platform delivering programmatic streaming playback control, continuous telemetry tracking, and task queue orchestration through a unified dual CLI and REST API architecture.",
-    category: "Developer Tools",
-    technologies: ["Python", "FastAPI", "Celery", "Selenium", "Redis", "Docker", "WebSockets"],
-    features: [
-      "Containerized microservice architecture ready for single-node or Docker cluster deployment",
-      "Real-time stream health monitoring, auto-recovery loops, and automated session queues",
-      "Full OpenAPI / Swagger interactive control documentation with WebSocket status feeds",
-    ],
-    githubUrl: "https://github.com/sandy-sp/ytgrid",
-    badge: "Docker Ready",
-    featured: false,
-    architectureNotes: "Engineered with Celery and Redis to reliably execute concurrent headless video automation workloads.",
   },
   {
     id: "chat-audit",
     title: "ChatAudit",
-    tagline: "Local-First ChatGPT Export Tree Reconstructor & Privacy Analyzer",
-    description:
-      "A privacy-focused analyzer for exported ChatGPT conversations. Reconstructs complex branched message tree hierarchies, scores conversation retention value, and generates actionable cleanup reports without uploading data.",
+    summary: "Rebuilds and scores your exported ChatGPT history, locally.",
+    kind: "Tool",
     category: "AI & LLM",
-    technologies: ["Python", "FastAPI", "JSON Processing", "Data Privacy", "Local-First Architecture"],
+    description:
+      "ChatGPT exports store conversations as branching trees that are hard to read. ChatAudit reconstructs the active thread of each conversation, scores how worth keeping it is, and produces a cleanup report. Nothing leaves your machine.",
     features: [
-      "Reconstructs active threads across complex non-linear conversation branch mappings",
-      "Algorithmic value scoring: classifies chats into keep, archive, or safe-to-delete",
-      "Zero-telemetry design guarantees 100% data privacy with strictly local processing",
+      "Reconstructs the active path through branched conversations",
+      "Classifies chats as keep, archive or safe to delete",
+      "Local-only processing with no telemetry",
     ],
+    technologies: ["Python", "FastAPI", "JSON"],
     githubUrl: "https://github.com/sandy-sp/ChatAudit",
-    badge: "Privacy & Governance",
+    featured: true,
+  },
+  {
+    id: "linkedin-post-studio",
+    title: "LinkedIn Post Studio",
+    summary: "Converts Markdown drafts into LinkedIn-safe formatted posts.",
+    kind: "Web app",
+    category: "Developer Tools",
+    description:
+      "LinkedIn strips Markdown, so pasted drafts lose their formatting. This studio converts bold, italic, code and lists into Unicode equivalents and previews the post as it will appear on desktop and mobile, including where the “see more” cut falls.",
+    features: [
+      "Markdown to Unicode conversion for bold, italic, code and bullets",
+      "Desktop and mobile feed previews with the fold marked",
+      "Live character, hashtag and mention counts",
+    ],
+    technologies: ["TypeScript", "React", "Next.js", "Tailwind CSS"],
+    githubUrl: "https://github.com/sandy-sp/linkedin-post-studio",
+    featured: true,
+  },
+  {
+    id: "ytgrid",
+    title: "YTGrid",
+    summary: "Queue-driven YouTube playback automation with a CLI and REST API.",
+    kind: "Service",
+    category: "Developer Tools",
+    description:
+      "An automation service that runs headless browser playback sessions from a task queue, with the same controls exposed through a CLI and a REST API. Status streams over WebSockets.",
+    features: [
+      "Celery and Redis task queue for concurrent sessions",
+      "Health checks and automatic recovery for stalled sessions",
+      "OpenAPI docs and a WebSocket status feed",
+    ],
+    technologies: ["Python", "FastAPI", "Celery", "Redis", "Selenium", "Docker"],
+    githubUrl: "https://github.com/sandy-sp/ytgrid",
     featured: false,
-    architectureNotes: "Solves enterprise data retention and personal data hygiene challenges for heavy LLM users.",
   },
   {
     id: "metadata-cleaner",
     title: "Metadata Cleaner",
-    tagline: "Multi-Format Privacy & EXIF Forensics Scrubbing CLI",
-    description:
-      "A cross-platform security utility designed to inspect, edit, and recursively sanitize hidden metadata across images (JPG, PNG, WEBP), documents (PDF, DOCX), audio, and video containers before downstream ingestion.",
+    summary: "Strips hidden metadata from images, documents, audio and video.",
+    kind: "CLI",
     category: "Developer Tools",
-    technologies: ["Python", "Security", "EXIF Forensics", "CLI Architecture", "Data Governance"],
+    description:
+      "A CLI for inspecting and removing metadata before files are shared or used as training data: GPS coordinates, camera serials, author names and editing history.",
     features: [
-      "Deep recursive scrubbing of GPS coordinates, camera hardware serials, and author signatures",
-      "Comprehensive format support across documents, images, audio, and MP4/MKV video files",
-      "Zero data leak guarantee with localized file stream handling and batch processing",
+      "Images (JPG, PNG, WEBP), documents (PDF, DOCX), audio and MP4/MKV video",
+      "Recursive batch processing of folders",
+      "Inspect mode to see what would be removed first",
     ],
+    technologies: ["Python", "CLI"],
     githubUrl: "https://github.com/sandy-sp/metadata-cleaner",
-    badge: "Security & Compliance",
     featured: false,
-    architectureNotes: "Critical utility for data compliance and sanitizing sensitive datasets before fine-tuning or public release.",
   },
   {
     id: "ai-reply-index",
-    title: "AI Reply Index & Benchmarks",
-    tagline: "Prompt Versioning, Model Evaluation & Hallucination Benchmark Catalog",
-    description:
-      "A community-driven, version-controlled repository framework designed to log, categorize, and systematically evaluate AI prompts and model response variance across GPT-4, Claude, and Gemini releases.",
+    title: "AI Reply Index",
+    summary: "A versioned record of prompts and how different models answered.",
+    kind: "Repo",
     category: "AI & LLM",
-    technologies: ["Python", "Prompt Engineering", "Evaluation Frameworks", "GitOps", "Markdown"],
+    description:
+      "A repository format for logging prompts, system instructions and settings alongside model responses, so changes in behavior across model releases can be compared over time.",
     features: [
-      "Standardized schema for tracking prompt iterations, system instructions, and temperature tuning",
-      "Comparative output evaluations to quantify hallucination frequency and signal fidelity",
-      "Zero-overhead open-source repository design with clean markdown taxonomy",
+      "A consistent schema for prompts, parameters and responses",
+      "Side-by-side comparisons across GPT, Claude and Gemini releases",
+      "Plain Markdown, versioned with Git",
     ],
+    technologies: ["Python", "Markdown", "Git"],
     githubUrl: "https://github.com/sandy-sp/ai-reply-index",
-    badge: "Evaluation Framework",
     featured: false,
-    architectureNotes: "Provides a reproducible benchmark record for prompt optimization and model regression testing.",
   },
   {
     id: "art-of-data-analysis",
     title: "Art of Data Analysis",
-    tagline: "Geospatial Seismic Visualizer & Meteorological Telemetry Dashboards",
-    description:
-      "An open-source codebase rendering high-density geospatial and environmental datasets into narrative-driven, interactive dashboards using live USGS and Open-Meteo telemetry feeds.",
+    summary: "Interactive dashboards on live earthquake and weather data.",
+    kind: "Dashboards",
     category: "Data & Analytics",
-    technologies: ["Python", "Streamlit", "Plotly", "GeoPandas", "Folium", "Open-Meteo API", "Pandas"],
+    description:
+      "A set of Streamlit dashboards built on live USGS earthquake and Open-Meteo weather feeds, written to practice turning raw public APIs into readable visual stories.",
     features: [
-      "Real-time ingestion and choropleth mapping of global USGS seismic events",
-      "Meteorological atmospheric differential plots and severe weather anomaly detection",
-      "Interactive time-series filters with high-performance Pandas and GeoPandas pipelines",
+      "Global seismic event maps from the USGS feed",
+      "Weather comparisons and anomaly views from Open-Meteo",
+      "Time-series filters on Pandas and GeoPandas pipelines",
     ],
+    technologies: ["Python", "Streamlit", "Plotly", "GeoPandas", "Folium"],
     githubUrl: "https://github.com/sandy-sp/art-of-data-analysis",
-    badge: "Geospatial Telemetry",
     featured: false,
-    architectureNotes: "Demonstrates advanced data visualization capabilities turning raw geospatial APIs into executive-ready dashboards.",
   },
 ];
+
+export function getProject(id: string) {
+  return PROJECTS.find((p) => p.id === id);
+}

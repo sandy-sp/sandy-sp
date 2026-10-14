@@ -1,15 +1,17 @@
-import { HeroSection } from "@/components/home/hero-section";
-import { ArchitectureVisualizer } from "@/components/home/architecture-visualizer";
-import { FeaturedProjects } from "@/components/home/featured-projects";
-import { ContactSection } from "@/components/home/contact-section";
+import { Hero } from "@/components/home/hero";
+import { SelectedWork } from "@/components/home/selected-work";
+import { Approach } from "@/components/home/approach";
+import { JourneyStrip } from "@/components/home/journey-strip";
+import { Contact } from "@/components/home/contact";
 
 export default function Home() {
   return (
-    <div className="relative z-10 w-full flex flex-col">
-      <HeroSection />
-      <ArchitectureVisualizer />
-      <FeaturedProjects />
-      <ContactSection />
-    </div>
+    <>
+      <Hero />
+      <SelectedWork />
+      <Approach />
+      <JourneyStrip />
+      <Contact />
+    </>
   );
 }

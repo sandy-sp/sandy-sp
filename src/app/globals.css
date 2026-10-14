@@ -1,151 +1,338 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *, .dark, .dark *));
-
+/* Tokens mirror MASTER.md. Single dark world: no light theme. */
 :root {
-  --background: #faf9f8;
-  --foreground: #18181b;
-  --muted: #52525b;
-  --accent: #993333;
-  --accent-hover: #7e2222;
-  --accent-subtle: rgba(153, 51, 51, 0.08);
-  --accent-text: #8b2525;
-  --surface: rgba(255, 255, 255, 0.92);
-  --surface-card: #ffffff;
-  --border: rgba(24, 24, 27, 0.08);
-  --card-border: rgba(153, 51, 51, 0.12);
-  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.03), 0 8px 24px -4px rgba(153, 51, 51, 0.05);
-  --card-shadow-hover: 0 16px 36px -8px rgba(153, 51, 51, 0.14);
-  --header-bg: rgba(250, 249, 248, 0.88);
-  --code-bg: #f4f3f1;
+  color-scheme: dark;
+  --ink: #0b0a09;
+  --ink-2: #141210;
+  --rule: #2a2622;
+  --bone: #ece6dc;
+  --ash: #9b938a;
+  --oxblood: #7a1712;
+  --ember: #e5462e;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-scene: cubic-bezier(0.65, 0, 0.35, 1);
+  --t-fast: 180ms;
+  --t-ui: 220ms;
+  --t-wipe: 380ms;
+  --t-route: 450ms;
+
+  --gutter: max(16px, 4vw);
+  --section-y: clamp(96px, 16vw, 192px);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-accent: var(--accent);
-  --color-muted: var(--muted);
-  --color-surface: var(--surface);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-terminal: var(--font-share-tech-mono);
-}
-
-[data-theme="dark"] {
-  --background: #0e0f14;
-  --foreground: #f4f4f5;
-  --muted: #a1a1aa;
-  --accent: #e04848;
-  --accent-hover: #f87171;
-  --accent-subtle: rgba(224, 72, 72, 0.14);
-  --accent-text: #f87171;
-  --surface: rgba(18, 19, 26, 0.82);
-  --surface-card: rgba(22, 23, 31, 0.88);
-  --border: rgba(255, 255, 255, 0.08);
-  --card-border: rgba(255, 255, 255, 0.08);
-  --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.55);
-  --card-shadow-hover: 0 16px 40px -6px rgba(224, 72, 72, 0.22);
-  --header-bg: rgba(14, 15, 20, 0.85);
-  --code-bg: rgba(255, 255, 255, 0.04);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-rule: var(--rule);
+  --color-bone: var(--bone);
+  --color-ash: var(--ash);
+  --color-oxblood: var(--oxblood);
+  --color-ember: var(--ember);
+  --font-display: var(--font-schibsted);
+  --font-sans: var(--font-schibsted);
+  --font-mono: var(--font-jetbrains);
 }
 
 html {
-  scroll-behavior: smooth;
-  color-scheme: light dark;
+  background: var(--ink);
 }
 
-[data-theme="light"] {
-  color-scheme: light;
-}
-
-[data-theme="dark"] {
-  color-scheme: dark;
-}
-
+/* Body stays transparent so the fixed WebGL canvas (z -10) shows through. */
 body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  min-height: 100vh;
-  overflow-x: hidden;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Elegant light mode backdrop ambient pattern */
-[data-theme="light"] body {
-  background-image:
-    radial-gradient(circle at 18% 12%, rgba(153, 51, 51, 0.04) 0%, transparent 40%),
-    radial-gradient(circle at 82% 80%, rgba(153, 51, 51, 0.025) 0%, transparent 45%);
-  background-attachment: fixed;
-}
-
-/* Elegant dark mode backdrop ambient pattern */
-[data-theme="dark"] body {
-  background-image:
-    radial-gradient(circle at 18% 12%, rgba(220, 38, 38, 0.08) 0%, transparent 45%),
-    radial-gradient(circle at 82% 80%, rgba(153, 51, 51, 0.05) 0%, transparent 50%);
-  background-attachment: fixed;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
-}
-
-::-webkit-scrollbar-track {
   background: transparent;
+  color: var(--bone);
+  font-family: var(--font-schibsted), "Helvetica Neue", Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-::-webkit-scrollbar-thumb {
-  background: rgba(140, 140, 150, 0.22);
-  border-radius: 9999px;
+::selection {
+  background: var(--ember);
+  color: var(--ink);
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(220, 38, 38, 0.6);
+:focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 3px;
 }
 
-/* Fluid graphic keyframe animations */
-@keyframes spinSlow {
-  from {
-    transform: rotate(0deg);
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ---------- Layout ---------- */
+.shell {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
+}
+
+.grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 24px;
+}
+@media (max-width: 800px) {
+  .grid-12 {
+    column-gap: 16px;
   }
-  to {
-    transform: rotate(360deg);
-  }
 }
 
-@keyframes floatGentle {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-6px);
-  }
+.section {
+  padding-block: var(--section-y);
+  position: relative;
 }
 
-@keyframes pulseSubtle {
-  0%, 100% {
+/* ---------- Type ---------- */
+.t-display-1 {
+  font-size: clamp(3.5rem, 11vw, 10.5rem);
+  line-height: 0.86;
+  letter-spacing: -0.055em;
+  font-weight: 600;
+  text-wrap: balance;
+}
+.t-display-2 {
+  font-size: clamp(2.25rem, 5.5vw, 4.75rem);
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  font-weight: 600;
+  text-wrap: balance;
+}
+.t-h3 {
+  font-size: clamp(1.5rem, 2.4vw, 2.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  font-weight: 600;
+}
+.t-lead {
+  font-size: clamp(1.125rem, 1.6vw, 1.375rem);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  max-width: 52ch;
+}
+.t-body {
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  max-width: 62ch;
+}
+.t-mono {
+  font-family: var(--font-jetbrains), ui-monospace, Menlo, monospace;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ash);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Masked line used by RevealText. Padding keeps descenders inside the mask. */
+.mask-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+/* ---------- Controls ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 22px;
+  border-radius: 2px;
+  border: 1px solid var(--bone);
+  background: var(--bone);
+  color: var(--ink);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  line-height: 1;
+  transition:
+    background-color var(--t-fast) var(--ease-out),
+    border-color var(--t-fast) var(--ease-out),
+    color var(--t-fast) var(--ease-out),
+    transform var(--t-ui) var(--ease-out);
+}
+.btn:hover {
+  background: var(--ember);
+  border-color: var(--ember);
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--bone);
+  border-color: var(--rule);
+}
+.btn-ghost:hover {
+  background: transparent;
+  border-color: var(--bone);
+}
+
+/* Roll link: two stacked copies, the second in ember, plus an underline wipe. */
+.roll {
+  position: relative;
+  display: inline-flex;
+  color: var(--bone);
+}
+.roll-clip {
+  display: inline-block;
+  overflow: hidden;
+  height: 1.25em;
+  line-height: 1.25em;
+}
+.roll-clip > span {
+  display: block;
+  transition: transform var(--t-ui) var(--ease-out);
+}
+.roll-clip > span + span {
+  color: var(--ember);
+}
+.roll:hover .roll-clip > span,
+.roll:focus-visible .roll-clip > span,
+.roll[aria-current="page"] .roll-clip > span {
+  transform: translateY(-100%);
+}
+.roll::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 1px;
+  background: var(--ember);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--t-wipe) var(--ease-out);
+}
+.roll:hover::after,
+.roll:focus-visible::after,
+.roll[aria-current="page"]::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Index row */
+.row {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 24px;
+  align-items: baseline;
+  padding-block: clamp(20px, 2.4vw, 32px);
+  border-top: 1px solid var(--rule);
+  color: var(--bone);
+}
+.row-name {
+  display: inline-block;
+  transition:
+    transform var(--t-ui) var(--ease-out),
+    color var(--t-fast) var(--ease-out);
+}
+.row:hover .row-name,
+.row:focus-visible .row-name {
+  transform: translateX(12px);
+  color: var(--ember);
+}
+.row-arrow {
+  display: inline-block;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition:
+    opacity var(--t-fast) var(--ease-out),
+    transform var(--t-ui) var(--ease-out);
+}
+.row:hover .row-arrow,
+.row:focus-visible .row-arrow {
+  opacity: 1;
+  transform: none;
+  color: var(--ember);
+}
+@media (max-width: 800px) {
+  .row {
+    column-gap: 16px;
+  }
+  .row-arrow {
     opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.04);
+    transform: none;
   }
 }
 
-.animate-spin-slow {
-  animation: spinSlow 14s linear infinite;
+/* ---------- Route transition (React ViewTransition) ---------- */
+::view-transition-old(.page-fade) {
+  animation: page-out 200ms var(--ease-in) both;
+}
+::view-transition-new(.page-fade) {
+  animation: page-in var(--t-route) var(--ease-out) both;
+}
+@keyframes page-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
 }
 
-.animate-float-gentle {
-  animation: floatGentle 4s ease-in-out infinite;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
-.animate-pulse-subtle {
-  animation: pulseSubtle 3s ease-in-out infinite;
+/* Reveal pre-state. Only applies once JS has run (html.motion); the timed
+   fallback guarantees text shows even if the reveal never fires. */
+html.motion [data-reveal] {
+  visibility: hidden;
+  animation: reveal-fallback 0s 2.5s forwards;
+}
+@keyframes reveal-fallback {
+  to {
+    visibility: visible;
+  }
+}
+
+/* The root snapshot (canvas, header) stays live; only page content fades. */
+::view-transition-old(root) {
+  display: none;
+}
+::view-transition-new(root) {
+  animation: none;
+}
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header) {
+  display: none;
+}
+::view-transition-new(site-header) {
+  animation: none;
 }
