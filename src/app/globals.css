@@ -249,7 +249,9 @@ html.lenis body {
     color var(--t-fast) var(--ease-out);
 }
 .row:hover .row-name,
-.row:focus-visible .row-name {
+.row:focus-visible .row-name,
+.lift:hover .row-name,
+.lift:focus-visible .row-name {
   transform: translateX(12px);
   color: var(--ember);
 }
@@ -262,7 +264,9 @@ html.lenis body {
     transform var(--t-ui) var(--ease-out);
 }
 .row:hover .row-arrow,
-.row:focus-visible .row-arrow {
+.row:focus-visible .row-arrow,
+.lift:hover .row-arrow,
+.lift:focus-visible .row-arrow {
   opacity: 1;
   transform: none;
   color: var(--ember);

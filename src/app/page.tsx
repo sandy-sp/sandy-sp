@@ -1,16 +1,14 @@
 import { Hero } from "@/components/home/hero";
-import { SelectedWork } from "@/components/home/selected-work";
 import { Approach } from "@/components/home/approach";
-import { JourneyStrip } from "@/components/home/journey-strip";
+import { Explore } from "@/components/home/explore";
 import { Contact } from "@/components/home/contact";
 
 export default function Home() {
   return (
     <>
       <Hero />
-      <SelectedWork />
       <Approach />
-      <JourneyStrip />
+      <Explore />
       <Contact />
     </>
   );

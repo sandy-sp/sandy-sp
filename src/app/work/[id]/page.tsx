@@ -28,9 +28,9 @@ export default async function ProjectPage({ params }: Props) {
 
   return (
     <>
-      <PageHeader eyebrow={`${project.kind} · ${project.category}`} title={project.title} lead={project.summary} />
+      <PageHeader scene="project" part={index} eyebrow={`${project.kind} · ${project.category}`} title={project.title} lead={project.summary} />
 
-      <section data-scene="page" className="shell grid-12 gap-y-16 pb-24 md:pb-40">
+      <section data-scene="projectAside" data-part={index} className="shell grid-12 gap-y-16 pb-24 md:pb-40">
         <div className="col-span-12 flex flex-col gap-16 md:col-span-7">
           <div>
             <p className="t-mono mb-6">About</p>
@@ -93,7 +93,7 @@ export default async function ProjectPage({ params }: Props) {
         </aside>
       </section>
 
-      <section className="shell">
+      <section data-scene="project" data-part={PROJECTS.indexOf(next)} className="shell">
         <Link
           href={`/work/${next.id}`}
           transitionTypes={["nav-forward"]}

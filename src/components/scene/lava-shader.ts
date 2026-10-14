@@ -5,11 +5,17 @@ void main() {
 }
 `;
 
-// Raymarched signed-distance form. One field morphs between a lava sphere,
-// orbiting agent nodes, a thread of nodes, and a ring. Mixing SDFs is not exact,
-// so the march under-steps (0.7) to stay stable mid-morph.
+export const MAX_PINS = 10;
+
+// Raymarched signed-distance form. One field blends between a lava sphere,
+// agent nodes, a ring, a dotted globe, a grid of modules and a stack of layers.
+// Mixing SDFs is not exact, so the march under-steps to stay stable mid-morph;
+// a form passing through another briefly melts through lava, which is intended.
 export const FRAGMENT = /* glsl */ `
 precision highp float;
+
+#define MAX_PINS ${MAX_PINS}
+#define PI 3.14159265
 
 uniform vec2 uRes;
 uniform float uTime;
@@ -20,12 +26,23 @@ uniform float uScale;
 uniform float uNodes;
 uniform float uLine;
 uniform float uRing;
+uniform float uGlobe;
+uniform float uModules;
+uniform float uLayers;
 uniform float uDim;
 uniform float uHeat;
 uniform float uFlow;
+uniform float uPart;     // active module / layer index, -1 = none
+uniform float uPartLift; // 0..1 eased lift of the active part
 
-const float CAM_Z = 3.6;
-const float FOCAL = 1.9;
+uniform mat3 uGlobeRot;  // world -> globe-local
+uniform sampler2D uLand; // equirectangular land mask
+uniform float uLandReady;
+uniform vec3 uPins[MAX_PINS]; // lat, lon (radians), state: 0 future, 1 past, 2 active
+uniform float uPinCount;
+
+const float CAM_Z = 7.2;
+const float FOCAL = 3.8;
 
 vec3 hash3(vec3 p) {
   p = fract(p * vec3(0.1031, 0.1030, 0.0973));
@@ -54,6 +71,18 @@ mat2 rot(float a) {
   float c = cos(a), s = sin(a);
   return mat2(c, -s, s, c);
 }
+
+float sdRoundBox(vec3 p, vec3 b, float r) {
+  vec3 q = abs(p) - b + r;
+  return length(max(q, 0.0)) + min(max(q.x, max(q.y, q.z)), 0.0) - r;
+}
+
+float sdCylinder(vec3 p, float r, float h, float round) {
+  vec2 d = vec2(length(p.xz) - r + round, abs(p.y) - h + round);
+  return min(max(d.x, d.y), 0.0) + length(max(d, 0.0)) - round;
+}
+
+// ---------- forms ----------
 
 float field(vec3 q, float amp) {
   return noise(q * 1.6 + vec3(0.0, uTime * 0.25, 0.0)) * 0.32 * amp
@@ -85,19 +114,71 @@ float sdRing(vec3 q) {
   return length(t) - (0.17 + noise(q * 2.2 + uTime * 0.25) * 0.06);
 }
 
+// 3x3 grid of rounded modules, one per project. Active one slides forward.
+float sdModules(vec3 q, out float id) {
+  q.xz = rot(0.55 + sin(uTime * 0.25) * 0.25) * q.xz;
+  q.yz = rot(-0.3) * q.yz;
+  float d = 1e3;
+  id = -1.0;
+  for (int i = 0; i < 9; i++) {
+    float fi = float(i);
+    vec3 c = vec3(mod(fi, 3.0) - 1.0, 1.0 - floor(fi / 3.0), 0.0) * 0.68;
+    float active = 1.0 - step(0.5, abs(fi - uPart));
+    // Active module pops toward the viewer and grows; the rest shrink back.
+    float lift = uPartLift * (uPart < 0.0 ? 0.0 : 1.0);
+    c.z += active * lift * 0.6;
+    c.xy *= 1.0 + active * lift * 0.12;
+    c.y += sin(uTime * 0.8 + fi * 1.7) * 0.025;
+    float size = 0.26 + active * lift * 0.07 - (1.0 - active) * lift * 0.03;
+    float b = sdRoundBox(q - c, vec3(size), 0.07);
+    if (b < d) { d = b; id = fi; }
+  }
+  return d;
+}
+
+// Four stacked plates, one per stack category. Active one slides out.
+float sdLayers(vec3 q, out float id) {
+  q.yz = rot(0.42) * q.yz;
+  q.xz = rot(uTime * 0.18) * q.xz;
+  float d = 1e3;
+  id = -1.0;
+  for (int i = 0; i < 4; i++) {
+    float fi = float(i);
+    float active = 1.0 - step(0.5, abs(fi - uPart));
+    vec3 c = vec3(active * uPartLift * 0.55, (1.5 - fi) * 0.44 + active * uPartLift * 0.06, 0.0);
+    float r = 0.95 - fi * 0.06 + active * uPartLift * 0.08;
+    float b = sdCylinder(q - c, r, 0.075, 0.05);
+    if (b < d) { d = b; id = fi; }
+  }
+  return d;
+}
+
+float partId = -1.0;
+
 float map(vec3 p) {
-  vec3 q = (p - vec3(uOffset, 0.0)) / uScale;
-  float a = uTime * 0.15;
-  q.xz = rot(a) * q.xz;
+  vec3 q0 = (p - vec3(uOffset, 0.0)) / uScale;
+  vec3 q = q0;
+  q.xz = rot(uTime * 0.15) * q.xz;
 
   // Pointer pulls the surface toward it.
   vec3 mp = vec3((uMouse - uOffset) / uScale, 0.9);
-  float pull = exp(-dot(q - mp, q - mp) * 2.2) * 0.3 * uMouseOn;
+  float pull = exp(-dot(q0 - mp, q0 - mp) * 2.2) * 0.3 * uMouseOn;
 
-  float amp = 1.0 + uFlow;
-  float d = sdBlob(q, amp) - pull;
+  float d = sdBlob(q, 1.0 + uFlow) - pull;
   if (uNodes > 0.001) d = mix(d, sdNodes(q) - pull * 0.5, uNodes);
   if (uRing > 0.001) d = mix(d, sdRing(q), uRing);
+  if (uGlobe > 0.001) d = mix(d, length(q0) - 1.0 - pull * 0.15, uGlobe);
+  partId = -1.0;
+  if (uModules > 0.001) {
+    float id;
+    d = mix(d, sdModules(q0, id) - pull * 0.2, uModules);
+    partId = id;
+  }
+  if (uLayers > 0.001) {
+    float id;
+    d = mix(d, sdLayers(q0, id) - pull * 0.2, uLayers);
+    partId = id;
+  }
   return d * uScale;
 }
 
@@ -107,6 +188,90 @@ vec3 normalAt(vec3 p) {
     map(p + e.xyy) - map(p - e.xyy),
     map(p + e.yxy) - map(p - e.yxy),
     map(p + e.yyx) - map(p - e.yyx)));
+}
+
+// ---------- materials ----------
+
+vec3 lava(vec3 q, vec3 n, vec3 rd, float extraHeat) {
+  float fres = pow(1.0 - max(dot(n, -rd), 0.0), 2.4);
+  float dif = max(dot(n, normalize(vec3(-0.5, 0.8, 0.6))), 0.0);
+  float core = noise(q * 2.2 + uTime * 0.3) * 0.5 + 0.5;
+  float h = clamp(uHeat + extraHeat, 0.0, 1.5);
+
+  vec3 oxblood = vec3(0.30, 0.05, 0.035);
+  vec3 ember = vec3(0.95, 0.29, 0.16);
+  vec3 hot = vec3(1.0, 0.72, 0.45);
+
+  vec3 col = mix(oxblood * 0.35, oxblood, dif);
+  col = mix(col, ember, smoothstep(0.45 - h * 0.15, 0.95, core) * (0.35 + 0.65 * dif + h * 0.35));
+  col += hot * pow(smoothstep(0.7 - h * 0.1, 1.0, core), 3.0) * (0.6 + h * 0.5);
+  col += ember * fres * 0.9;
+  return col;
+}
+
+vec3 pinDir(vec2 ll) {
+  return vec3(cos(ll.x) * sin(ll.y), sin(ll.x), cos(ll.x) * cos(ll.y));
+}
+
+vec3 globe(vec3 q0, vec3 n, vec3 rd) {
+  vec3 g = uGlobeRot * normalize(q0);
+  float lat = asin(clamp(g.y, -1.0, 1.0));
+  float lon = atan(g.x, g.z);
+
+  float fres = pow(1.0 - max(dot(n, -rd), 0.0), 2.6);
+  float dif = max(dot(n, normalize(vec3(-0.4, 0.6, 0.8))), 0.0);
+
+  vec3 ink = vec3(0.06, 0.05, 0.045);
+  vec3 bone = vec3(0.93, 0.9, 0.86);
+  vec3 ember = vec3(0.95, 0.29, 0.16);
+  vec3 col = ink + vec3(0.05, 0.012, 0.01) * dif;
+
+  // Dot-matrix land: rows of dots spaced evenly by latitude, mask sampled at each dot center.
+  float stepLat = PI / 90.0;
+  float row = floor((lat + PI * 0.5) / stepLat);
+  float latC = (row + 0.5) * stepLat - PI * 0.5;
+  float count = max(1.0, floor(cos(latC) * 180.0));
+  float stepLon = 2.0 * PI / count;
+  float colIdx = floor((lon + PI) / stepLon);
+  float lonC = (colIdx + 0.5) * stepLon - PI;
+  float land = texture2D(uLand, vec2((lonC + PI) / (2.0 * PI), (PI * 0.5 - latC) / PI)).r * uLandReady;
+  vec2 dd = vec2((lon - lonC) * cos(lat), lat - latC);
+  float dotMask = smoothstep(stepLat * 0.34, stepLat * 0.22, length(dd)) * land;
+  col = mix(col, bone * (0.22 + 0.45 * dif), dotMask);
+
+  // Travelled path and pins.
+  float pulse = fract(uTime * 0.6);
+  for (int i = 0; i < MAX_PINS; i++) {
+    if (float(i) >= uPinCount) break;
+    vec3 pin = uPins[i];
+    vec3 pd = pinDir(pin.xy);
+    float ang = acos(clamp(dot(g, pd), -1.0, 1.0));
+
+    if (i > 0 && pin.z > 0.5) {
+      vec3 a = pinDir(uPins[i - 1].xy);
+      vec3 c = cross(a, pd);
+      float cl = length(c);
+      if (cl > 0.01) {
+        vec3 nn = c / cl;
+        float off = abs(dot(g, nn));
+        float inside = step(0.0, dot(cross(a, g), nn)) * step(0.0, dot(cross(g, pd), nn));
+        col = mix(col, ember * 0.8, smoothstep(0.006, 0.002, off) * inside * (pin.z > 1.5 ? 1.0 : 0.6));
+      }
+    }
+
+    if (pin.z > 1.5) {
+      col = mix(col, vec3(1.0, 0.55, 0.38), smoothstep(0.03, 0.018, ang));
+      float ringR = 0.035 + pulse * 0.07;
+      col += ember * smoothstep(0.008, 0.0, abs(ang - ringR)) * (1.0 - pulse) * 1.2;
+    } else if (pin.z > 0.5) {
+      col = mix(col, ember * 0.85, smoothstep(0.02, 0.012, ang));
+    } else {
+      col = mix(col, bone * 0.4, smoothstep(0.015, 0.009, ang));
+    }
+  }
+
+  col += ember * fres * 0.55;
+  return col;
 }
 
 void main() {
@@ -139,25 +304,18 @@ void main() {
 
   if (hit) {
     vec3 p = ro + rd * t;
+    float hitPart = partId;
     vec3 n = normalAt(p);
-    vec3 q = (p - vec3(uOffset, 0.0)) / uScale;
-    float fres = pow(1.0 - max(dot(n, -rd), 0.0), 2.4);
-    float dif = max(dot(n, normalize(vec3(-0.5, 0.8, 0.6))), 0.0);
-    float core = noise(q * 2.2 + uTime * 0.3) * 0.5 + 0.5;
+    vec3 q0 = (p - vec3(uOffset, 0.0)) / uScale;
+    vec3 q = q0;
+    q.xz = rot(uTime * 0.15) * q.xz;
 
-    vec3 oxblood = vec3(0.30, 0.05, 0.035);
-    vec3 ember = vec3(0.95, 0.29, 0.16);
-    vec3 hot = vec3(1.0, 0.72, 0.45);
-
-    float heat = 0.35 + 0.65 * dif + uHeat * 0.35;
-    col = mix(oxblood * 0.35, oxblood, dif);
-    col = mix(col, ember, smoothstep(0.45 - uHeat * 0.15, 0.95, core) * heat);
-    col += hot * pow(smoothstep(0.7 - uHeat * 0.1, 1.0, core), 3.0) * (0.6 + uHeat * 0.5);
-    col += ember * fres * 0.9;
+    float partHeat = (uModules + uLayers) * uPartLift * (1.0 - step(0.5, abs(hitPart - uPart))) * 1.4;
+    col = lava(q, n, rd, partHeat);
+    if (uGlobe > 0.01) col = mix(col, globe(q0, n, rd), uGlobe);
   } else {
-    // Faint warm light around the form so it sits in the room rather than on it.
     float dist = length(uv - uOffset / (CAM_Z / FOCAL));
-    col += vec3(0.22, 0.04, 0.03) * exp(-dist * 2.4 / uScale) * 0.3;
+    col += vec3(0.22, 0.04, 0.03) * exp(-dist * 2.4 / uScale) * 0.3 * (1.0 - uGlobe * 0.6);
   }
 
   col = mix(col, ink, uDim);

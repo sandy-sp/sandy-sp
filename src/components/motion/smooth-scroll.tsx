@@ -42,6 +42,43 @@ export function SmoothScroll() {
   return null;
 }
 
+let unbind: (() => void) | null = null;
+
+/**
+ * Binds every `[data-scene]` section in the document to a scene state. Call again
+ * after a page swaps its own sections (e.g. a view toggle) without a route change.
+ */
+export function rebindScenes() {
+  unbind?.();
+
+  const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-scene]"));
+  const apply = (el: HTMLElement) =>
+    setScene(el.dataset.scene as SceneName, el.dataset.part ? Number(el.dataset.part) : -1);
+
+  const triggers = sections.map((el) =>
+    ScrollTrigger.create({
+      trigger: el,
+      start: "top 55%",
+      end: "bottom 55%",
+      onToggle: (self) => {
+        if (self.isActive) apply(el);
+      },
+    }),
+  );
+  // Before any trigger is active (top of page), the first section sets the scene.
+  const active = triggers.findIndex((t) => t.isActive);
+  if (active >= 0) apply(sections[active]);
+  else if (sections[0]) apply(sections[0]);
+
+  // Layout settles after fonts and split text; measure again once it has.
+  const id = requestAnimationFrame(() => ScrollTrigger.refresh());
+
+  unbind = () => {
+    cancelAnimationFrame(id);
+    triggers.forEach((t) => t.kill());
+  };
+}
+
 /**
  * Maps every `[data-scene]` section on the current page to a scene state.
  * Re-binds on each route change.
@@ -58,25 +95,14 @@ export function SceneDirector() {
       lenis?.scrollTo(0, { immediate: true });
     }
 
-    const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-scene]"));
-    if (sections[0]) setScene(sections[0].dataset.scene as SceneName);
+    scene.preview = null;
+    scene.hoverPart = -1;
+    scene.heat = 0;
 
-    const triggers = sections.map((el) =>
-      ScrollTrigger.create({
-        trigger: el,
-        start: "top 55%",
-        end: "bottom 55%",
-        onToggle: (self) => {
-          if (self.isActive) setScene(el.dataset.scene as SceneName);
-        },
-      }),
-    );
-    // Layout settles after fonts and split text; measure again once it has.
-    const id = requestAnimationFrame(() => ScrollTrigger.refresh());
-
+    rebindScenes();
     return () => {
-      cancelAnimationFrame(id);
-      triggers.forEach((t) => t.kill());
+      unbind?.();
+      unbind = null;
     };
   }, [pathname]);
 

@@ -98,15 +98,26 @@ pointer warp off, route transitions become instant.
 
 ## Scene (persistent WebGL form)
 
-One fixed full-viewport raymarched SDF canvas behind all content. Sections declare a
-state with `data-scene="<name>"`:
+One fixed full-viewport raymarched SDF canvas behind all content. It never unmounts, so
+moving between pages is a continuous morph: forms melt through lava on the way from one
+shape to the next. Sections declare a state with `data-scene="<name>"` and optionally
+`data-part="<index>"` (active module, layer or globe stop).
 
-| State | Form | Placement |
-|---|---|---|
-| `hero` | lava sphere, pointer warps surface | right half (desktop), top (mobile) |
-| `work` | smaller sphere, heats up on row hover | far right, dimmer |
-| `approach` | splits into orbiting agent nodes | centered right |
-| `journey` | nodes line up into a thread | low, wide |
-| `contact` | calm ring | centered |
-| `page` | small dim sphere | top right, for inner pages |
-| `aside` | dim nodes parked at the right edge | text-heavy inner sections |
+Each page owns a form. Inner pages open with the form beside the title (`*Intro`), then
+slide it to the opposite side of the content as you scroll.
+
+| Page | State | Form | Placement |
+|---|---|---|---|
+| Home | `hero` | lava sphere, pointer warps surface | right |
+| Home | `approach` | orbiting agent nodes | bottom-left |
+| Home | `explore` | lava; previews the destination's form on row hover | right |
+| Home | `contact` | calm ring | top-right |
+| Work | `work` | 3x3 modules, one per project; hovered row's module pops out | right of list |
+| Project | `project` / `projectAside` | modules with this project's module raised | beside title / parked right |
+| Journey | `globeIntro` → `globe` | dotted globe; turns to each stop, draws the route | right → left |
+| Stack | `stackIntro` → `stack` | four stacked layers; active category slides out | right → left |
+| Inner text | `aside` | dim nodes parked at the right edge | right edge |
+| 404 | `page` | small dim sphere | top right |
+
+Journey has two views (tab, remembered per browser): **Globe** (default) and **Basic**
+(plain chronological list).

@@ -18,16 +18,16 @@ const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
 });
 
-const title = "Sandeep Paidipati — AI Solutions Engineer";
+const title = "Sandy SP — AI Solutions Engineer";
 const description =
-  "Sandeep (Sandy) Paidipati builds retrieval pipelines, multi-agent workflows and the evals that keep them honest. Open-source tools: Gittxt, ollama-scout, Audionomy.";
+  "Sandeep (Sandy) builds retrieval pipelines, multi-agent workflows and the evals that keep them honest. Open-source tools: Gittxt, ollama-scout, Audionomy.";
 
 export const metadata: Metadata = {
-  title: { default: title, template: "%s — Sandeep Paidipati" },
+  title: { default: title, template: "%s — Sandy SP" },
   description,
-  keywords: ["Sandeep Paidipati", "Sandy SP", "AI engineer", "RAG", "LangGraph", "multi-agent", "Gittxt", "ollama-scout"],
-  authors: [{ name: "Sandeep Paidipati" }],
-  creator: "Sandeep Paidipati",
+  keywords: ["Sandy SP", "sandy-sp", "Sandeep", "AI engineer", "RAG", "LangGraph", "multi-agent", "Gittxt", "ollama-scout"],
+  authors: [{ name: "Sandy SP" }],
+  creator: "Sandy SP",
   metadataBase: new URL("https://www.sandy-sp.info"),
   openGraph: {
     type: "website",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     url: "https://www.sandy-sp.info",
     title,
     description,
-    siteName: "Sandeep Paidipati",
+    siteName: "Sandy SP",
   },
   twitter: { card: "summary_large_image", title, description },
   icons: { icon: "/favicon.ico" },

@@ -1,280 +1,278 @@
-export interface ExperienceItem {
+// Source of truth: Master Resume (Red-Book/Hunt/Job Hunt/Master Resume), July 2026.
+
+export type Place = {
+  city: string;
+  country: "India" | "United States";
+  lat: number;
+  lon: number;
+};
+
+export const PLACES = {
+  newDelhi: { city: "New Delhi", country: "India", lat: 28.61, lon: 77.21 },
+  hyderabad: { city: "Hyderabad", country: "India", lat: 17.39, lon: 78.49 },
+  visakhapatnam: { city: "Visakhapatnam", country: "India", lat: 17.69, lon: 83.22 },
+  cleveland: { city: "Cleveland, OH", country: "United States", lat: 41.5, lon: -81.69 },
+  newYork: { city: "New York, NY", country: "United States", lat: 40.71, lon: -74.01 },
+  columbus: { city: "Columbus, OH", country: "United States", lat: 39.96, lon: -83.0 },
+  irving: { city: "Irving, TX", country: "United States", lat: 32.81, lon: -96.95 },
+} satisfies Record<string, Place>;
+
+export interface JourneyEntry {
   id: string;
-  role: string;
-  company: string;
-  location: string;
+  kind: "work" | "education";
+  title: string;
+  org: string;
+  place: Place;
+  remote?: boolean;
+  /** Display period. */
   period: string;
+  /** Year shown on the timeline rail. */
+  year: string;
   current?: boolean;
-  type: "ai-enterprise" | "software-engineering" | "education";
-  description: string;
+  summary: string;
   highlights: string[];
   skills: string[];
 }
 
-export const EXPERIENCES: ExperienceItem[] = [
+/** Chronological, oldest first: the order the journey globe travels. */
+export const JOURNEY: JourneyEntry[] = [
   {
-    id: "orbisq",
-    role: "AI Automation Engineer / AI Solutions Architect",
-    company: "OrbisQ Inc",
-    location: "Irving, TX (Remote)",
-    period: "February 2026 – Present",
-    current: true,
-    type: "ai-enterprise",
-    description:
-      "Architecting enterprise-scale Generative AI solutions and autonomous multi-agent pipelines leveraging Azure OpenAI, AWS Bedrock, and advanced RAG architectures. Building high-throughput API microservices and automated MLOps pipelines.",
-    highlights: [
-      "Engineered production RAG pipelines with Pinecone vector databases and Azure OpenAI, achieving context-aware retrieval across enterprise datasets.",
-      "Architected multi-agent automation frameworks using Python, LangChain, and LlamaIndex to coordinate complex workflows, reducing task latency by 35%.",
-      "Built high-throughput RESTful APIs using Python and FastAPI, optimizing request/response concurrency for low-latency streaming user interactions.",
-      "Implemented comprehensive MLOps practices using Docker and Kubernetes, integrating AI evaluation harnesses (Ragas, DeepEval) to catch hallucinations before release.",
-    ],
-    skills: ["Azure OpenAI", "AWS Bedrock", "LangChain", "LlamaIndex", "Pinecone", "FastAPI", "Docker", "Kubernetes", "Ragas", "DeepEval", "MLOps"],
-  },
-  {
-    id: "magnifying-minds",
-    role: "AI Solutions Architect & Technology Director",
-    company: "Magnifying Minds",
-    location: "Columbus, OH (Remote)",
-    period: "December 2024 – January 2026",
-    type: "ai-enterprise",
-    description:
-      "Directed the end-to-end design and deployment of custom AI automation infrastructure and knowledge retrieval systems, bridging organizational data with generative AI capabilities.",
-    highlights: [
-      "Architected and deployed a custom internal RAG knowledge base utilizing vector embeddings, improving technical data retrieval accuracy by 20%.",
-      "Designed AI-driven content automation pipelines in Python with human-in-the-loop review guardrails, reducing administrative overhead by 30%.",
-      "Orchestrated complex workflows by connecting n8n automation and direct messaging tools with third-party enterprise APIs.",
-      "Scaled cloud AI infrastructure on Google Cloud Platform (GCP) ensuring seamless data orchestration and 99.9% system uptime.",
-    ],
-    skills: ["Python", "RAG", "Vector Databases", "GCP", "n8n Automation", "Human-in-the-loop", "API Orchestration", "Predictive Analytics"],
-  },
-  {
-    id: "bright-mind",
-    role: "AI Web Developer",
-    company: "Bright Mind Enrichment & Schooling",
-    location: "New York, NY (Remote)",
-    period: "April 2025 – August 2025",
-    type: "ai-enterprise",
-    description:
-      "Built production AI content generation pipelines and semantic search chatbots utilizing state-of-the-art multimodal models, reducing manual authoring effort while maintaining high factual fidelity.",
-    highlights: [
-      "Engineered an automated educational content pipeline integrating multimodal LLMs (Claude 3.5 Sonnet, GPT-4o), reducing content creation time by 50%.",
-      "Reduced AI hallucination rates by 25% by implementing Chain-of-Thought (CoT) prompt engineering frameworks and strict schema validation layers.",
-      "Built a semantic search chatbot for internal knowledge discovery by generating dense vector embeddings from unstructured documents.",
-      "Developed high-performance RESTful APIs with Python and FastAPI to support real-time data ingestion and web interaction widgets.",
-    ],
-    skills: ["Claude 3.5 Sonnet", "GPT-4o", "Chain-of-Thought", "FastAPI", "Semantic Search", "Prompt Engineering", "Python", "Vector Embeddings"],
-  },
-  {
-    id: "independent-ai",
-    role: "Open Source Creator & Independent AI Specialist",
-    company: "Independent Projects",
-    location: "United States",
-    period: "January 2023 – Present",
-    current: true,
-    type: "ai-enterprise",
-    description:
-      "Creating and maintaining published developer tools, local-first LLM utilities, and data curation platforms (Gittxt, Ollama Scout, Audionomy, ChatAudit, YTGrid).",
-    highlights: [
-      "Published Gittxt on PyPI: CLI tool converting repositories into token-optimized LLM context bundles with 80% token compression.",
-      "Created Ollama Scout on PyPI: automated hardware scanner for GPU VRAM and RAM to recommend optimal local LLMs.",
-      "Developed Audionomy: audio dataset management tool with spectral analysis and waveform visualization for speech AI researchers.",
-      "Built ChatAudit and Metadata Cleaner: local-first privacy utilities for parsing conversation trees and scrubbing multimedia EXIF data.",
-    ],
-    skills: ["PyPI Packages", "FastAPI", "CLI Architecture", "Ollama", "Audio ML", "Streamlit", "Docker", "AsyncIO", "Privacy Engineering"],
-  },
-  {
-    id: "masters-csu",
-    role: "Master of Information Systems (MIS)",
-    company: "Cleveland State University",
-    location: "Cleveland, OH",
-    period: "August 2022 – December 2024",
-    type: "education",
-    description:
-      "Advanced graduate study in enterprise systems architecture, data governance, predictive analytics, and applied artificial intelligence. Awarded the prestigious Ahuja Endowment Scholarship.",
-    highlights: [
-      "Ahuja Endowment Scholarship Recipient for academic excellence in information systems.",
-      "Conducted specialized applied research in machine learning, LLM context structuring, and enterprise systems scalability.",
-      "Mastered data governance, enterprise cloud architectures, and database management principles.",
-    ],
-    skills: ["Systems Architecture", "Enterprise Information Systems", "Data Governance", "Applied ML", "Data Analytics"],
-  },
-  {
-    id: "rubixq",
-    role: "Full Stack Developer",
-    company: "RubixQ Game Solutions India Pvt. Ltd.",
-    location: "Visakhapatnam, India",
-    period: "March 2020 – April 2022",
-    type: "software-engineering",
-    description:
-      "Built real-time web applications and high-concurrency backend services for an interactive online multiplayer gaming platform.",
-    highlights: [
-      "Developed responsive, dynamic client applications using React.js with modular component state synchronization.",
-      "Engineered backend RESTful and WebSocket microservices in Node.js and Express handling high volumes of simultaneous sessions.",
-      "Managed relational (PostgreSQL) and document (MongoDB) databases, containerizing application services with Docker on AWS.",
-    ],
-    skills: ["React.js", "Node.js", "Express.js", "MongoDB", "PostgreSQL", "WebSockets", "Docker", "AWS"],
-  },
-  {
-    id: "einstein-brains",
-    role: "Web Designer & Frontend Engineer",
-    company: "Einstein Brains Group of Companies",
-    location: "Visakhapatnam, India",
-    period: "December 2018 – February 2020",
-    type: "software-engineering",
-    description:
-      "Crafted visually compelling, accessible digital web experiences and design systems, optimizing user engagement and brand presentation.",
-    highlights: [
-      "Designed and coded responsive web interfaces using modern HTML5, CSS3, JavaScript, and design tools.",
-      "Streamlined frontend performance, search engine optimization (SEO), and responsive mobile parity across client web portals.",
-      "Collaborated with brand directors to translate design wireframes into pixel-perfect web implementations.",
-    ],
-    skills: ["UI/UX Design", "HTML5/CSS3", "JavaScript", "Adobe Creative Suite", "Figma", "SEO", "Responsive Web Design"],
+    id: "ignou",
+    kind: "education",
+    title: "BA, Psychology",
+    org: "Indira Gandhi National Open University",
+    place: PLACES.newDelhi,
+    period: "Graduated March 2016",
+    year: "2016",
+    summary:
+      "Cognitive psychology, decision-making and mental models. It still shapes how I design tools people work alongside, especially where a human reviews what a model produced.",
+    highlights: [],
+    skills: ["Cognitive psychology", "Behavioral research", "Mental models"],
   },
   {
     id: "avico",
-    role: "Software Developer & QA Engineer",
-    company: "Avico Software Solutions Pvt. Ltd.",
-    location: "Hyderabad, India",
+    kind: "work",
+    title: "Software Tester → Software Developer",
+    org: "Avico Software Solutions",
+    place: PLACES.hyderabad,
     period: "June 2016 – November 2018",
-    type: "software-engineering",
-    description:
-      "Developed enterprise software modules in Java and engineered automated testing pipelines to ensure high code quality and zero-regression deployments.",
+    year: "2016",
+    summary:
+      "Where my career started: testing enterprise software, then writing it. Tester from June 2016, developer from March 2018.",
     highlights: [
-      "Developed backend enterprise modules utilizing Java, the Spring Framework, and relational SQL databases.",
-      "Engineered automated test suites using Selenium WebDriver and JUnit, significantly accelerating testing release cycles.",
-      "Integrated continuous automated test builds into Jenkins CI/CD deployment pipelines on Linux environments.",
+      "Built test automation frameworks with Selenium WebDriver and Python, cutting manual testing effort by 30%.",
+      "Automated UI and API test suites, improving defect detection by 20%.",
+      "Set up CI/CD with Jenkins and GitLab CI and containerized services with Docker.",
+      "Developed REST APIs and backend components in Python and Java; tuned PostgreSQL, Oracle and MongoDB queries.",
     ],
-    skills: ["Java", "Spring Framework", "SQL", "Selenium", "JUnit", "Jenkins CI/CD", "Linux"],
+    skills: ["Python", "Java", "Selenium", "JMeter", "Jenkins", "Docker", "PostgreSQL", "AWS"],
   },
   {
-    id: "bachelor-andhra",
-    role: "Bachelor of Engineering (BE) in Electrical & Electronics",
-    company: "Andhra University",
-    location: "Visakhapatnam, India",
+    id: "andhra",
+    kind: "education",
+    title: "BE, Electrical & Electronics Engineering",
+    org: "Andhra University",
+    place: PLACES.visakhapatnam,
     period: "Graduated November 2017",
-    type: "education",
-    description:
-      "Core engineering degree covering computational mathematics, electrical circuits, signal processing, and systems theory.",
-    highlights: [
-      "Rigorous technical training in signal processing, computational circuits, and mathematical problem solving.",
-      "Self-directed transition into software engineering, automated scripting, and algorithmic programming.",
-    ],
-    skills: ["Systems Engineering", "Signal Processing", "Circuit Theory", "Computational Mathematics"],
+    year: "2017",
+    summary:
+      "Circuits, signal processing and systems theory. Finished alongside my first job, and the reason I think about software as systems with inputs, feedback and failure modes.",
+    highlights: [],
+    skills: ["Signal processing", "Systems theory", "Computational mathematics"],
   },
   {
-    id: "bachelor-ignou",
-    role: "Bachelor of Arts (BA) in Psychology",
-    company: "Indira Gandhi National Open University (IGNOU)",
-    location: "New Delhi, India",
-    period: "Graduated March 2016",
-    type: "education",
-    description:
-      "Focused study of cognitive psychology, human behavior, decision-making dynamics, and mental models—providing a unique foundation for designing human-AI collaboration systems.",
+    id: "einstein-brains",
+    kind: "work",
+    title: "Web Designer / Creative Technologist",
+    org: "Einstein Brains Group of Companies",
+    place: PLACES.hyderabad,
+    period: "December 2018 – February 2020",
+    year: "2018",
+    summary: "Designed and built marketing sites and interfaces, from wireframes to production front ends.",
     highlights: [
-      "Studied cognitive frameworks, user perception, and behavioral decision mechanics.",
-      "Informs human-in-the-loop AI interfaces, prompt engineering empathy, and intuitive human-agent collaboration.",
+      "Designed and launched responsive landing pages and web interfaces, improving engagement by 10%.",
+      "Produced wireframes, prototypes and mockups in Adobe XD, Illustrator and Photoshop before engineering hand-off.",
+      "Integrated sites with Salesforce, HubSpot, Zoho CRM, Shopify and Magento.",
+      "Ran cross-browser and accessibility (WCAG) testing across desktop and mobile.",
     ],
-    skills: ["Cognitive Psychology", "Human-Computer Interaction", "Behavioral Dynamics", "Mental Models"],
+    skills: ["UI/UX", "HTML/CSS", "JavaScript", "Adobe CC", "CRM integration", "WCAG"],
+  },
+  {
+    id: "rubixq",
+    kind: "work",
+    title: "Full Stack Developer",
+    org: "RubixQ Game Solutions",
+    place: PLACES.hyderabad,
+    period: "March 2020 – April 2022",
+    year: "2020",
+    summary: "Full-stack work on games, e-learning and client web apps, including 3D assets made in Blender.",
+    highlights: [
+      "Shipped 15+ web applications end to end with a 95% on-time delivery rate.",
+      "Built an online multiplayer game platform and a gamified e-learning platform.",
+      "Created reusable UI components across React, Angular and Vue, speeding up development by 30%.",
+      "Deployed on AWS, Azure and GCP with Docker and Kubernetes; built REST and GraphQL APIs in Django and Node.js.",
+    ],
+    skills: ["React", "Node.js", "Django", "GraphQL", "Blender", "Docker", "Kubernetes"],
+  },
+  {
+    id: "csu",
+    kind: "education",
+    title: "Master of Information Systems",
+    org: "Cleveland State University",
+    place: PLACES.cleveland,
+    period: "August 2022 – December 2024",
+    year: "2022",
+    summary:
+      "Moved to the US for graduate school: enterprise systems, data governance, analytics and applied machine learning. Ahuja Endowment Scholarship recipient.",
+    highlights: ["Ahuja Endowment Scholarship recipient."],
+    skills: ["Systems architecture", "Data governance", "Applied ML", "Analytics"],
+  },
+  {
+    id: "independent",
+    kind: "work",
+    title: "Independent AI Developer",
+    org: "Freelance & open source",
+    place: PLACES.cleveland,
+    period: "January 2023 – March 2025",
+    year: "2023",
+    summary:
+      "Built RAG systems and automations for small businesses while publishing my own open-source tools.",
+    highlights: [
+      "Deployed RAG systems for several clients on ChromaDB, Pinecone and Qdrant, reducing hallucinations by 25%.",
+      "Fine-tuned open-source LLMs with LoRA on domain data, improving answer accuracy by 20%.",
+      "Automated document and social workflows with AutoGen, CrewAI and n8n, cutting manual effort by 30%.",
+      "Published Gittxt and built Metadata Cleaner and YTGrid.",
+    ],
+    skills: ["RAG", "LoRA", "LangChain", "AutoGen", "CrewAI", "FastAPI", "Docker"],
+  },
+  {
+    id: "bright-mind",
+    kind: "work",
+    title: "AI Web Developer",
+    org: "Bright Mind Enrichment & Schooling",
+    place: PLACES.newYork,
+    remote: true,
+    period: "April 2025 – August 2025",
+    year: "2025",
+    summary: "Added LLM content pipelines, a semantic search chatbot and automation to a nonprofit education site.",
+    highlights: [
+      "Built a content scheduler on Claude 3.5 Sonnet and GPT-4o, cutting content creation time by 50%.",
+      "Reduced hallucinations by 25% with chain-of-thought prompting and strict output validation.",
+      "Built a semantic search chatbot over internal documents.",
+      "Routed AI drafts through a human review step before anything was published.",
+    ],
+    skills: ["LLMs", "Prompt engineering", "Semantic search", "FastAPI", "Python"],
+  },
+  {
+    id: "magnifying-minds",
+    kind: "work",
+    title: "AI Technology Manager",
+    org: "Magnifying Minds",
+    place: PLACES.columbus,
+    remote: true,
+    period: "September 2025 – February 2026",
+    year: "2025",
+    summary: "Led AI and automation for a nonprofit: an internal knowledge base, content workflows and the infrastructure under them.",
+    highlights: [
+      "Built an internal RAG knowledge base on GCP, improving retrieval accuracy for leadership by 20%.",
+      "Designed content automation with human-in-the-loop review, reducing manual overhead by 30%.",
+      "Built n8n workflows connecting AI agents to outreach and donor tools.",
+      "Advised leadership on AI use cases and mentored staff on adoption.",
+    ],
+    skills: ["RAG", "GCP", "n8n", "Python", "Human-in-the-loop"],
+  },
+  {
+    id: "orbisq",
+    kind: "work",
+    title: "AI Automation Engineer / AI Solutions Architect",
+    org: "OrbisQ Inc",
+    place: PLACES.irving,
+    remote: true,
+    period: "February 2026 – present",
+    year: "2026",
+    current: true,
+    summary: "Building generative AI and multi-agent systems for enterprise clients on Azure OpenAI and AWS Bedrock.",
+    highlights: [
+      "Built multi-agent automation with LangChain and LlamaIndex, reducing manual task latency by 35%.",
+      "Engineered RAG pipelines on Pinecone with Azure OpenAI and AWS Bedrock.",
+      "Built FastAPI services that put LLM features into customer-facing apps.",
+      "Set up CI/CD with GitHub Actions and Ragas/DeepEval evaluation; deployed on Docker and Kubernetes.",
+    ],
+    skills: ["Azure OpenAI", "AWS Bedrock", "LangChain", "LlamaIndex", "Pinecone", "FastAPI", "Kubernetes", "Ragas"],
   },
 ];
 
 export interface Certification {
   title: string;
   issuer: string;
-  category: string;
-  badge?: string;
+  date: string;
+  group: "Cloud" | "Anthropic" | "Google" | "Machine learning" | "HackerRank";
+  verifyUrl?: string;
 }
 
 export const CERTIFICATIONS: Certification[] = [
-  {
-    title: "AWS Certified AI Practitioner (AIF-C01)",
-    issuer: "Amazon Web Services (AWS)",
-    category: "Cloud & AI Architecture",
-    badge: "Official AWS Credential",
-  },
-  {
-    title: "Machine Learning Specialization",
-    issuer: "DeepLearning.AI & Stanford University",
-    category: "Machine Learning & GenAI",
-    badge: "Stanford Online",
-  },
-  {
-    title: "Introduction to Artificial Intelligence",
-    issuer: "Google / Coursera",
-    category: "Machine Learning & GenAI",
-  },
-  {
-    title: "Start Writing Prompts like a Pro",
-    issuer: "Google / Coursera",
-    category: "Prompt Engineering",
-  },
-  {
-    title: "SQL (Advanced & Intermediate)",
-    issuer: "HackerRank",
-    category: "Databases & Systems",
-    badge: "Verified Skill",
-  },
-  {
-    title: "Python (Proficiency)",
-    issuer: "HackerRank",
-    category: "Programming",
-    badge: "Verified Skill",
-  },
+  { title: "AWS Certified AI Practitioner", issuer: "Amazon Web Services", date: "March 2026", group: "Cloud", verifyUrl: "https://aws.amazon.com/verification" },
+  { title: "Claude Code in Action", issuer: "Anthropic", date: "May 2026", group: "Anthropic", verifyUrl: "https://verify.skilljar.com/c/cocw6wmtdnip" },
+  { title: "Claude Code 101", issuer: "Anthropic", date: "May 2026", group: "Anthropic", verifyUrl: "https://verify.skilljar.com/c/zgcviboyzdka" },
+  { title: "Claude 101", issuer: "Anthropic", date: "May 2026", group: "Anthropic", verifyUrl: "https://verify.skilljar.com/c/gk4kq2qxxehz" },
+  { title: "Introduction to Claude Cowork", issuer: "Anthropic", date: "May 2026", group: "Anthropic", verifyUrl: "https://verify.skilljar.com/c/4qspb9krnrn8" },
+  { title: "AI Fluency: Framework & Foundations", issuer: "Anthropic", date: "May 2026", group: "Anthropic", verifyUrl: "https://verify.skilljar.com/c/e397yw4f5xqe" },
+  { title: "AI Fluency for Educators", issuer: "Anthropic", date: "May 2026", group: "Anthropic", verifyUrl: "https://verify.skilljar.com/c/x6btcgt286py" },
+  { title: "AI Fluency for Students", issuer: "Anthropic", date: "May 2026", group: "Anthropic", verifyUrl: "https://verify.skilljar.com/c/geubiveckwj4" },
+  { title: "AI for Brainstorming and Planning", issuer: "Google · Coursera", date: "May 2026", group: "Google", verifyUrl: "https://coursera.org/verify/Z4ITZSP3P5G8" },
+  { title: "AI Fundamentals", issuer: "Google · Coursera", date: "April 2026", group: "Google", verifyUrl: "https://coursera.org/verify/KMZ6ACY84VPH" },
+  { title: "Introduction to AI", issuer: "Google · Coursera", date: "May 2025", group: "Google", verifyUrl: "https://coursera.org/verify/WRNSJDLPR8UQ" },
+  { title: "Start Writing Prompts like a Pro", issuer: "Google · Coursera", date: "May 2025", group: "Google", verifyUrl: "https://coursera.org/verify/M08IN9LP4KMT" },
+  { title: "Machine Learning Specialization", issuer: "DeepLearning.AI · Stanford", date: "May 2025", group: "Machine learning" },
+  { title: "SQL (Advanced, Intermediate, Basic)", issuer: "HackerRank", date: "January 2025", group: "HackerRank" },
+  { title: "Python (Basic)", issuer: "HackerRank", date: "January 2025", group: "HackerRank" },
 ];
 
 export interface SkillCategory {
   title: string;
-  icon: string;
   skills: string[];
 }
 
 export const SKILL_CATEGORIES: SkillCategory[] = [
   {
-    title: "Generative AI & Agentic Systems",
-    icon: "Bot",
+    title: "Generative AI & agents",
     skills: [
-      "Multi-Agent Orchestration (LangChain, LangGraph, AutoGen, CrewAI)",
-      "Retrieval-Augmented Generation (RAG) & Vector Databases (Pinecone, ChromaDB)",
-      "Model Evaluation & Hallucination Audits (Ragas, DeepEval)",
-      "Advanced Prompt Engineering (Chain-of-Thought, Few-Shot, ReAct)",
-      "Local LLM Deployment & Hardware Profiling (Ollama, vLLM)",
-      "Model APIs (Azure OpenAI, AWS Bedrock, Claude 3.5, GPT-4o, Hugging Face)",
+      "Multi-agent orchestration: LangChain, LangGraph, AutoGen, CrewAI",
+      "RAG and vector databases: Pinecone, ChromaDB, Qdrant, pgvector",
+      "Evaluation: Ragas, DeepEval",
+      "Prompt engineering: chain-of-thought, few-shot, ReAct",
+      "Fine-tuning with LoRA; local models with Ollama and vLLM",
+      "Model APIs: Azure OpenAI, AWS Bedrock, Anthropic, Hugging Face",
     ],
   },
   {
-    title: "Backend & Systems Architecture",
-    icon: "Server",
+    title: "Backend & data",
     skills: [
-      "Python (FastAPI, AsyncIO, Celery, Streamlit)",
-      "Node.js, Express & TypeScript",
-      "PostgreSQL, pgvector, MongoDB & Redis Caching",
-      "Streaming Response APIs & WebSockets",
-      "RESTful API Design & OpenAPI Documentation",
-      "High-Throughput Microservice Architecture",
+      "Python: FastAPI, AsyncIO, Celery, Django, Streamlit",
+      "Node.js, Express and TypeScript",
+      "PostgreSQL, MongoDB, Redis",
+      "REST, GraphQL and WebSocket APIs",
+      "Workflow automation: n8n, Zapier, Make",
     ],
   },
   {
-    title: "Cloud, DevOps & MLOps",
-    icon: "Cloud",
+    title: "Cloud & MLOps",
     skills: [
-      "Docker Containerization & Kubernetes",
-      "AWS (Bedrock, SageMaker, EC2, S3, ECS)",
-      "Google Cloud Platform (GCP Vertex AI, Cloud Run)",
-      "CI/CD Pipelines (GitHub Actions, Jenkins)",
-      "n8n Automation & API Integration",
-      "Linux Systems Administration & Shell Scripting",
+      "Docker and Kubernetes",
+      "AWS: Bedrock, SageMaker, EC2, S3",
+      "GCP: Vertex AI, Cloud Run",
+      "CI/CD: GitHub Actions, GitLab CI, Jenkins",
+      "Linux and shell scripting",
     ],
   },
   {
-    title: "Frontend, Visualization & UX",
-    icon: "Layout",
+    title: "Front end & design",
     skills: [
-      "TypeScript & Modern JavaScript (ESNext)",
-      "React.js & Next.js (App Router, Server Components)",
-      "Tailwind CSS & Editorial Design Systems",
-      "Data Visualization (Plotly, Streamlit, GeoPandas, Canvas)",
-      "Framer Motion & Micro-interactions",
-      "Human-Centered AI Interface Design",
+      "TypeScript, React and Next.js",
+      "Tailwind CSS and design systems",
+      "WebGL, Three.js and GSAP",
+      "Data visualization: Plotly, Streamlit, GeoPandas",
+      "Figma, Adobe Creative Cloud and Blender",
     ],
   },
 ];

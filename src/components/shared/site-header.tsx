@@ -50,12 +50,12 @@ export function SiteHeader() {
         paddingTop: "env(safe-area-inset-top, 0px)",
       }}
     >
-      <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-ink via-ink/70 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-ink md:bg-transparent md:bg-linear-to-b md:from-ink md:via-ink/70 md:to-transparent" />
       <div className="shell relative flex h-20 items-center justify-between gap-6">
-        <Link href="/" className="group flex items-center gap-3" aria-label="Sandeep Paidipati, home">
+        <Link href="/" className="group flex items-center gap-3" aria-label="Sandy SP, home">
           <NavLogo className="block h-9 w-10 shrink-0" />
           <span className="flex flex-col leading-tight">
-            <span className="text-[15px] font-semibold tracking-[-0.02em]">Sandeep Paidipati</span>
+            <span className="text-[15px] font-semibold tracking-[-0.02em]">Sandy SP</span>
             <span className="t-mono text-[10px]!">AI Solutions Engineer</span>
           </span>
         </Link>
@@ -109,7 +109,6 @@ export function SiteHeader() {
               {item.name}
             </Link>
           ))}
-          <p className="t-mono mt-8">sandeep.paidipati@gmail.com</p>
         </nav>
       </div>
     </header>
