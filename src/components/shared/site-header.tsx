@@ -41,6 +41,7 @@ export function SiteHeader() {
 
   return (
     <header
+      onFocusCapture={() => setHidden(false)}
       className="fixed inset-x-0 top-0 z-50 transition-transform duration-[450ms]"
       style={{
         transform: hidden && !open ? "translateY(-100%)" : "none",

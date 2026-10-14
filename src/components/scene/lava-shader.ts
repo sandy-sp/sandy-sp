@@ -129,10 +129,10 @@ void main() {
   if (disc > 0.0) {
     t = max(-b - sqrt(disc), 0.0);
     float tMax = -b + sqrt(disc);
-    for (int i = 0; i < 64; i++) {
+    for (int i = 0; i < 56; i++) {
       float h = map(ro + rd * t);
       if (h < 0.0015) { hit = true; break; }
-      t += h * 0.7;
+      t += h * 0.75;
       if (t > tMax) break;
     }
   }

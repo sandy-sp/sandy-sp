@@ -79,12 +79,16 @@ export function LavaScene() {
     };
     const pointer = { x: 0, y: 0, tx: 0, ty: 0, on: 0, tOn: 0 };
     let aspect = 1;
+    // Adaptive quality: 1 = full pixel budget. Drops when frames run long.
+    let quality = 1;
+    let slowFrames = 0;
+    let sampled = 0;
 
     // Raymarching is per-pixel, so cap the pixel budget instead of trusting DPR.
     const resize = () => {
       const w = window.innerWidth;
       const h = window.innerHeight;
-      const budget = mobile ? 450_000 : 1_100_000;
+      const budget = (mobile ? 350_000 : 800_000) * quality;
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const s = Math.min(dpr, Math.sqrt(budget / (w * h)));
       canvas.width = Math.round(w * s);
@@ -122,8 +126,21 @@ export function LavaScene() {
 
     const frame = (now: number) => {
       raf = requestAnimationFrame(frame);
-      const dt = Math.min((now - last) / 1000, 0.05);
+      const rawDt = (now - last) / 1000;
+      const dt = Math.min(rawDt, 0.05);
       last = now;
+
+      // Every 90 frames: if a third ran under ~45fps, shed 30% of the pixels.
+      sampled++;
+      if (rawDt > 1 / 45) slowFrames++;
+      if (sampled === 90) {
+        if (slowFrames > 30 && quality > 0.3) {
+          quality *= 0.7;
+          resize();
+        }
+        sampled = 0;
+        slowFrames = 0;
+      }
 
       const flowTarget = reduced ? 0 : Math.min(scene.velocity / 40, 0.5);
       time += dt * (reduced ? 0.15 : 1 + current.flow * 1.5);

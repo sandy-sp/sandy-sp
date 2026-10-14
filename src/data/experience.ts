@@ -26,7 +26,7 @@ export const EXPERIENCES: ExperienceItem[] = [
       "Engineered production RAG pipelines with Pinecone vector databases and Azure OpenAI, achieving context-aware retrieval across enterprise datasets.",
       "Architected multi-agent automation frameworks using Python, LangChain, and LlamaIndex to coordinate complex workflows, reducing task latency by 35%.",
       "Built high-throughput RESTful APIs using Python and FastAPI, optimizing request/response concurrency for low-latency streaming user interactions.",
-      "Implemented comprehensive MLOps practices using Docker and Kubernetes, integrating AI evaluation harnesses (Ragas, DeepEval) to eliminate hallucinations.",
+      "Implemented comprehensive MLOps practices using Docker and Kubernetes, integrating AI evaluation harnesses (Ragas, DeepEval) to catch hallucinations before release.",
     ],
     skills: ["Azure OpenAI", "AWS Bedrock", "LangChain", "LlamaIndex", "Pinecone", "FastAPI", "Docker", "Kubernetes", "Ragas", "DeepEval", "MLOps"],
   },

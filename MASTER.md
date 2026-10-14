@@ -109,3 +109,4 @@ state with `data-scene="<name>"`:
 | `journey` | nodes line up into a thread | low, wide |
 | `contact` | calm ring | centered |
 | `page` | small dim sphere | top right, for inner pages |
+| `aside` | dim nodes parked at the right edge | text-heavy inner sections |

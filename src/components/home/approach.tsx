@@ -65,7 +65,7 @@ export function Approach() {
           <li
             key={step.stage}
             data-step=""
-            className="group border-t border-rule py-12 transition-opacity duration-500 last:border-b md:py-20 md:opacity-35 md:data-active:opacity-100"
+            className="group border-t border-rule py-12 transition-opacity duration-500 last:border-b md:py-20 md:opacity-55 md:data-active:opacity-100"
           >
             <p className="t-mono mb-6 flex gap-4">
               <span className="text-ember">{String(i + 1).padStart(2, "0")}</span>
