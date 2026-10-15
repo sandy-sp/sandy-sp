@@ -61,12 +61,8 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <Link href="/" className="group col-start-2 row-start-1 flex items-center gap-3" aria-label="Sandy SP, home">
-          <NavLogo className="block h-9 w-10 shrink-0" />
-          <span className="flex flex-col leading-tight">
-            <span className="text-[15px] font-semibold tracking-[-0.02em]">Sandy SP</span>
-            <span className="t-mono whitespace-nowrap text-[10px]!">AI Solutions Engineer</span>
-          </span>
+        <Link href="/" className="group col-start-2 row-start-1 flex items-center" aria-label="Sandy SP, home">
+          <NavLogo className="block h-10 w-11 shrink-0" />
         </Link>
 
         <nav aria-label="More" className="col-start-3 row-start-1 hidden items-center justify-start gap-9 md:flex">
