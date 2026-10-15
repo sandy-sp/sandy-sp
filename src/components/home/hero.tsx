@@ -14,10 +14,17 @@ export function Hero() {
 
       <div className="col-span-12 mt-12 md:mt-16">
         <RevealText as="p" immediate delay={0.35} className="t-lead max-w-none!">
-          I&apos;ve worked in software since 2016, self-taught, across finance, web design, e-commerce and
-          gaming. In 2023 I turned my focus to AI and taught myself retrieval-augmented generation, multi-agent
-          systems and agentic workflows. I live in open-source tooling: I test new AI tools in my spare time and
-          bring what holds up into my client and personal projects.
+          <span className="block">
+            I&apos;ve worked in software since 2016, self-taught, across finance, web design, e-commerce and gaming.
+          </span>
+          <span className="block">
+            In 2023 I turned my focus to AI and taught myself retrieval-augmented generation, multi-agent systems and
+            agentic workflows.
+          </span>
+          <span className="block">
+            I live in open-source tooling: I test new AI tools in my spare time and bring what holds up into my client
+            and personal projects.
+          </span>
         </RevealText>
       </div>
     </section>
