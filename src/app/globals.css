@@ -328,6 +328,10 @@ html.motion [data-reveal] {
   visibility: hidden;
   animation: reveal-fallback 0s 2.5s forwards;
 }
+/* Deck cards after the first wait offstage until the deck's script places them. */
+html.motion [data-slide]:not(:first-child) {
+  visibility: hidden;
+}
 @keyframes reveal-fallback {
   to {
     visibility: visible;
