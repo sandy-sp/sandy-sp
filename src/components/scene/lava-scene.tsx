@@ -109,6 +109,8 @@ export function LavaScene() {
       flow: u("uFlow"),
       part: u("uPart"),
       partLift: u("uPartLift"),
+      project: u("uProject"),
+      morph: u("uMorph"),
       globeRot: u("uGlobeRot"),
       land: u("uLand"),
       landReady: u("uLandReady"),
@@ -145,13 +147,15 @@ export function LavaScene() {
     let mobile = mobileQuery.matches;
 
     // Current (damped) values start at the target so the first frame is already composed.
-    const current: SceneParams & { heat: number; flow: number; lift: number } = {
+    const current: SceneParams & { heat: number; flow: number; lift: number; morph: number } = {
       ...sceneParams(scene.name, mobile),
       heat: 0,
       flow: 0,
       lift: 0,
+      morph: 0,
     };
     let shownPart = -1;
+    let shownProject = -1;
     const globeView = { lat: 20 * DEG, lon: 78 * DEG };
     const rotMatrix = new Float32Array(9);
     const pinData = new Float32Array(MAX_PINS * 3);
@@ -255,6 +259,18 @@ export function LavaScene() {
         current.lift += ((shownPart >= 0 ? 1 : 0) - current.lift) * pk;
       }
 
+      // On a project page the module grid morphs into that project's motif. Switching
+      // projects goes back through the grid.
+      const onProject = !scene.preview && (scene.name === "project" || scene.name === "projectAside");
+      const wantProject = onProject ? scene.part : -1;
+      const mk2 = 1 - Math.exp(-dt * 2.4);
+      if (wantProject !== shownProject) {
+        current.morph += (0 - current.morph) * mk2 * 1.5;
+        if (current.morph < 0.02) shownProject = wantProject;
+      } else {
+        current.morph += ((shownProject >= 0 ? 1 : 0) - current.morph) * mk2;
+      }
+
       // Globe turns to the active pin; with no active pin it drifts slowly.
       const pins = scene.pins;
       const activePin = scene.name === "globe" && scene.part >= 0 ? pins[scene.part] : undefined;
@@ -311,6 +327,8 @@ export function LavaScene() {
       gl.uniform1f(uni.flow, current.flow);
       gl.uniform1f(uni.part, shownPart);
       gl.uniform1f(uni.partLift, current.lift);
+      gl.uniform1f(uni.project, shownProject);
+      gl.uniform1f(uni.morph, current.morph);
       gl.uniformMatrix3fv(uni.globeRot, false, rotMatrix);
       gl.uniform3fv(uni.pins, pinData);
       gl.uniform1f(uni.pinCount, current.globe > 0.01 ? count : 0);
