@@ -328,6 +328,31 @@ html.motion [data-reveal] {
   visibility: hidden;
   animation: reveal-fallback 0s 2.5s forwards;
 }
+/* Content that slides up over a pinned deck: solid, full width, above it, with a
+   soft leading edge so it fades over the deck instead of cutting it. */
+.curtain {
+  position: relative;
+  z-index: 1;
+  background: var(--ink);
+}
+.curtain::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 100%;
+  height: 96px;
+  background: linear-gradient(to bottom, transparent, var(--ink));
+  pointer-events: none;
+}
+/* The footer joins the curtain; its shadow paints ink out to the viewport edges. */
+html:has(.curtain) footer {
+  position: relative;
+  z-index: 1;
+  background: var(--ink);
+  box-shadow: 0 0 0 100vmax var(--ink);
+  clip-path: inset(0 -100vmax);
+}
+
 /* Deck cards after the first wait offstage until the deck's script places them. */
 html.motion [data-slide]:not(:first-child) {
   visibility: hidden;

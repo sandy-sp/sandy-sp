@@ -20,14 +20,16 @@ export default function StackPage() {
 
       <StackDeck />
 
-      <section className="shell pt-16 md:pt-24">
-        <div className="flex flex-col gap-4 border-t border-rule pt-8 md:flex-row md:items-center md:justify-between">
-          <p className="t-lead">See these tools used in real projects.</p>
-          <RollLink href="/work" className="text-lg font-medium" suffix={<span className="ml-2">→</span>}>
-            View work
-          </RollLink>
-        </div>
-      </section>
+      <div className="curtain">
+        <section className="shell pt-16 md:pt-24">
+          <div className="flex flex-col gap-4 border-t border-rule pt-8 md:flex-row md:items-center md:justify-between">
+            <p className="t-lead">See these tools used in real projects.</p>
+            <RollLink href="/work" className="text-lg font-medium" suffix={<span className="ml-2">→</span>}>
+              View work
+            </RollLink>
+          </div>
+        </section>
+      </div>
     </>
   );
 }
