@@ -95,11 +95,11 @@ float sdBlob(vec3 q, float amp) {
 
 float sdNodes(vec3 q) {
   float d = length(q) - 0.42 * (1.0 - uLine);
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < 3; i++) {
     float fi = float(i);
-    float a = fi * 1.2566 + uTime * 0.35;
+    float a = fi * 2.0944 + uTime * 0.35;
     vec3 orbit = vec3(cos(a) * 1.35, sin(a * 2.0 + fi) * 0.28, sin(a) * 1.35);
-    vec3 thread = vec3((fi - 2.0) * 0.95, sin(uTime * 0.6 + fi * 1.3) * 0.12, 0.0);
+    vec3 thread = vec3((fi - 1.0) * 1.3, sin(uTime * 0.6 + fi * 1.3) * 0.12, 0.0);
     vec3 c = mix(orbit, thread, uLine);
     float r = 0.3 + noise(q * 2.5 + fi * 7.0 + uTime * 0.3) * 0.06;
     d = smin(d, length(q - c) - r, 0.38);

@@ -67,13 +67,13 @@ export function Approach() {
             data-step=""
             className="group border-t border-rule py-12 transition-opacity duration-500 last:border-b md:py-20 md:opacity-55 md:data-active:opacity-100"
           >
-            <p className="t-mono mb-6 flex gap-4">
+            <p className="t-mono t-eyebrow mb-6 flex gap-4">
               <span className="text-ember">{String(i + 1).padStart(2, "0")}</span>
               {step.stage}
             </p>
-            <h3 className="t-h3 mb-5">{step.title}</h3>
-            <p className="t-body mb-6 text-ash">{step.body}</p>
-            <p className="t-mono">{step.tools}</p>
+            <h3 className="t-h3 mb-6 md:text-[2.75rem]!">{step.title}</h3>
+            <p className="t-lead mb-8 text-ash">{step.body}</p>
+            <p className="t-mono text-[0.875rem]!">{step.tools}</p>
           </li>
         ))}
       </ol>
