@@ -60,6 +60,9 @@ export function SiteHeader() {
           </span>
         </Link>
 
+        {/* Page-level controls portal in here (Journey's Globe/Basic switch). */}
+        <div id="header-slot" className="flex flex-1 justify-center md:justify-end" />
+
         <nav aria-label="Main" className="hidden items-center gap-9 md:flex">
           {NAV.map((item) => (
             <RollLink

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { JOURNEY, type JourneyEntry } from "@/data/experience";
@@ -24,6 +25,7 @@ function readMode(): Mode {
 export function JourneyView() {
   const [mode, setMode] = useState<Mode>("interactive");
   const [active, setActive] = useState(0);
+  const [slot, setSlot] = useState<HTMLElement | null>(null);
   const labelRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLOListElement>(null);
 
@@ -31,10 +33,11 @@ export function JourneyView() {
   useEffect(() => {
     const saved = readMode();
     if (saved !== "interactive") setMode(saved); // eslint-disable-line react-hooks/set-state-in-effect
+    setSlot(document.getElementById("header-slot"));
   }, []);
 
   useEffect(() => {
-    scene.pins = JOURNEY.map((e) => ({ lat: e.place.lat, lon: e.place.lon }));
+    scene.pins = JOURNEY.map((e) => ({ lat: e.place.lat, lon: e.place.lon, via: e.via }));
     scene.pinLabel = labelRef.current;
     return () => {
       scene.pinLabel = null;
@@ -71,22 +74,25 @@ export function JourneyView() {
 
   return (
     <div id="journey-view" className="relative">
-      <div className="shell sticky top-20 z-20 flex justify-end py-4 md:top-24">
-        <div role="tablist" aria-label="Journey view" className="flex border border-rule bg-ink">
-          {(["interactive", "basic"] as const).map((m) => (
-            <button
-              key={m}
-              role="tab"
-              type="button"
-              aria-selected={mode === m}
-              onClick={() => choose(m)}
-              className="t-mono px-4 py-2.5 transition-colors duration-[180ms] hover:text-bone aria-selected:bg-bone aria-selected:text-ink!"
-            >
-              {m === "interactive" ? "Globe" : "Basic"}
-            </button>
-          ))}
-        </div>
-      </div>
+      {/* The view switch lives in the site header while this page is open. */}
+      {slot &&
+        createPortal(
+          <div role="tablist" aria-label="Journey view" className="pointer-events-auto flex border border-rule bg-ink">
+            {(["interactive", "basic"] as const).map((m) => (
+              <button
+                key={m}
+                role="tab"
+                type="button"
+                aria-selected={mode === m}
+                onClick={() => choose(m)}
+                className="t-mono px-3 py-2 transition-colors duration-[180ms] hover:text-bone aria-selected:bg-bone aria-selected:text-ink! md:px-4"
+              >
+                {m === "interactive" ? "Globe" : "Basic"}
+              </button>
+            ))}
+          </div>,
+          slot,
+        )}
 
       {/* Follows the active pin on the globe; positioned every frame by LavaScene. */}
       <div

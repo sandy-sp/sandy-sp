@@ -5,7 +5,7 @@ void main() {
 }
 `;
 
-export const MAX_PINS = 10;
+export const MAX_PINS = 16;
 
 // Raymarched signed-distance form. One field blends between a lava sphere,
 // agent nodes, a ring, a dotted globe, a grid of modules and a stack of layers.
@@ -38,7 +38,7 @@ uniform float uPartLift; // 0..1 eased lift of the active part
 uniform mat3 uGlobeRot;  // world -> globe-local
 uniform sampler2D uLand; // equirectangular land mask
 uniform float uLandReady;
-uniform vec3 uPins[MAX_PINS]; // lat, lon (radians), state: 0 future, 1 past, 2 active
+uniform vec3 uPins[MAX_PINS]; // lat, lon (radians), state: 0 future, 1 past, 2 active; +4 = waypoint, no dot
 uniform float uPinCount;
 
 const float CAM_Z = 7.2;
@@ -244,10 +244,12 @@ vec3 globe(vec3 q0, vec3 n, vec3 rd) {
   for (int i = 0; i < MAX_PINS; i++) {
     if (float(i) >= uPinCount) break;
     vec3 pin = uPins[i];
+    float via = step(3.5, pin.z);
+    float state = pin.z - via * 4.0;
     vec3 pd = pinDir(pin.xy);
     float ang = acos(clamp(dot(g, pd), -1.0, 1.0));
 
-    if (i > 0 && pin.z > 0.5) {
+    if (i > 0 && state > 0.5) {
       vec3 a = pinDir(uPins[i - 1].xy);
       vec3 c = cross(a, pd);
       float cl = length(c);
@@ -255,15 +257,16 @@ vec3 globe(vec3 q0, vec3 n, vec3 rd) {
         vec3 nn = c / cl;
         float off = abs(dot(g, nn));
         float inside = step(0.0, dot(cross(a, g), nn)) * step(0.0, dot(cross(g, pd), nn));
-        col = mix(col, ember * 0.8, smoothstep(0.006, 0.002, off) * inside * (pin.z > 1.5 ? 1.0 : 0.6));
+        col = mix(col, ember * 0.8, smoothstep(0.006, 0.002, off) * inside * (state > 1.5 ? 1.0 : 0.6));
       }
     }
 
-    if (pin.z > 1.5) {
+    if (via > 0.5) continue;
+    if (state > 1.5) {
       col = mix(col, vec3(1.0, 0.55, 0.38), smoothstep(0.03, 0.018, ang));
       float ringR = 0.035 + pulse * 0.07;
       col += ember * smoothstep(0.008, 0.0, abs(ang - ringR)) * (1.0 - pulse) * 1.2;
-    } else if (pin.z > 0.5) {
+    } else if (state > 0.5) {
       col = mix(col, ember * 0.85, smoothstep(0.02, 0.012, ang));
     } else {
       col = mix(col, bone * 0.4, smoothstep(0.015, 0.009, ang));

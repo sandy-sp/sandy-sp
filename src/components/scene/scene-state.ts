@@ -68,7 +68,12 @@ const MOBILE: Record<SceneName, SceneParams> = {
   aside: p({ x: 1.0, y: 0.85, scale: 0.35, nodes: 1, dim: 0.6 }),
 };
 
-export type Pin = { lat: number; lon: number };
+export type Pin = {
+  lat: number;
+  lon: number;
+  /** Unpinned waypoints the route bends through on the way to this pin. */
+  via?: { lat: number; lon: number }[];
+};
 
 export const scene = {
   name: "hero" as SceneName,

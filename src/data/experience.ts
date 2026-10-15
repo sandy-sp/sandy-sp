@@ -23,6 +23,8 @@ export interface JourneyEntry {
   title: string;
   org: string;
   place: Place;
+  /** Waypoints the globe route passes through on the way here (not pinned). */
+  via?: { lat: number; lon: number }[];
   remote?: boolean;
   /** Display period. */
   period: string;
@@ -45,27 +47,9 @@ export const JOURNEY: JourneyEntry[] = [
     period: "Graduated March 2016",
     year: "2016",
     summary:
-      "Cognitive psychology, decision-making and mental models. It still shapes how I design tools people work alongside, especially where a human reviews what a model produced.",
+      "A distance-learning degree I studied alongside engineering. Cognitive psychology, decision-making and mental models. It still shapes how I design tools people work alongside, especially where a human reviews what a model produced.",
     highlights: [],
     skills: ["Cognitive psychology", "Behavioral research", "Mental models"],
-  },
-  {
-    id: "avico",
-    kind: "work",
-    title: "Software Tester → Software Developer",
-    org: "Avico Software Solutions",
-    place: PLACES.hyderabad,
-    period: "June 2016 – November 2018",
-    year: "2016",
-    summary:
-      "Where my career started: testing enterprise software, then writing it. Tester from June 2016, developer from March 2018.",
-    highlights: [
-      "Built test automation frameworks with Selenium WebDriver and Python, cutting manual testing effort by 30%.",
-      "Automated UI and API test suites, improving defect detection by 20%.",
-      "Set up CI/CD with Jenkins and GitLab CI and containerized services with Docker.",
-      "Developed REST APIs and backend components in Python and Java; tuned PostgreSQL, Oracle and MongoDB queries.",
-    ],
-    skills: ["Python", "Java", "Selenium", "JMeter", "Jenkins", "Docker", "PostgreSQL", "AWS"],
   },
   {
     id: "andhra",
@@ -76,9 +60,27 @@ export const JOURNEY: JourneyEntry[] = [
     period: "Graduated November 2017",
     year: "2017",
     summary:
-      "Circuits, signal processing and systems theory. Finished alongside my first job, and the reason I think about software as systems with inputs, feedback and failure modes.",
+      "Circuits, signal processing and systems theory. Finished while interning at Avico, and the reason I think about software as systems with inputs, feedback and failure modes.",
     highlights: [],
     skills: ["Signal processing", "Systems theory", "Computational mathematics"],
+  },
+  {
+    id: "avico",
+    kind: "work",
+    title: "Intern → Software Tester → Software Developer",
+    org: "Avico Software Solutions",
+    place: PLACES.hyderabad,
+    period: "June 2016 – November 2018",
+    year: "2016–18",
+    summary:
+      "Where my career started. I joined as an intern in my final semester of engineering and stayed on after graduating: testing enterprise software first, then writing it as a developer from March 2018.",
+    highlights: [
+      "Built test automation frameworks with Selenium WebDriver and Python, cutting manual testing effort by 30%.",
+      "Automated UI and API test suites, improving defect detection by 20%.",
+      "Set up CI/CD with Jenkins and GitLab CI and containerized services with Docker.",
+      "Developed REST APIs and backend components in Python and Java; tuned PostgreSQL, Oracle and MongoDB queries.",
+    ],
+    skills: ["Python", "Java", "Selenium", "JMeter", "Jenkins", "Docker", "PostgreSQL", "AWS"],
   },
   {
     id: "einstein-brains",
@@ -120,6 +122,12 @@ export const JOURNEY: JourneyEntry[] = [
     title: "Master of Information Systems",
     org: "Cleveland State University",
     place: PLACES.cleveland,
+    // India to Ohio the way the flight went: over Europe, then the Atlantic.
+    via: [
+      { lat: 41.0, lon: 29.0 },
+      { lat: 48.5, lon: 2.3 },
+      { lat: 50.0, lon: -35.0 },
+    ],
     period: "August 2022 – December 2024",
     year: "2022",
     summary:

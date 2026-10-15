@@ -267,12 +267,20 @@ export function LavaScene() {
       }
       globeMatrix(globeView.lat, globeView.lon, rotMatrix);
 
-      const count = Math.min(pins.length, MAX_PINS);
-      for (let i = 0; i < count; i++) {
-        pinData[i * 3] = pins[i].lat * DEG;
-        pinData[i * 3 + 1] = pins[i].lon * DEG;
-        const active = scene.name === "globe" ? scene.part : -1;
-        pinData[i * 3 + 2] = i === active ? 2 : i < active ? 1 : 0;
+      // Waypoints share the state of the pin they lead to; +4 marks them as unpinned.
+      const active = scene.name === "globe" ? scene.part : -1;
+      let count = 0;
+      const push = (lat: number, lon: number, state: number) => {
+        if (count >= MAX_PINS) return;
+        pinData[count * 3] = lat * DEG;
+        pinData[count * 3 + 1] = lon * DEG;
+        pinData[count * 3 + 2] = state;
+        count++;
+      };
+      for (let i = 0; i < pins.length; i++) {
+        const state = i === active ? 2 : i < active ? 1 : 0;
+        for (const v of pins[i].via ?? []) push(v.lat, v.lon, state + 4);
+        push(pins[i].lat, pins[i].lon, state);
       }
 
       const mk = 1 - Math.exp(-dt * 4);
