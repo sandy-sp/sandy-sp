@@ -100,6 +100,12 @@ html.lenis body {
 }
 
 /* ---------- Type ---------- */
+/* Reveal masks clip each line; tight display leading would cut descenders (y, p, g).
+   Extend the mask below the line without moving the layout. */
+.split-line-mask {
+  padding-bottom: 0.2em;
+  margin-bottom: -0.2em;
+}
 .t-display-1 {
   font-size: clamp(3.5rem, 11vw, 10.5rem);
   line-height: 0.86;

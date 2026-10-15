@@ -44,7 +44,7 @@ export function RevealText({ as = "div", children, className, immediate, delay =
         autoSplit: true,
         onSplit: (self) =>
           gsap.from(self.lines, {
-            yPercent: 110,
+            yPercent: 130, // clears the mask, including its descender padding
             duration: T_REVEAL,
             ease: EASE_OUT,
             stagger: STAGGER,
