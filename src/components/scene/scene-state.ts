@@ -36,7 +36,7 @@ const base = { nodes: 0, line: 0, ring: 0, globe: 0, modules: 0, layers: 0, dim:
 const p = (v: Partial<SceneParams> & Pick<SceneParams, "x" | "y" | "scale">): SceneParams => ({ ...base, ...v });
 
 const DESKTOP: Record<SceneName, SceneParams> = {
-  hero: p({ x: 0.42, y: 0.02, scale: 1.0 }),
+  hero: p({ x: 0.45, y: 0.2, scale: 0.85 }),
   approach: p({ x: -0.52, y: -0.5, scale: 0.55, nodes: 1, dim: 0.1 }),
   explore: p({ x: 0.55, y: 0.05, scale: 0.7, dim: 0.1 }),
   contact: p({ x: 0.6, y: 0.62, scale: 0.62, ring: 1 }),
@@ -53,7 +53,7 @@ const DESKTOP: Record<SceneName, SceneParams> = {
 
 // Phones: keep the form above or beside the text and dimmer so copy stays readable.
 const MOBILE: Record<SceneName, SceneParams> = {
-  hero: p({ x: 0.55, y: 0.72, scale: 0.5, dim: 0.1 }),
+  hero: p({ x: 0.5, y: -0.8, scale: 0.4, dim: 0.1 }),
   approach: p({ x: 0.35, y: 0.6, scale: 0.45, nodes: 1, dim: 0.5 }),
   explore: p({ x: 0.6, y: 0.75, scale: 0.4, dim: 0.4 }),
   contact: p({ x: 0.45, y: 0.7, scale: 0.45, ring: 1, dim: 0.3 }),
