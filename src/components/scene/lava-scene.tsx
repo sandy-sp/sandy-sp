@@ -226,7 +226,11 @@ export function LavaScene() {
       time += dt * (reduced ? 0.15 : 1 + current.flow * 1.5);
 
       const k = 1 - Math.exp(-dt * SETTLE);
-      const target = sceneParams(scene.preview ?? scene.name, mobile);
+      // A hover preview borrows the destination's shape but stays where the section put the form.
+      const place = sceneParams(scene.name, mobile);
+      const target = scene.preview
+        ? { ...sceneParams(scene.preview, mobile), x: place.x, y: place.y, scale: place.scale, dim: place.dim }
+        : place;
       if (target.globe > 0) requestLand();
       current.x += (target.x - current.x) * k;
       current.y += (target.y - current.y) * k;

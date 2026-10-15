@@ -38,7 +38,7 @@ const p = (v: Partial<SceneParams> & Pick<SceneParams, "x" | "y" | "scale">): Sc
 const DESKTOP: Record<SceneName, SceneParams> = {
   hero: p({ x: 0.45, y: 0.2, scale: 0.85 }),
   approach: p({ x: -0.52, y: -0.5, scale: 0.55, nodes: 1, dim: 0.1 }),
-  explore: p({ x: 0.55, y: 0.05, scale: 0.7, dim: 0.1 }),
+  explore: p({ x: 0.52, y: -0.05, scale: 0.8 }),
   contact: p({ x: 0.6, y: 0.62, scale: 0.62, ring: 1 }),
   work: p({ x: 0.6, y: -0.02, scale: 0.8, modules: 1, dim: 0.1 }),
   project: p({ x: 0.55, y: 0.05, scale: 0.75, modules: 1, dim: 0.1 }),

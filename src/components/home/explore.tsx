@@ -40,37 +40,37 @@ export function Explore() {
   };
 
   return (
-    <section data-scene="explore" className="section shell">
-      <div className="grid-12 mb-12 items-end gap-y-6 md:mb-20">
-        <RevealText as="h2" className="t-display-2 col-span-12 md:col-span-8">
+    <section data-scene="explore" className="section shell grid-12">
+      <div className="col-span-12 md:col-span-6">
+        <RevealText as="h2" className="t-display-2 mb-12 md:mb-16">
           Explore
         </RevealText>
+        <Reveal stagger className="border-b border-rule">
+          {DESTINATIONS.map((d, i) => (
+            <Link
+              key={d.href}
+              href={d.href}
+              transitionTypes={["nav-forward"]}
+              className="row group"
+              onMouseEnter={show(d.preview)}
+              onMouseLeave={clear}
+              onFocus={show(d.preview)}
+              onBlur={clear}
+              onClick={clear}
+            >
+              <span className="t-mono col-span-2 sm:col-span-1">{String(i + 1).padStart(2, "0")}</span>
+              <span className="col-span-10 sm:col-span-7">
+                <span className="row-name t-display-2">{d.name}</span>
+              </span>
+              <span className="t-mono col-span-10 col-start-3 mt-2 flex justify-between sm:col-span-4 sm:col-start-auto sm:mt-0 sm:justify-end sm:gap-4">
+                {d.meta}
+                <span className="row-arrow" aria-hidden="true">→</span>
+              </span>
+              <span className="col-span-10 col-start-3 mt-3 text-ash sm:col-span-11 sm:col-start-2">{d.note}</span>
+            </Link>
+          ))}
+        </Reveal>
       </div>
-      <Reveal stagger className="border-b border-rule">
-        {DESTINATIONS.map((d, i) => (
-          <Link
-            key={d.href}
-            href={d.href}
-            transitionTypes={["nav-forward"]}
-            className="row group"
-            onMouseEnter={show(d.preview)}
-            onMouseLeave={clear}
-            onFocus={show(d.preview)}
-            onBlur={clear}
-            onClick={clear}
-          >
-            <span className="t-mono col-span-2 md:col-span-1">{String(i + 1).padStart(2, "0")}</span>
-            <span className="col-span-10 md:col-span-4">
-              <span className="row-name t-display-2">{d.name}</span>
-            </span>
-            <span className="col-span-10 col-start-3 mt-3 text-ash md:col-span-5 md:col-start-auto md:mt-0">{d.note}</span>
-            <span className="t-mono col-span-10 col-start-3 mt-2 flex justify-between md:col-span-2 md:col-start-auto md:mt-0 md:justify-end md:gap-4">
-              {d.meta}
-              <span className="row-arrow" aria-hidden="true">→</span>
-            </span>
-          </Link>
-        ))}
-      </Reveal>
     </section>
   );
 }
