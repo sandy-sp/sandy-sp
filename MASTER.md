@@ -111,7 +111,7 @@ slide it to the opposite side of the content as you scroll.
 | Home | `hero` | lava sphere, pointer warps surface | right |
 | Home | `approach` | orbiting agent nodes | bottom-left |
 | Home | `explore` | lava; previews the destination's form on row hover | right |
-| Home | `contact` | calm ring | top-right |
+| Home | `contact` | enso (open brush ring) | left of the text |
 | Work | `work` | 3x3 modules, one per project; hovered row's module pops out | right of list |
 | Project | `project` / `projectAside` | modules with this project's module raised | beside title / parked right |
 | Journey | `globeIntro` → `globe` | dotted globe; turns to each stop, draws the route | right → left |

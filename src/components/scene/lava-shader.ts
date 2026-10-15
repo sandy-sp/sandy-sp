@@ -107,11 +107,25 @@ float sdNodes(vec3 q) {
   return d;
 }
 
+// Enso: one open brush stroke. Heavy where the brush lands, thinning to a dry tail,
+// with a gap where the circle never closes. Faces the viewer and sways slightly.
 float sdRing(vec3 q) {
-  q.yz = rot(0.55) * q.yz;
-  q.xy = rot(uTime * 0.08) * q.xy;
-  vec2 t = vec2(length(q.xz) - 1.15, q.y);
-  return length(t) - (0.17 + noise(q * 2.2 + uTime * 0.25) * 0.06);
+  q.xz = rot(sin(uTime * 0.3) * 0.35) * q.xz;
+  q.yz = rot(0.2 + sin(uTime * 0.23) * 0.1) * q.yz;
+
+  const float START = 1.9;  // where the brush lands (radians, counter-clockwise from +x)
+  const float GAP = 0.8;    // unpainted arc
+  float span = 2.0 * PI - GAP;
+  float u = mod(atan(q.y, q.x) - START, 2.0 * PI) / span;
+  // Inside the gap, snap to whichever end of the stroke is nearer.
+  if (u > 1.0) u = u > 1.0 + 0.5 * GAP / span ? 0.0 : 1.0;
+
+  float a = START + u * span;
+  float r = 1.12 + 0.05 * sin(a * 3.0 + 0.6) - 0.1 * u * u;
+  vec3 c = vec3(cos(a) * r, sin(a) * r, 0.0);
+  float th = mix(0.26, 0.05, pow(u, 0.8));
+  float dry = noise(q * 6.0 + uTime * 0.2) * 0.05 * u;
+  return length(q - c) - th + dry - noise(q * 2.2 + uTime * 0.25) * 0.03;
 }
 
 // 3x3 grid of rounded modules, one per project. Active one slides forward.

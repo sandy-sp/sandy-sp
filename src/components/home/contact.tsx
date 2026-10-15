@@ -25,8 +25,9 @@ export function Contact() {
         <RevealText as="h2" className="t-display-1 md:text-[clamp(3.5rem,6vw,6.25rem)]!">
           Let&apos;s build something useful.
         </RevealText>
-        <p className="t-lead text-ash">
-          I&apos;m open to AI engineering roles and to consulting. Email is the fastest way to reach me.
+        <p className="t-lead max-w-none! text-ash">
+          <span className="block">I&apos;m open to AI engineering roles and to consulting.</span>
+          <span className="block">Email is the fastest way to reach me.</span>
         </p>
         <div className="flex flex-wrap gap-3 border-t border-rule pt-8">
           <a className="btn" href={`mailto:${EMAIL}`}>
