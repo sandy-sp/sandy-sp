@@ -2,7 +2,7 @@ import { RevealText } from "@/components/motion/reveal";
 
 export function Hero() {
   return (
-    <section data-scene="hero" className="shell grid-12 relative min-h-svh content-end pb-16 pt-40 md:pb-24">
+    <section data-scene="hero" className="shell grid-12 relative min-h-svh content-end pb-6 pt-40 md:pb-8">
       <div className="col-span-12 md:col-span-9 lg:col-span-8">
         <RevealText as="p" immediate className="t-mono mb-8">
           Sandeep · Sandy SP · AI Solutions Engineer
@@ -12,8 +12,8 @@ export function Hero() {
         </RevealText>
       </div>
 
-      <div className="col-span-12 mt-12 grid-12 gap-y-10 border-t border-rule pt-6 md:mt-20">
-        <RevealText as="p" immediate delay={0.35} className="t-lead col-span-12 md:col-span-6">
+      <div className="col-span-12 mt-12 md:mt-16">
+        <RevealText as="p" immediate delay={0.35} className="t-lead max-w-none!">
           Since 2016 I&apos;ve shipped software for games, schools and enterprises. Since 2023 that means
           retrieval pipelines, multi-agent workflows, and the evaluation suites that keep them honest.
         </RevealText>
