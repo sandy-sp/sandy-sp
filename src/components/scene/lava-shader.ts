@@ -292,17 +292,38 @@ void main() {
   float c = dot(oc, oc) - br * br;
   float disc = b * b - c;
 
+  // World size of one pixel per unit of ray distance, for edge coverage.
+  float pixel = 2.0 / (uRes.y * FOCAL);
   bool hit = false;
   float t = 0.0;
+  // Closest approach to the surface, relative to the pixel footprint there.
+  float edge = 1e3;
+  float tEdge = 0.0;
   if (disc > 0.0) {
     t = max(-b - sqrt(disc), 0.0);
     float tMax = -b + sqrt(disc);
-    for (int i = 0; i < 56; i++) {
+    for (int i = 0; i < 64; i++) {
       float h = map(ro + rd * t);
       if (h < 0.0015) { hit = true; break; }
+      float e = h / (pixel * t);
+      if (e < edge) { edge = e; tEdge = t; }
       t += h * 0.75;
       if (t > tMax) break;
     }
+  }
+
+  // Rays that graze the form get partial coverage instead of a hard cut-off.
+  float cover = 1.0;
+  if (!hit && edge < 1.5) {
+    hit = true;
+    t = tEdge;
+    cover = 1.0 - smoothstep(0.0, 1.5, edge);
+  }
+
+  vec3 bg = ink;
+  {
+    float dist = length(uv - uOffset / (CAM_Z / FOCAL));
+    bg += vec3(0.22, 0.04, 0.03) * exp(-dist * 2.4 / uScale) * 0.3 * (1.0 - uGlobe * 0.6);
   }
 
   if (hit) {
@@ -316,9 +337,9 @@ void main() {
     float partHeat = (uModules + uLayers) * uPartLift * (1.0 - step(0.5, abs(hitPart - uPart))) * 1.4;
     col = lava(q, n, rd, partHeat);
     if (uGlobe > 0.01) col = mix(col, globe(q0, n, rd), uGlobe);
+    col = mix(bg, col, cover);
   } else {
-    float dist = length(uv - uOffset / (CAM_Z / FOCAL));
-    col += vec3(0.22, 0.04, 0.03) * exp(-dist * 2.4 / uScale) * 0.3 * (1.0 - uGlobe * 0.6);
+    col = bg;
   }
 
   col = mix(col, ink, uDim);

@@ -168,7 +168,7 @@ export function LavaScene() {
     const resize = () => {
       cssW = canvas.clientWidth || window.innerWidth;
       cssH = canvas.clientHeight || window.innerHeight;
-      const budget = (mobile ? 350_000 : 800_000) * quality;
+      const budget = (mobile ? 450_000 : 1_300_000) * quality;
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const s = Math.min(dpr, Math.sqrt(budget / (cssW * cssH)));
       canvas.width = Math.round(cssW * s);
