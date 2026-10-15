@@ -51,34 +51,33 @@ export function SiteHeader() {
       }}
     >
       <div className="pointer-events-none absolute inset-0 bg-ink md:bg-transparent md:bg-linear-to-b md:from-ink md:via-ink/70 md:to-transparent" />
-      <div className="shell relative flex h-20 items-center justify-between gap-6">
-        <Link href="/" className="group flex items-center gap-3" aria-label="Sandy SP, home">
+      <div className="shell relative grid min-h-20 grid-cols-[1fr_auto_1fr] items-center gap-x-4 md:h-20 md:gap-x-10">
+        {/* Page-level controls portal in here (Journey's Globe/Basic switch). */}
+        <div id="header-slot" className="col-span-3 row-start-2 flex justify-center pb-3 empty:hidden md:absolute md:inset-y-0 md:right-[var(--gutter)] md:items-center md:pb-0" />
+
+        <nav aria-label="Main" className="col-start-1 row-start-1 hidden items-center justify-end gap-9 md:flex">
+          {NAV.slice(0, 2).map((item) => (
+            <NavItem key={item.href} item={item} active={isActive(item.href)} />
+          ))}
+        </nav>
+
+        <Link href="/" className="group col-start-2 row-start-1 flex items-center gap-3" aria-label="Sandy SP, home">
           <NavLogo className="block h-9 w-10 shrink-0" />
           <span className="flex flex-col leading-tight">
             <span className="text-[15px] font-semibold tracking-[-0.02em]">Sandy SP</span>
-            <span className="t-mono text-[10px]!">AI Solutions Engineer</span>
+            <span className="t-mono whitespace-nowrap text-[10px]!">AI Solutions Engineer</span>
           </span>
         </Link>
 
-        {/* Page-level controls portal in here (Journey's Globe/Basic switch). */}
-        <div id="header-slot" className="flex flex-1 justify-center md:justify-end" />
-
-        <nav aria-label="Main" className="hidden items-center gap-9 md:flex">
-          {NAV.map((item) => (
-            <RollLink
-              key={item.href}
-              href={item.href}
-              className="text-[15px] font-medium"
-              aria-current={isActive(item.href) ? "page" : undefined}
-            >
-              {item.name}
-            </RollLink>
+        <nav aria-label="More" className="col-start-3 row-start-1 hidden items-center justify-start gap-9 md:flex">
+          {NAV.slice(2).map((item) => (
+            <NavItem key={item.href} item={item} active={isActive(item.href)} />
           ))}
         </nav>
 
         <button
           type="button"
-          className="t-mono text-bone! relative z-10 -mr-2 px-2 py-3 md:hidden"
+          className="t-mono text-bone! relative z-10 col-start-3 row-start-1 -mr-2 justify-self-end px-2 py-3 md:hidden"
           aria-expanded={open}
           aria-controls="mobile-menu"
           onClick={() => setOpen((v) => !v)}
@@ -115,5 +114,13 @@ export function SiteHeader() {
         </nav>
       </div>
     </header>
+  );
+}
+
+function NavItem({ item, active }: { item: (typeof NAV)[number]; active: boolean }) {
+  return (
+    <RollLink href={item.href} className="text-[15px] font-medium" aria-current={active ? "page" : undefined}>
+      {item.name}
+    </RollLink>
   );
 }
