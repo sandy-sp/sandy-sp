@@ -13,6 +13,8 @@ export interface Project {
   notes?: string;
   technologies: string[];
   githubUrl: string;
+  /** Live apps, docs and other places the project lives, shown before the source link. */
+  links?: { label: string; href: string }[];
   packageUrl?: string;
   installCommand?: string;
   featured: boolean;
@@ -36,6 +38,10 @@ export const PROJECTS: Project[] = [
       "Caches fetched repositories locally so repeated runs are fast and work offline. Output is token-counted so you know whether it fits a model's context window before you send it.",
     technologies: ["Python", "AsyncIO", "FastAPI", "Streamlit", "Docker"],
     githubUrl: "https://github.com/sandy-sp/gittxt",
+    links: [
+      { label: "Documentation", href: "https://sandy-sp.github.io/gittxt/" },
+      { label: "Live app on Streamlit", href: "https://gittxt.streamlit.app/" },
+    ],
     packageUrl: "https://pypi.org/project/gittxt/",
     installCommand: "pip install gittxt",
     featured: true,
@@ -110,6 +116,7 @@ export const PROJECTS: Project[] = [
     ],
     technologies: ["TypeScript", "React", "Next.js", "Tailwind CSS"],
     githubUrl: "https://github.com/sandy-sp/linkedin-post-studio",
+    links: [{ label: "Live app", href: "https://sandy-sp.github.io/linkedin-post-studio/" }],
     featured: true,
   },
   {
@@ -127,6 +134,9 @@ export const PROJECTS: Project[] = [
     ],
     technologies: ["Python", "FastAPI", "Celery", "Redis", "Selenium", "Docker"],
     githubUrl: "https://github.com/sandy-sp/ytgrid",
+    links: [{ label: "Image on Docker Hub", href: "https://hub.docker.com/r/sandy1sp/ytgrid" }],
+    packageUrl: "https://pypi.org/project/ytgrid/",
+    installCommand: "pip install ytgrid",
     featured: false,
   },
   {
@@ -144,6 +154,11 @@ export const PROJECTS: Project[] = [
     ],
     technologies: ["Python", "CLI"],
     githubUrl: "https://github.com/sandy-sp/metadata-cleaner",
+    links: [
+      { label: "Usage guide", href: "https://github.com/sandy-sp/metadata-cleaner/blob/main/docs/USAGE.md" },
+    ],
+    packageUrl: "https://pypi.org/project/metadata-cleaner/",
+    installCommand: "pip install metadata-cleaner",
     featured: false,
   },
   {
@@ -178,6 +193,14 @@ export const PROJECTS: Project[] = [
     ],
     technologies: ["Python", "Streamlit", "Plotly", "GeoPandas", "Folium"],
     githubUrl: "https://github.com/sandy-sp/art-of-data-analysis",
+    links: [
+      {
+        label: "Weather & earthquake dashboard",
+        href: "https://art-of-data-analysis-weather-quake.streamlit.app/",
+      },
+      { label: "USGS earthquake visualizer", href: "https://art-of-data-analysis-earthquake-viz.streamlit.app/" },
+      { label: "Weather forecast visualizer", href: "https://art-of-data-analysis-weather-viz.streamlit.app/" },
+    ],
     featured: false,
   },
 ];

@@ -88,6 +88,11 @@ export default async function ProjectPage({ params }: Props) {
             </div>
             <div className="flex flex-col items-start gap-3">
               <p className="t-mono t-eyebrow mb-1">Links</p>
+              {project.links?.map((link) => (
+                <RollLink key={link.href} href={link.href} suffix={<span className="ml-2">↗</span>}>
+                  {link.label}
+                </RollLink>
+              ))}
               <RollLink href={project.githubUrl} suffix={<span className="ml-2">↗</span>}>
                 Source on GitHub
               </RollLink>
