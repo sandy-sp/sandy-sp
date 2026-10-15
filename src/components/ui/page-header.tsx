@@ -16,7 +16,7 @@ type Props = {
 export function PageHeader({ eyebrow, title, lead, children, scene = "page", part }: Props) {
   return (
     <header data-scene={scene} data-part={part} className="shell grid-12 gap-y-10 pb-20 pt-40 md:pb-28 md:pt-52">
-      <RevealText as="p" immediate className="t-mono col-span-12">
+      <RevealText as="p" immediate className="t-mono t-eyebrow col-span-12">
         {eyebrow}
       </RevealText>
       <RevealText as="h1" immediate delay={0.08} className="t-display-1 col-span-12 md:col-span-8 lg:col-span-7">

@@ -4,7 +4,7 @@ export function Hero() {
   return (
     <section data-scene="hero" className="shell grid-12 relative content-start pb-6 pt-32 md:pb-8 md:pt-36">
       <div className="col-span-12 md:col-span-9 lg:col-span-8">
-        <RevealText as="p" immediate className="t-mono mb-8">
+        <RevealText as="p" immediate className="t-mono t-eyebrow mb-8">
           Sandeep · Sandy SP · AI Solutions Engineer
         </RevealText>
         <RevealText as="h1" immediate delay={0.1} className="t-display-1">

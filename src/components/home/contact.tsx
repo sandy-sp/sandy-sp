@@ -20,7 +20,7 @@ export function Contact() {
 
   return (
     <section id="contact" data-scene="contact" className="section shell grid-12 min-h-svh content-center gap-y-12">
-      <p className="t-mono col-span-12">Contact</p>
+      <p className="t-mono t-eyebrow col-span-12">Contact</p>
       <RevealText as="h2" className="t-display-1 col-span-12 md:col-span-9">
         Let&apos;s build something useful.
       </RevealText>

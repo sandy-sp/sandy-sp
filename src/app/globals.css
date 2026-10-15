@@ -146,6 +146,11 @@ html.lenis body {
   color: var(--ash);
   font-variant-numeric: tabular-nums;
 }
+/* Section labels: the mono voice at reading size. */
+.t-eyebrow {
+  font-size: clamp(0.875rem, 1.05vw, 1rem);
+  letter-spacing: 0.08em;
+}
 
 /* Masked line used by RevealText. Padding keeps descenders inside the mask. */
 .mask-line {

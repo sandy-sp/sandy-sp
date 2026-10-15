@@ -53,7 +53,7 @@ export function Approach() {
     <section ref={ref} data-scene="approach" className="section shell grid-12 gap-y-16">
       <div className="col-span-12 md:col-span-5">
         <div className="md:sticky md:top-32">
-          <p className="t-mono mb-6">How I build</p>
+          <p className="t-mono t-eyebrow mb-6">How I build</p>
           <RevealText as="h2" className="t-display-2">
             Three habits that keep AI systems honest.
           </RevealText>

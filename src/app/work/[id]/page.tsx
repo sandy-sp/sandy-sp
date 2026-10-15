@@ -33,14 +33,14 @@ export default async function ProjectPage({ params }: Props) {
       <section data-scene="projectAside" data-part={index} className="shell grid-12 gap-y-16 pb-24 md:pb-40">
         <div className="col-span-12 flex flex-col gap-16 md:col-span-7">
           <div>
-            <p className="t-mono mb-6">About</p>
+            <p className="t-mono t-eyebrow mb-6">About</p>
             <RevealText as="p" className="t-lead">
               {project.description}
             </RevealText>
           </div>
 
           <div>
-            <p className="t-mono mb-6">What it does</p>
+            <p className="t-mono t-eyebrow mb-6">What it does</p>
             <Reveal as="ul" stagger className="border-b border-rule">
               {project.features.map((feature) => (
                 <li key={feature} className="t-body border-t border-rule py-5">
@@ -52,7 +52,7 @@ export default async function ProjectPage({ params }: Props) {
 
           {project.notes && (
             <div>
-              <p className="t-mono mb-6">How it&apos;s built</p>
+              <p className="t-mono t-eyebrow mb-6">How it&apos;s built</p>
               <RevealText as="p" className="t-body text-ash">
                 {project.notes}
               </RevealText>
@@ -64,12 +64,12 @@ export default async function ProjectPage({ params }: Props) {
           <Reveal stagger className="flex flex-col gap-10 md:sticky md:top-32">
             {project.installCommand && (
               <div>
-                <p className="t-mono mb-4">Install</p>
+                <p className="t-mono t-eyebrow mb-4">Install</p>
                 <CopyCommand command={project.installCommand} />
               </div>
             )}
             <div>
-              <p className="t-mono mb-4">Stack</p>
+              <p className="t-mono t-eyebrow mb-4">Stack</p>
               <ul className="border-b border-rule">
                 {project.technologies.map((tech) => (
                   <li key={tech} className="border-t border-rule py-3">
@@ -79,7 +79,7 @@ export default async function ProjectPage({ params }: Props) {
               </ul>
             </div>
             <div className="flex flex-col items-start gap-3">
-              <p className="t-mono mb-1">Links</p>
+              <p className="t-mono t-eyebrow mb-1">Links</p>
               <RollLink href={project.githubUrl} suffix={<span className="ml-2">↗</span>}>
                 Source on GitHub
               </RollLink>
