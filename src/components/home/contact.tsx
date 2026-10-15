@@ -20,27 +20,28 @@ export function Contact() {
 
   return (
     <section id="contact" data-scene="contact" className="section shell grid-12 min-h-svh content-center gap-y-12">
-      <p className="t-mono t-eyebrow col-span-12">Contact</p>
-      <RevealText as="h2" className="t-display-1 col-span-12 md:col-span-9">
-        Let&apos;s build something useful.
-      </RevealText>
-      <p className="t-lead col-span-12 text-ash md:col-span-6">
-        I&apos;m open to AI engineering roles and to consulting on retrieval, agents and evaluation. Email is the
-        fastest way to reach me.
-      </p>
-      <div className="col-span-12 flex flex-wrap gap-3 border-t border-rule pt-8">
-        <a className="btn" href={`mailto:${EMAIL}`}>
-          Email me <span aria-hidden="true">→</span>
-        </a>
-        <button type="button" onClick={copy} className="btn btn-ghost" aria-live="polite">
-          {copied ? "Address copied" : "Copy email address"}
-        </button>
-        <a className="btn btn-ghost" href="https://www.linkedin.com/in/sandy-sp/" target="_blank" rel="noopener noreferrer">
-          LinkedIn ↗
-        </a>
-        <a className="btn btn-ghost" href="https://github.com/sandy-sp" target="_blank" rel="noopener noreferrer">
-          GitHub ↗
-        </a>
+      <div className="col-span-12 flex flex-col gap-10 md:col-span-6 md:col-start-7">
+        <p className="t-mono t-eyebrow">Contact</p>
+        <RevealText as="h2" className="t-display-1 md:text-[clamp(3.5rem,6vw,6.25rem)]!">
+          Let&apos;s build something useful.
+        </RevealText>
+        <p className="t-lead text-ash">
+          I&apos;m open to AI engineering roles and to consulting. Email is the fastest way to reach me.
+        </p>
+        <div className="flex flex-wrap gap-3 border-t border-rule pt-8">
+          <a className="btn" href={`mailto:${EMAIL}`}>
+            Email me <span aria-hidden="true">→</span>
+          </a>
+          <button type="button" onClick={copy} className="btn btn-ghost" aria-live="polite">
+            {copied ? "Address copied" : "Copy email address"}
+          </button>
+          <a className="btn btn-ghost" href="https://www.linkedin.com/in/sandy-sp/" target="_blank" rel="noopener noreferrer">
+            LinkedIn ↗
+          </a>
+          <a className="btn btn-ghost" href="https://github.com/sandy-sp" target="_blank" rel="noopener noreferrer">
+            GitHub ↗
+          </a>
+        </div>
       </div>
     </section>
   );
