@@ -18,6 +18,21 @@ function Model({ handle }: { handle: Ref<LogoHandle> }) {
 
   const { object, scale } = useMemo(() => {
     const clone = scene.clone(true);
+    // The model's black metal has nothing to reflect and vanishes on ink; render it in ash.
+    clone.traverse((node) => {
+      const mesh = node as THREE.Mesh;
+      if (!mesh.isMesh) return;
+      const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+      const recolored = mats.map((m) => {
+        if (m.name !== "MAT_Logo") return m;
+        const ash = (m as THREE.MeshStandardMaterial).clone();
+        ash.color.set("#9b938a");
+        ash.metalness = 0.2;
+        ash.roughness = 0.5;
+        return ash;
+      });
+      mesh.material = Array.isArray(mesh.material) ? recolored : recolored[0];
+    });
     const box = new THREE.Box3().setFromObject(clone);
     const size = new THREE.Vector3();
     const center = new THREE.Vector3();
