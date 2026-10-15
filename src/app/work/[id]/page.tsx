@@ -28,7 +28,15 @@ export default async function ProjectPage({ params }: Props) {
 
   return (
     <>
-      <PageHeader scene="project" part={index} eyebrow={`${project.kind} · ${project.category}`} title={project.title} lead={project.summary} />
+      {/* Project names are often one long word; size them to fit the title column. */}
+      <PageHeader
+        scene="project"
+        part={index}
+        eyebrow={`${project.kind} · ${project.category}`}
+        title={project.title}
+        titleClassName="md:text-[clamp(3.5rem,8.5vw,8.75rem)]!"
+        lead={project.summary}
+      />
 
       <section data-scene="projectAside" data-part={index} className="shell grid-12 gap-y-16 pb-24 md:pb-40">
         <div className="col-span-12 flex flex-col gap-16 md:col-span-7">

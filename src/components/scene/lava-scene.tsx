@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { FRAGMENT, MAX_PINS, VERTEX } from "./lava-shader";
+import { createModuleFrame, layoutModules } from "./motifs";
 import { scene, sceneParams, type SceneParams } from "./scene-state";
 
 const CAM_Z = 7.2;
@@ -111,6 +112,11 @@ export function LavaScene() {
       partLift: u("uPartLift"),
       project: u("uProject"),
       morph: u("uMorph"),
+      modC: u("uModC"),
+      modB: u("uModB"),
+      modR: u("uModR"),
+      modView: u("uModView"),
+      modK: u("uModK"),
       globeRot: u("uGlobeRot"),
       land: u("uLand"),
       landReady: u("uLandReady"),
@@ -156,6 +162,7 @@ export function LavaScene() {
     };
     let shownPart = -1;
     let shownProject = -1;
+    const modules = createModuleFrame();
     const globeView = { lat: 20 * DEG, lon: 78 * DEG };
     const rotMatrix = new Float32Array(9);
     const pinData = new Float32Array(MAX_PINS * 3);
@@ -329,6 +336,14 @@ export function LavaScene() {
       gl.uniform1f(uni.partLift, current.lift);
       gl.uniform1f(uni.project, shownProject);
       gl.uniform1f(uni.morph, current.morph);
+      if (current.modules > 0.001) {
+        layoutModules(modules, time, shownPart, current.lift, shownProject, current.morph);
+        gl.uniform3fv(uni.modC, modules.c);
+        gl.uniform3fv(uni.modB, modules.b);
+        gl.uniform3fv(uni.modR, modules.r);
+        gl.uniform2fv(uni.modView, modules.view);
+        gl.uniform1f(uni.modK, modules.k);
+      }
       gl.uniformMatrix3fv(uni.globeRot, false, rotMatrix);
       gl.uniform3fv(uni.pins, pinData);
       gl.uniform1f(uni.pinCount, current.globe > 0.01 ? count : 0);

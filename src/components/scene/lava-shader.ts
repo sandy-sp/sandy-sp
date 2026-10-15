@@ -1,3 +1,5 @@
+import { MODULES } from "./motifs";
+
 export const VERTEX = /* glsl */ `
 attribute vec2 position;
 void main() {
@@ -15,6 +17,7 @@ export const FRAGMENT = /* glsl */ `
 precision highp float;
 
 #define MAX_PINS ${MAX_PINS}
+#define MODULES ${MODULES}
 #define PI 3.14159265
 #define TAU 6.28318531
 
@@ -37,6 +40,11 @@ uniform float uPart;     // active module / layer index, -1 = none
 uniform float uPartLift; // 0..1 eased lift of the active part
 uniform float uProject;  // project whose motif the modules form, -1 = none
 uniform float uMorph;    // 0 = grid, 1 = motif
+uniform vec3 uModC[MODULES]; // module centers
+uniform vec3 uModB[MODULES]; // module half sizes
+uniform vec3 uModR[MODULES]; // tilt about x, tilt about z, glow
+uniform vec2 uModView;       // group yaw, pitch
+uniform float uModK;         // blend radius between modules
 
 uniform mat3 uGlobeRot;  // world -> globe-local
 uniform sampler2D uLand; // equirectangular land mask
@@ -131,212 +139,25 @@ float sdRing(vec3 q) {
   return length(q - c) - th + dry - noise(q * 2.2 + uTime * 0.25) * 0.03;
 }
 
-// ---------- project motifs ----------
-// On a project page the nine modules leave the grid and rearrange into a figure for
-// that project. Each motif places module i: c = center, b = half size, r = tilt about
-// x and z, glow = extra heat. Angles stay bounded so the morph never spins wildly.
-
-// Gittxt: a file's lines as a stack of slabs that squeezes tight as it is packed.
-void motifGittxt(float fi, float t, out vec3 c, out vec3 b, out vec2 r, out float glow) {
-  float pack = 0.5 - 0.5 * cos(t * 0.8);
-  float hw = 0.45 + 0.4 * fract(sin(fi * 12.9898) * 43758.5453);
-  c = vec3(-0.75 + hw, (4.0 - fi) * mix(0.25, 0.13, pack), 0.0);
-  b = vec3(hw, mix(0.085, 0.05, pack), 0.42);
-  r = vec2(0.0);
-  glow = pack * 0.7;
-}
-
-// ollama-scout: a gauge of growing model sizes; the needle sweeps and lifts what it reads.
-void motifScout(float fi, float t, out vec3 c, out vec3 b, out vec2 r, out float glow) {
-  float lo = PI * 1.08, hi = -PI * 0.08;
-  float th = mix(lo, hi, fi / 8.0);
-  float needle = mix(lo, hi, 0.5 + 0.5 * sin(t * 0.7));
-  float k = exp(-(th - needle) * (th - needle) * 10.0);
-  vec2 dir = vec2(cos(th), sin(th));
-  c = vec3(dir * (1.1 + k * 0.2), 0.0) - vec3(0.0, 0.4, 0.0);
-  float size = 0.1 + fi * 0.017;
-  b = vec3(size * 0.75, size * (1.0 + k * 0.5), size * 0.75);
-  r = vec2(0.0, th - PI * 0.5);
-  glow = k;
-}
-
-// Audionomy: a waveform of nine bars.
-void motifAudio(float fi, float t, out vec3 c, out vec3 b, out vec2 r, out float glow) {
-  float env = 1.0 - abs(fi - 4.0) / 6.0;
-  float h = 0.1 + 0.65 * env * (0.5 + 0.5 * sin(t * 3.0 + fi * 1.1)) * (0.55 + 0.45 * sin(t * 1.7 - fi * 0.6));
-  c = vec3((fi - 4.0) * 0.3, 0.0, 0.0);
-  b = vec3(0.09, h, 0.09);
-  r = vec2(0.0);
-  glow = smoothstep(0.3, 0.7, h);
-}
-
-// ChatAudit: a branching conversation; the kept thread lights up from the root.
-vec4 chatBranch(float i) {
-  if (i < 0.5) return vec4(0.0, -1.2, 0.0, -0.5);
-  if (i < 1.5) return vec4(0.0, -0.5, -0.6, 0.05);
-  if (i < 2.5) return vec4(0.0, -0.5, 0.6, 0.05);
-  if (i < 3.5) return vec4(-0.6, 0.05, -1.0, 0.6);
-  if (i < 4.5) return vec4(-0.6, 0.05, -0.25, 0.7);
-  if (i < 5.5) return vec4(0.6, 0.05, 0.25, 0.65);
-  if (i < 6.5) return vec4(0.6, 0.05, 1.0, 0.6);
-  if (i < 7.5) return vec4(-0.25, 0.7, -0.4, 1.25);
-  return vec4(1.0, 0.6, 1.15, 1.1);
-}
-vec2 chatSway(vec2 p, float t) {
-  return p + vec2(sin(t * 0.8 + p.y * 1.5) * 0.05 * (p.y + 1.2), 0.0);
-}
-void motifChat(float fi, float t, out vec3 c, out vec3 b, out vec2 r, out float glow) {
-  vec4 seg = chatBranch(fi);
-  vec2 a = chatSway(seg.xy, t);
-  vec2 e = chatSway(seg.zw, t);
-  vec2 d = e - a;
-  float depth = fi < 0.5 ? 0.0 : fi < 1.5 ? 1.0 : fi > 3.5 && fi < 4.5 ? 2.0 : fi > 6.5 && fi < 7.5 ? 3.0 : -1.0;
-  float kept = step(0.0, depth);
-  float th = fi < 0.5 ? 0.1 : mix(0.045, 0.07, kept);
-  c = vec3((a + e) * 0.5, 0.0);
-  b = vec3(th, length(d) * 0.5 + th * 0.5, th);
-  r = vec2(0.0, atan(d.y, d.x) - PI * 0.5);
-  float wave = mod(t * 1.2, 5.0);
-  glow = kept * (0.2 + exp(-(depth - wave) * (depth - wave) * 1.5));
-}
-
-// LinkedIn Post Studio: a post's layout typing itself in, line by line.
-void motifPost(float fi, float t, out vec3 c, out vec3 b, out vec2 r, out float glow) {
-  float prog = 0.5 - 0.5 * cos(t * 0.5);
-  r = vec2(0.0);
-  glow = 0.0;
-  if (fi < 0.5) { c = vec3(-0.72, 0.95, 0.0); b = vec3(0.16, 0.16, 0.06); return; }
-  if (fi < 1.5) { c = vec3(-0.12, 1.02, 0.0); b = vec3(0.4, 0.055, 0.04); glow = 0.5; return; }
-  if (fi < 2.5) { c = vec3(-0.24, 0.86, 0.0); b = vec3(0.28, 0.035, 0.04); return; }
-  if (fi < 6.5) {
-    float line = fi - 3.0;
-    float hw = line < 0.5 ? 0.9 : line < 1.5 ? 0.8 : line < 2.5 ? 0.86 : 0.5;
-    float f = smoothstep(0.0, 1.0, clamp(prog * 5.0 - line, 0.0, 1.0));
-    float w = max(hw * f, 0.04);
-    c = vec3(-0.9 + w, 0.55 - line * 0.17, 0.0);
-    b = vec3(w, 0.04, 0.04);
-    glow = f * (1.0 - f) * 4.0;
-    return;
-  }
-  if (fi < 7.5) { c = vec3(0.0, -0.5, 0.0); b = vec3(0.9, 0.34, 0.04); return; }
-  c = vec3(0.0, -1.0, 0.0);
-  b = vec3(0.9, 0.025, 0.03);
-  glow = 0.6;
-}
-
-// YTGrid: a play triangle of queued cubes; playback ripples through it.
-void motifPlay(float fi, float t, out vec3 c, out vec3 b, out vec2 r, out float glow) {
-  float col = fi < 4.5 ? 0.0 : fi < 7.5 ? 1.0 : 2.0;
-  float j = fi < 4.5 ? fi - 2.0 : fi < 7.5 ? fi - 6.0 : 0.0;
-  float w = max(sin(t * 2.5 - col * 1.4 - abs(j) * 0.5), 0.0);
-  c = vec3((col - 0.56) * 0.5, j * 0.42, w * 0.25);
-  b = vec3(0.17 + w * 0.03);
-  r = vec2(0.0);
-  glow = w;
-}
-
-// Metadata Cleaner: one file; tags peel off its corners and burn away.
-void motifClean(float fi, float t, out vec3 c, out vec3 b, out vec2 r, out float glow) {
-  r = vec2(0.0);
-  if (fi < 0.5) { c = vec3(0.0); b = vec3(0.46); glow = 0.0; return; }
-  float k = fi - 1.0;
-  vec3 dir = vec3(mod(k, 2.0), mod(floor(k / 2.0), 2.0), floor(k / 4.0)) * 2.0 - 1.0;
-  float ph = fract(t * 0.16 + k * 0.125);
-  c = dir * (0.5 + ph * 0.9) * 0.95;
-  b = vec3(0.14 * smoothstep(0.0, 0.1, ph) * (1.0 - smoothstep(0.35, 1.0, ph)));
-  glow = smoothstep(0.05, 0.3, ph) * (1.0 - ph) * 1.5;
-}
-
-// AI Reply Index: a rolodex of response cards that flips one card at a time.
-void motifIndex(float fi, float t, out vec3 c, out vec3 b, out vec2 r, out float glow) {
-  float k = t * 0.45;
-  float stepT = floor(k) + smoothstep(0.55, 1.0, fract(k));
-  float a = mod((fi + stepT) * TAU / 9.0 + PI, TAU) - PI;
-  c = vec3(0.0, cos(a), sin(a)) * 0.6;
-  b = vec3(0.66 - mod(fi, 3.0) * 0.05, 0.36, 0.022);
-  r = vec2(a, 0.0);
-  glow = pow(max(cos(a), 0.0), 12.0);
-}
-
-// Art of Data Analysis: the grid lies down as a bar chart; a seismic ripple runs through it.
-void motifChart(float fi, float t, out vec3 c, out vec3 b, out vec2 r, out float glow) {
-  vec2 xz = vec2(mod(fi, 3.0) - 1.0, floor(fi / 3.0) - 1.0) * 0.5;
-  float w = sin(length(xz) * 5.0 - t * 2.0);
-  float h = 0.12 + 0.4 * (0.35 + 0.25 * sin(fi * 2.3)) + 0.25 * (0.5 + 0.5 * w);
-  c = vec3(xz.x, h - 0.55, xz.y);
-  b = vec3(0.19, h, 0.19);
-  r = vec2(0.0);
-  glow = smoothstep(0.3, 1.0, w) * 0.8;
-}
-
-void motif(float proj, float fi, float t, out vec3 c, out vec3 b, out vec2 r, out float glow) {
-  if (proj < 0.5) motifGittxt(fi, t, c, b, r, glow);
-  else if (proj < 1.5) motifScout(fi, t, c, b, r, glow);
-  else if (proj < 2.5) motifAudio(fi, t, c, b, r, glow);
-  else if (proj < 3.5) motifChat(fi, t, c, b, r, glow);
-  else if (proj < 4.5) motifPost(fi, t, c, b, r, glow);
-  else if (proj < 5.5) motifPlay(fi, t, c, b, r, glow);
-  else if (proj < 6.5) motifClean(fi, t, c, b, r, glow);
-  else if (proj < 7.5) motifIndex(fi, t, c, b, r, glow);
-  else motifChart(fi, t, c, b, r, glow);
-}
-
-// How each motif is turned toward the viewer: yaw, pitch.
-vec2 motifView(float proj, float t) {
-  float sway = sin(t * 0.25);
-  if (proj < 0.5) return vec2(0.45 + sway * 0.3, 0.35);
-  if (proj < 1.5) return vec2(sway * 0.35, 0.0);
-  if (proj < 2.5) return vec2(0.35 + sway * 0.3, -0.1);
-  if (proj < 3.5) return vec2(sway * 0.5, 0.0);
-  if (proj < 4.5) return vec2(0.3 + sway * 0.2, -0.1);
-  if (proj < 5.5) return vec2(0.3 + sway * 0.25, -0.1);
-  if (proj < 6.5) return vec2(0.6 + sway * 0.5, -0.45);
-  if (proj < 7.5) return vec2(0.55 + sway * 0.2, -0.2);
-  return vec2(0.6 + sway * 0.4, 0.5);
-}
-
 float partGlow = 0.0;
 
-// 3x3 grid of rounded modules, one per project. Active one slides forward;
-// on a project page the grid morphs into that project's motif.
+// Nine rounded modules, one per project, laid out each frame on the CPU (motifs.ts):
+// a 3x3 grid on the work index, a project's motif on its page.
 float sdModules(vec3 q, out float id) {
-  float m = uMorph * step(0.0, uProject);
-  vec2 view = m > 0.001 ? motifView(uProject, uTime) : vec2(0.0);
-  q.xz = rot(mix(0.55 + sin(uTime * 0.25) * 0.25, view.x, m)) * q.xz;
-  q.yz = rot(mix(-0.3, view.y, m)) * q.yz;
-  // The conversation tree's branches melt into each other at the joints.
-  float k = m * 0.08 * (1.0 - step(0.5, abs(uProject - 3.0)));
+  q.xz = rot(uModView.x) * q.xz;
+  q.yz = rot(uModView.y) * q.yz;
   float d = 1e3;
   id = -1.0;
   partGlow = 0.0;
-  // Active module pops toward the viewer and grows; the rest shrink back.
-  float lift = uPartLift * (uPart < 0.0 ? 0.0 : 1.0) * (1.0 - m);
-  for (int i = 0; i < 9; i++) {
-    float fi = float(i);
-    vec3 c = vec3(mod(fi, 3.0) - 1.0, 1.0 - floor(fi / 3.0), 0.0) * 0.68;
-    float active = 1.0 - step(0.5, abs(fi - uPart));
-    c.z += active * lift * 0.6;
-    c.xy *= 1.0 + active * lift * 0.12;
-    c.y += sin(uTime * 0.8 + fi * 1.7) * 0.025;
-    vec3 b = vec3(0.26 + active * lift * 0.07 - (1.0 - active) * lift * 0.03);
-    vec2 r = vec2(0.0);
-    float g = 0.0;
-    if (m > 0.001) {
-      // Modules leave the grid one after another.
-      float mi = smoothstep(0.0, 1.0, clamp(m * 1.5 - fi / 16.0, 0.0, 1.0));
-      vec3 mc, mb; vec2 mr; float mg;
-      motif(uProject, fi, uTime, mc, mb, mr, mg);
-      c = mix(c, mc, mi);
-      b = mix(b, mb, mi);
-      r = mr * mi;
-      g = mg * mi;
-    }
-    vec3 p = q - c;
+  for (int i = 0; i < MODULES; i++) {
+    vec3 b = uModB[i];
+    vec3 r = uModR[i];
+    vec3 p = q - uModC[i];
     p.yz = rot(r.x) * p.yz;
     p.xy = rot(r.y) * p.xy;
     float bd = sdRoundBox(p, b, min(0.07, min(b.x, min(b.y, b.z)) * 0.9));
-    if (bd < d) { id = fi; partGlow = g; }
-    d = k > 0.001 ? smin(d, bd, k) : min(d, bd);
+    if (bd < d) { id = float(i); partGlow = r.z; }
+    d = uModK > 0.001 ? smin(d, bd, uModK) : min(d, bd);
   }
   return d;
 }
