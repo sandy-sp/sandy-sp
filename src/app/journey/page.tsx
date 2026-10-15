@@ -7,7 +7,7 @@ import { Certifications } from "@/components/journey/certifications";
 export const metadata: Metadata = {
   title: "Journey",
   description:
-    "Sandy SP's path from QA and full-stack work in Hyderabad to AI engineering in the US, with degrees in psychology, electrical engineering and information systems.",
+    "Sandy-SP's path from QA and full-stack work in Hyderabad to AI engineering in the US, with degrees in psychology, electrical engineering and information systems.",
 };
 
 export default function JourneyPage() {

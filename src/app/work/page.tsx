@@ -6,7 +6,7 @@ import { WorkRow } from "@/components/home/work-row";
 
 export const metadata: Metadata = {
   title: "Work",
-  description: "Open-source tools by Sandy SP: LLM context packing, local model sizing, audio datasets, privacy utilities.",
+  description: "Open-source tools by Sandy-SP: LLM context packing, local model sizing, audio datasets, privacy utilities.",
 };
 
 const GROUPS: Project["category"][] = ["AI & LLM", "Developer Tools", "Data & Analytics"];

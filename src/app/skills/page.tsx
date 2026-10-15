@@ -6,7 +6,7 @@ import { RollLink } from "@/components/ui/roll-link";
 
 export const metadata: Metadata = {
   title: "Stack",
-  description: "The tools Sandy SP uses for AI systems, backends, cloud and front ends.",
+  description: "The tools Sandy-SP uses for AI systems, backends, cloud and front ends.",
 };
 
 export default function StackPage() {

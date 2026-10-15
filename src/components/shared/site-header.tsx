@@ -61,7 +61,7 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <Link href="/" className="group col-start-2 row-start-1 flex items-center" aria-label="Sandy SP, home">
+        <Link href="/" className="group col-start-2 row-start-1 flex items-center" aria-label="Sandy-SP, home">
           <NavLogo className="block h-10 w-11 shrink-0" />
         </Link>
 
